@@ -1,14 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Search from "./Search";
+import ClassList from "./ClassList";
+import Spinner from "./Spinner";
+import "react-virtualized/styles.css";
 
 class App extends Component {
   render() {
-    const { fetching, classes, error } = this.props;
+    const { fetching, classes, error } = this.props.classes;
     return (
       <div className="App">
-        {classes}
-        {fetching ? null : <Search />}
+        <Search />
+        <ClassList classes={classes} />
+        {fetching ? <Spinner /> : null}
       </div>
     );
   }

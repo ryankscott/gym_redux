@@ -1,6 +1,6 @@
 import { takeLatest, call, put } from "redux-saga/effects";
 import axios from "axios";
-
+//TODO: remove axios and replace with fetch
 import {
   FETCHING_CLASSES,
   FETCHING_CLASSES_FAILURE,
@@ -25,7 +25,7 @@ export const fetchClasses = searchQuery => {
 function* workerSaga(payload) {
   try {
     const response = yield call(fetchClasses, payload.query);
-    const classes = response.data.message;
+    const classes = response.data;
 
     // dispatch a success action to the store with the new classes
     yield put({ type: "FETCHING_CLASSES_SUCCESS", classes });
@@ -34,19 +34,3 @@ function* workerSaga(payload) {
     yield put({ type: "FETCHING_CLASSES_FAILURE", error });
   }
 }
-
-export const getClassesFailure = data => {
-  return {
-    type: FETCHING_CLASSES_FAILURE,
-    error: data, //TODO:Fixme
-    receivedAt: Date.now()
-  };
-};
-
-export const getClassesSuccess = data => {
-  return {
-    type: FETCHING_CLASSES_SUCCESS,
-    classes: data, //TODO:Fixme
-    receivedAt: Date.now()
-  };
-};

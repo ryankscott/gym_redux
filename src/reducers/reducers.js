@@ -7,18 +7,19 @@ import {
 } from "../actions/actiontypes";
 
 // reducer with initial state
-const initialState = {
+const classesInitialState = {
   fetching: false,
-  classes: null,
+  classes: [],
   error: null
 };
 
-export function reducer(state = initialState, action) {
+export function classes(state = classesInitialState, action) {
   switch (action.type) {
     case FETCHING_CLASSES:
       return { ...state, fetching: true, error: null };
       break;
     case FETCHING_CLASSES_SUCCESS:
+      console.log(action);
       return { ...state, fetching: false, classes: action.classes };
       break;
     case FETCHING_CLASSES_FAILURE:
@@ -30,8 +31,8 @@ export function reducer(state = initialState, action) {
 }
 
 const gymApp = combineReducers({
-  visibilityFilter,
-  reducer
+  filters: visibilityFilter,
+  classes: classes
 });
 
 export default gymApp;

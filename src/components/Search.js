@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getClasses } from "../actions";
+import { getClasses } from "../actions/actions";
 
 let Search = ({ dispatch }) => {
   let input = null;
@@ -12,12 +12,14 @@ let Search = ({ dispatch }) => {
         ref={node => {
           input = node;
         }}
+        onKeyPress={e => {
+          e.key === "Enter" ? dispatch(getClasses(input.value)) : null;
+        }}
       />
       <button
         onClick={() => {
           console.log(input.value);
           dispatch(getClasses(input.value));
-          input.value = "";
           input.focus();
         }}
       >
