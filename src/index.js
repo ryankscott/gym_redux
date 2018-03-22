@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 import App from "./components/App";
 import reducer from "./reducers/reducers";
 import { watcherSaga } from "./sagas/sagas";
-
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware();
 

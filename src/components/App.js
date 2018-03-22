@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import Search from "./Search";
 import ClassList from "./ClassList";
 import Spinner from "./Spinner";
-import "react-virtualized/styles.css";
 
 class App extends Component {
   render() {
