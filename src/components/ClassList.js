@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Class from "./Class";
-import { Column, Table, AutoSizer } from "react-virtualized";
-import styles from "./ClassList.css";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Class from './Class';
+import { Column, Table, AutoSizer } from 'react-virtualized';
+import styles from './ClassList.css';
 
 let ClassList = ({ classes }) => {
   return (
@@ -29,9 +29,9 @@ ClassList.propTypes = {
       location: PropTypes.string.isRequired,
       startdatetime: PropTypes.string.isRequired,
       enddatetime: PropTypes.string.isRequired,
-      insertdatetime: PropTypes.string.isRequired
+      insertdatetime: PropTypes.string.isRequired,
     }).isRequired
-  )
+  ),
 };
 
 export default ClassList;
