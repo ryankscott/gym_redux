@@ -1,4 +1,4 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   module: {
@@ -7,48 +7,68 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.html$/,
         exclude: /node_modules/,
         use: [
           {
-            loader: "html-loader",
-            options: { minimize: true }
-          }
-        ]
+            loader: 'html-loader',
+            options: { minimize: true },
+          },
+        ],
       },
       {
         test: /\.css$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, 'styles.css'],
         use: [
           {
-            loader: "style-loader"
+            loader: 'style-loader',
           },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
-              importLoaders: 1
-            }
+              sourceMap: true,
+              minimize: false,
+              camelCase: true,
+              modules: true,
+              importLoaders: 1,
+              localIdentName: '[name]__[local]--[hash:base64:5]',
+            },
           },
           {
-            loader: "postcss-loader"
-          }
-        ]
-      }
-    ]
+            loader: 'postcss-loader',
+          },
+        ],
+      },
+      {
+        test: /\.css$/,
+        include: /(styles.css)/,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+        ],
+      },
+    ],
   },
   plugins: [
     new HtmlWebPackPlugin({
-      template: "./index.html",
-      filename: "./index.html"
-    })
+      template: './index.html',
+      filename: './index.html',
+    }),
   ],
   devServer: {
-    contentBase: "./dist",
+    contentBase: './dist',
     compress: true,
-    port: 8080
-  }
+    port: 8080,
+  },
 };
