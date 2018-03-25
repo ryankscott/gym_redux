@@ -1,11 +1,19 @@
-import { FETCHING_CLASSES } from "./actiontypes";
+import {
+  FETCHING_CLASSES,
+  FETCHING_CLASSES_FAILURE,
+  FETCHING_CLASSES_SUCCESS,
+  TOGGLE_FILTER_BAR
+} from "./actiontypes";
 
 export const getClasses = query => {
-  console.log("Actions - getClasses data:" + query);
   return {
     type: FETCHING_CLASSES,
     query
   };
+};
+
+export const toggleFilterBar = {
+  type: TOGGLE_FILTER_BAR
 };
 
 export const getClassesFailure = data => {

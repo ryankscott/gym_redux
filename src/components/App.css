@@ -1,0 +1,6 @@
+@import "../variables.css";
+.classesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}

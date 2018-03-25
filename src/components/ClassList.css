@@ -24,15 +24,6 @@
   justify-content: center;
 }
 
-.grid {
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  align-self: center;
-  text-direction: center;
-  justify-content: center;
-}
-
 .row {
   display: flex;
   flex-direction: row;

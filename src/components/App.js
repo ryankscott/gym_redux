@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import Search from "./Search";
 import ClassList from "./ClassList";
 import Spinner from "./Spinner";
+import Filter from "./Filter";
+import FilterBar from "./FilterBar";
+import styles from "./App.css";
 
 class App extends Component {
   render() {
@@ -10,8 +13,12 @@ class App extends Component {
     return (
       <div className="App">
         <Search />
-        {fetching ? <Spinner /> : null}
-        <ClassList classes={classes} />
+        <div className={styles.classesContainer}>
+          {fetching ? <Spinner /> : null}
+          <ClassList classes={classes} />
+          {classes.length > 0 ? <Filter /> : null}
+          <FilterBar />
+        </div>
       </div>
     );
   }

@@ -3,7 +3,8 @@ import visibilityFilter from "./visibilityFilter";
 import {
   FETCHING_CLASSES,
   FETCHING_CLASSES_FAILURE,
-  FETCHING_CLASSES_SUCCESS
+  FETCHING_CLASSES_SUCCESS,
+  TOGGLE_FILTER_BAR
 } from "../actions/actiontypes";
 
 // reducer with initial state
@@ -13,13 +14,26 @@ const classesInitialState = {
   error: null
 };
 
+const filtersInitialState = {
+  filterBarVisible: false
+};
+
+export function filters(state = filtersInitialState, action) {
+  switch (action.type) {
+    case TOGGLE_FILTER_BAR:
+      return { ...state, filterBarVisible: !state.filterBarVisible };
+      break;
+    default:
+      return state;
+  }
+}
+
 export function classes(state = classesInitialState, action) {
   switch (action.type) {
     case FETCHING_CLASSES:
       return { ...state, fetching: true, error: null };
       break;
     case FETCHING_CLASSES_SUCCESS:
-      console.log(action);
       return { ...state, fetching: false, classes: action.classes };
       break;
     case FETCHING_CLASSES_FAILURE:
@@ -31,7 +45,7 @@ export function classes(state = classesInitialState, action) {
 }
 
 const gymApp = combineReducers({
-  filters: visibilityFilter,
+  filters: filters,
   classes: classes
 });
 
