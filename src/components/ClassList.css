@@ -1,40 +1,54 @@
-.Table {
+@import "../variables.css";
+
+.wrapper {
   width: 100%;
-  margin-top: 15px;
-}
-.headerRow,
-.evenRow,
-.oddRow {
-  border-bottom: 1px solid #e0e0e0;
-}
-.oddRow {
-  background-color: #fafafa;
-}
-.headerColumn {
-  text-transform: none;
-}
-.exampleColumn {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.checkboxLabel {
-  margin-left: 0.5rem;
-}
-.checkboxLabel:first-of-type {
-  margin-left: 0;
-}
-
-.noRows {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 1em;
-  color: #bdbdbd;
+}
+
+.Table {
+  margin-top: 50px;
+  font-family: var(--font-family-sans-serif);
+}
+.headerRow {
+  font-family: var(--font-family-sans-serif);
+  color: var(--colour-grey-dark-4);
+  font-weight: 300;
+  font-size: 18px;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-self: center;
+  justify-content: center;
+}
+
+.grid {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-self: center;
+  text-direction: center;
+  justify-content: center;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-self: center;
+  text-direction: center;
+  justify-content: center;
+  font-family: var(--font-family-sans-serif);
+  color: var(--colour-grey-dark-4);
+  font-weight: 100;
+}
+.row:nth-of-type(even) {
+  background-color: var(--colour-grey-light-8);
+}
+
+
+.hidden {
+  display: none;
 }

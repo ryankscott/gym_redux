@@ -10,8 +10,8 @@ class App extends Component {
     return (
       <div className="App">
         <Search />
-        <ClassList classes={classes} />
         {fetching ? <Spinner /> : null}
+        <ClassList classes={classes} />
       </div>
     );
   }

@@ -1,8 +1,10 @@
 .spinner {
-    margin: 100px auto 0;
-    width: 70px;
-    text-align: center;
-  }
+  margin: 150px auto 0;
+  width: 100%;
+  position: absolute;
+  text-align: center;
+  z-index:99;
+}
   
   .spinner > div {
     width: 18px;

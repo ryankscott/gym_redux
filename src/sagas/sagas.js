@@ -1,6 +1,6 @@
 import { takeLatest, call, put } from "redux-saga/effects";
 import axios from "axios";
-//TODO: remove axios and replace with fetch
+
 import {
   FETCHING_CLASSES,
   FETCHING_CLASSES_FAILURE,
@@ -12,12 +12,13 @@ export function* watcherSaga() {
   yield takeLatest(FETCHING_CLASSES, workerSaga);
 }
 
+// TODO: Fix the fetch to catch errors
 // function that makes the api request and returns a Promise for response
 export const fetchClasses = searchQuery => {
   return axios({
     method: "get",
     crossDomain: true,
-    url: __GYMCLASS_URL__ + "/classsearch/?q=" + searchQuery
+    url: "http://localhost:9000/classsearch/?q=" + searchQuery
   });
 };
 
