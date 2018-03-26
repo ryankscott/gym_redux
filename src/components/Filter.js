@@ -1,30 +1,49 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styles from "./Filter.css";
 import { connect } from "react-redux";
 import { toggleFilterBar } from "../actions/actions.js";
+import classNames from "classnames";
 
-let Filter = ({ dispatch }) => (
-  <div
-    className={styles.filterBtn}
-    onClick={() => {
+class Filter extends Component {
+  render() {
+    return (
+      <div className={styles.filterBtn}>
+        <div
+          className={classNames({
+            [styles.filterIcon]: true,
+            [styles.rotated]: this.props.filtersShown
+          })}
+        >
+          <svg
+            fill="#000000"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z" />
+            <path d="M0-.25h24v24H0z" fill="none" />
+          </svg>
+        </div>
+        Filters
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    filtersShown: state.filters.filterBarVisible
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onClick: () => {
       dispatch(toggleFilterBar);
-    }}
-  >
-    <svg
-      fill="#000000"
-      height="24"
-      viewBox="0 0 24 24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" />
-      <path d="M0 0h24v24H0z" fill="none" />
-    </svg>
-    Filter
-  </div>
-);
-Filter.propTypes = {};
+    }
+  };
+};
 
-Filter = connect()(Filter);
-export default Filter;
+export default connect(mapStateToProps, mapDispatchToProps)(Filter);

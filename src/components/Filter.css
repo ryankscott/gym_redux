@@ -3,13 +3,14 @@
 .filterBtn {
   box-sizing: border-box;
   padding: 5px;
-  margin: 5px;
+  margin-left: 5px;
   font-family: var(--font-family-sans-serif);
   color: var(--colour-grey-dark-3);
+  background-color: var(--colour-white);
   font-weight: 100;
   display: flex;
   flex-direction: row;
-  width: 90px;
+  width: 85px;
   height: 30px;
   justify-content: space-around;
   align-items:center;
@@ -17,6 +18,19 @@
   z-index: 2;
 }
 
+.filterIcon {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
 .filterBtn:hover {
   background-color: var(--colour-grey-light-8);
+}
+
+.rotated {
+  background-color: green;
+  transform: rotate(180);
 }
