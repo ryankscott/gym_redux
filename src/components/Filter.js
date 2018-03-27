@@ -6,13 +6,15 @@ import { toggleFilterBar } from "../actions/actions.js";
 import classNames from "classnames";
 
 class Filter extends Component {
-  render() {
-    return (
-      <div className={styles.filterBtn}>
-        <div
-          className={classNames({
-            [styles.filterIcon]: true,
-            [styles.rotated]: this.props.filtersShown
+    render() {
+        return (
+            <div className={styles.filterBtn}
+            onClick=() => {this.props.onClick},
+            >
+            <div
+            className={classNames({
+                [styles.filterIcon]: true,
+                [styles.rotated]: this.props.filtersShown
           })}
         >
           <svg
