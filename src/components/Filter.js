@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { toggleFilterBar } from '../actions/actions.js';
 import classNames from 'classnames';
 
+<<<<<<< HEAD
 type Props = {
   filtersShown: boolean,
   onClick: () => void,
@@ -18,6 +19,18 @@ class Filter extends Component<Props> {
           className={classNames({
             [styles.filterIcon]: true,
             [styles.rotated]: this.props.filtersShown,
+=======
+class Filter extends Component {
+    render() {
+        return (
+            <div className={styles.filterBtn}
+            onClick={this.props.onClick}
+            >
+            <div
+            className={classNames({
+                [styles.filterIcon]: true,
+                [styles.rotated]: this.props.filtersShown
+>>>>>>> b9cdbc846cf812b1cd567b1122fef97a8a8b2870
           })}
         >
           <svg
