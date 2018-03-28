@@ -1,20 +1,19 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import styles from "./Filter.css";
-import { connect } from "react-redux";
-import { toggleFilterBar } from "../actions/actions.js";
-import classNames from "classnames";
+// @flow
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import styles from './Filter.css';
+import { connect } from 'react-redux';
+import { toggleFilterBar } from '../actions/actions.js';
+import classNames from 'classnames';
 
 class Filter extends Component {
-    render() {
-        return (
-            <div className={styles.filterBtn}
-            onClick=() => {this.props.onClick},
-            >
-            <div
-            className={classNames({
-                [styles.filterIcon]: true,
-                [styles.rotated]: this.props.filtersShown
+  render() {
+    return (
+      <div className={styles.filterBtn} onClick={this.props.onClick}>
+        <div
+          className={classNames({
+            [styles.filterIcon]: true,
+            [styles.rotated]: this.props.filtersShown,
           })}
         >
           <svg
@@ -36,7 +35,7 @@ class Filter extends Component {
 
 const mapStateToProps = state => {
   return {
-    filtersShown: state.filters.filterBarVisible
+    filtersShown: state.filters.filterBarVisible,
   };
 };
 
@@ -44,7 +43,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onClick: () => {
       dispatch(toggleFilterBar);
-    }
+    },
   };
 };
 
