@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Class from "./Class";
 import { Column, Table, SortDirection } from "react-virtualized";
 import styles from "./ClassList.css";
 import { toLower, startCase, sortBy, reverse } from "lodash";
