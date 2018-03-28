@@ -13,7 +13,10 @@ class FilterBar extends Component {
         })}
       >
         <div className={styles.title}>Filters </div>
-        <div className={styles.filterGroup} />
+        <div className={styles.filterGroup}>
+          <div className={styles.filterTitle}> </div>
+          <div className={styles.filter} />
+        </div>
       </div>
     );
   }
