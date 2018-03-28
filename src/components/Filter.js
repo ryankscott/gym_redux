@@ -6,7 +6,11 @@ import { connect } from 'react-redux';
 import { toggleFilterBar } from '../actions/actions.js';
 import classNames from 'classnames';
 
-class Filter extends Component {
+type Props = {
+  filtersShown: boolean,
+  onClick: () => void,
+};
+class Filter extends Component<Props> {
   render() {
     return (
       <div className={styles.filterBtn} onClick={this.props.onClick}>
@@ -39,10 +43,10 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch: Dispatch<*>) => {
   return {
     onClick: () => {
-      dispatch(toggleFilterBar);
+      dispatch((toggleFilterBar: { type: string }));
     },
   };
 };
