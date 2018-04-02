@@ -7,6 +7,7 @@ import App from "./components/App";
 import reducer from "./reducers/reducers";
 import { watcherSaga } from "./sagas/sagas";
 import "react-virtualized/styles.css";
+import "react-select/dist/react-select.css";
 
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware();

@@ -23,7 +23,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        exclude: [/node_modules/, "styles.css"],
+        exclude: /node_modules/,
         use: [
           {
             loader: "style-loader"
@@ -46,7 +46,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        include: /(styles.css)/,
+        include: /node_modules/,
         use: [
           {
             loader: "style-loader"

@@ -1,4 +1,10 @@
 @import "../variables.css";
+
+body {
+  box-sizing: border-box;
+}
+
+
 .classesContainer {
   display: flex;
   flex-direction: column;

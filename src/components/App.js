@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Search from "./Search";
-import ClassList from "./ClassList";
 import Spinner from "./Spinner";
 import Filter from "./Filter";
 import FilterBar from "./FilterBar";
+import VisibleClassList from "../containers/VisibleClassList.js";
+
 import styles from "./App.css";
 
+// TODO: Handle no classes and have some text
 class App extends Component {
   render() {
     const { fetching, classes, error } = this.props.classes;
@@ -15,7 +17,7 @@ class App extends Component {
         <Search />
         <div className={styles.classesContainer}>
           {fetching ? <Spinner /> : null}
-          <ClassList classes={classes} />
+          <VisibleClassList />
           {classes.length > 0 ? <Filter /> : null}
           <FilterBar />
         </div>

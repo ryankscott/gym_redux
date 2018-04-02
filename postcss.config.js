@@ -1,3 +1,4 @@
+// TODO: add cssnano
 module.exports = {
   plugins: [
     require("precss"),

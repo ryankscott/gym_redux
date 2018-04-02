@@ -1,11 +1,15 @@
 import { takeLatest, call, put } from "redux-saga/effects";
 import axios from "axios";
-
 import {
   FETCHING_CLASSES,
   FETCHING_CLASSES_FAILURE,
-  FETCHING_CLASSES_SUCCESS
-} from "../actions/actiontypes";
+  FETCHING_CLASSES_SUCCESS,
+  TOGGLE_FILTER_BAR,
+  ALL_FILTERS_UPDATED,
+  GYM_FILTERS_UPDATED,
+  CLASS_FILTERS_UPDATED,
+  DATE_FILTERS_UPDATED
+} from "../actions/actions.js";
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 export function* watcherSaga() {
@@ -26,10 +30,14 @@ export const fetchClasses = searchQuery => {
 function* workerSaga(payload) {
   try {
     const response = yield call(fetchClasses, payload.query);
-    const classes = response.data;
+    const classes = response.data.classes;
+    const query = response.data.query;
 
     // dispatch a success action to the store with the new classes
     yield put({ type: "FETCHING_CLASSES_SUCCESS", classes });
+
+    // TODO: need to parse out this business logic here
+    yield put({ type: "ALL_FILTERS_UPDATED", filters: query });
   } catch (error) {
     // dispatch a failure action to the store with the error
     yield put({ type: "FETCHING_CLASSES_FAILURE", error });

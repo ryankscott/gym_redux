@@ -1,6 +1,9 @@
 @import "../variables.css";
 
 .filterBtn {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
   box-sizing: border-box;
   padding: 5px;
   margin-left: 5px;

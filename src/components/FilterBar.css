@@ -13,8 +13,8 @@
   background-color: var(--colour-grey-dark-3);
   font-weight: 100;
   display: flex;
-  flex-direction: row;
-  justify-content:center;
+  flex-direction: column;
+  justify-content: flex-start;
   transition-property: width;
   transition-duration: 0.3s;
 }
@@ -24,11 +24,34 @@
   color: var(--colour-white);
   font-weight: 100;
   font-size: 24px;
+  margin: 10px 5px;
 }
 
+.filterGroup {
+  display:flex;
+  flex-direction: column;
+  padding: 5px;
+}
 
+.filterTitle {
+  font-family: var(--font-family-sans-serif);
+  color: var(--colour-white);
+  font-weight: 100;
+  font-size: 16px;
+  margin: 5px 0px;
 
+}
 .hidden {
   width: 0px;
   padding: 0px;
+}
+
+
+.select {
+  color: green;
+}
+
+.selectOption {
+  color: red;
+  background-color: black;
 }
