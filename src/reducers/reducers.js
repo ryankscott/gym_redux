@@ -53,6 +53,13 @@ export function filters(state = filtersInitialState, action) {
       return { ...state, filters: newFilters };
       break;
 
+    case DATE_FILTERS_UPDATED:
+      var newFilters = state.filters;
+      newFilters.Before = action.beforeDate;
+      newFilters.After = action.afterDate;
+      return { ...state, filters: newFilters };
+      break;
+
     default:
       return state;
   }

@@ -16,9 +16,9 @@
   width: 90px;
   height: 35px;
   justify-content: space-around;
-  align-items:center;
+  align-items: center;
   border: solid 1px var(--colour-grey-dark-3);
-  z-index: 2;
+  z-index: 3;
 }
 
 .filterIcon {
@@ -27,7 +27,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-    transition: 0.3s;
+  transition: 0.3s;
 }
 
 .filterBtn:hover {
@@ -35,6 +35,6 @@
 }
 
 .rotated {
-    transition: 0.3s;
-    transform: rotateY(180deg);
+  transition: 0.3s;
+  transform: rotateY(180deg);
 }

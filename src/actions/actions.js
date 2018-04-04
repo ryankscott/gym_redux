@@ -43,6 +43,14 @@ export const updateGymFilters = gym => {
   };
 };
 
+export const updateDateFilters = (beforeDate, afterDate) => {
+  return {
+    type: DATE_FILTERS_UPDATED,
+    beforeDate: beforeDate,
+    afterDate: afterDate
+  };
+};
+
 export const updateAllFilters = filters => {
   return {
     type: ALL_FILTERS_UPDATED,

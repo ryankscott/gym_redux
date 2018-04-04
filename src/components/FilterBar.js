@@ -3,13 +3,58 @@ import styles from "./FilterBar.css";
 import { connect } from "react-redux";
 import classNames from "classnames";
 import Select from "react-select";
-import "react-select/dist/react-select.css";
 import moment from "moment";
+import DateButtonGroup from "./DateButtonGroup.js";
 
 import { gyms, classes } from "../consts.js";
-import { updateGymFilters, updateClassFilters } from "../actions/actions.js";
+import {
+  updateGymFilters,
+  updateClassFilters,
+  updateDateFilters,
+  toggleFilterBar
+} from "../actions/actions.js";
 
-// TODO: Fix styling when closing
+const dateOptions = [
+  { label: "Today", value: moment() },
+  { label: "Tomorrow", value: moment().add(1, "d") },
+  { label: "Day After", value: moment().add(2, "d") }
+];
+
+const selectStyles = {
+  valueContainer: styles => ({
+    ...styles,
+    padding: "2px 8px",
+    ":hover": {},
+    ":selected": {}
+  }),
+  clearIndicator: styles => ({
+    ...styles,
+    padding: "2px"
+  }),
+  dropdownIndicator: styles => ({
+    ...styles,
+    padding: "2px 8px 2px 2px"
+  }),
+  control: (styles, { isDisabled, isFocused }) => ({
+    ...styles,
+    borderColor: isDisabled ? null : isFocused ? null : null,
+    ":hover": {
+      borderColor: isDisabled ? null : isFocused ? null : null
+    }
+  }),
+  option: styles => ({
+    ...styles,
+    backgroundColor: "#FFF",
+    ":hover": { backgroundColor: "#DDD" }
+  }),
+  menu: styles => ({ ...styles, marginTop: "2px" }),
+  indicatorSeparator: styles => ({ ...styles, display: "none" }),
+  multiValueRemove: styles => ({
+    ...styles,
+    ":hover": {}
+  })
+};
+
 class FilterBar extends Component {
   render() {
     return (
@@ -19,6 +64,13 @@ class FilterBar extends Component {
           [styles.hidden]: !this.props.visible
         })}
       >
+        <div
+          className={classNames({
+            [styles.cover]: true,
+            [styles.hidden]: !this.props.visible
+          })}
+          onClick={this.props.onClickOutside}
+        />
         <div className={styles.title}>Filters </div>
         <div
           className={classNames({
@@ -31,10 +83,8 @@ class FilterBar extends Component {
             options={gyms}
             onChange={this.props.onGymFilterChange}
             value={this.props.gymFilter}
-            multi
-            menuStyle={{ backgroundColor: "#EEEEEE" }}
-            className={styles.select}
-            optionClassName={styles.selectOption}
+            isMulti
+            styles={selectStyles}
           />
         </div>
 
@@ -49,9 +99,8 @@ class FilterBar extends Component {
             options={classes}
             onChange={this.props.onClassFilterChange}
             value={this.props.classFilter}
-            multi
-            menuStyle={{ backgroundColor: "#EEEEEE" }}
-            optionClassName={styles.selectOption}
+            isMulti
+            styles={selectStyles}
           />
         </div>
         <div
@@ -60,6 +109,10 @@ class FilterBar extends Component {
           })}
         >
           <div className={styles.filterTitle}> Dates: </div>
+          <DateButtonGroup
+            options={dateOptions}
+            onChange={this.props.onDateFilterChange}
+          />
         </div>
       </div>
     );
@@ -70,7 +123,9 @@ const mapStateToProps = state => {
   return {
     visible: state.filters.filterBarVisible,
     gymFilter: state.filters.filters.Gym,
-    classFilter: state.filters.filters.Class
+    classFilter: state.filters.filters.Class,
+    beforeDateFilter: state.filters.filters.Before,
+    afterDateFilter: state.filters.filters.After
   };
 };
 
@@ -81,6 +136,14 @@ const mapDispatchToProps = dispatch => {
     },
     onClassFilterChange: selection => {
       dispatch(updateClassFilters(selection));
+    },
+    onDateFilterChange: selection => {
+      let beforeDate = moment(selection).endOf("day");
+      let afterDate = moment(selection).startOf("day");
+      dispatch(updateDateFilters(beforeDate, afterDate));
+    },
+    onClickOutside: () => {
+      dispatch(toggleFilterBar());
     }
   };
 };

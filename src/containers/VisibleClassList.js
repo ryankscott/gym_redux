@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import ClassList from "../components/ClassList.js";
 
+import moment from "moment";
 import { map, filter, flatMap, toLower } from "lodash";
 
 const getVisibleClasses = (classes, filters) => {
@@ -33,6 +34,20 @@ const getVisibleClasses = (classes, filters) => {
         return toLower(g.name).includes(filter);
       });
       return includesClass.includes(true);
+    });
+  }
+
+  // Filter by Date
+  let beforeDate = filters.filters.Before;
+  let afterDate = filters.filters.After;
+  if (moment(beforeDate).isValid()) {
+    filteredClasses = filter(filteredClasses, g => {
+      return moment(g.startdatetime).isBefore(beforeDate);
+    });
+  }
+  if (moment(afterDate).isValid()) {
+    filteredClasses = filter(filteredClasses, g => {
+      return moment(g.startdatetime).isAfter(afterDate);
     });
   }
 
