@@ -61,13 +61,13 @@ class FilterBar extends Component {
       <div
         className={classNames({
           [styles.container]: true,
-          [styles.hidden]: !this.props.visible
+          [styles.visible]: this.props.visible
         })}
       >
         <div
           className={classNames({
             [styles.cover]: true,
-            [styles.hidden]: !this.props.visible
+            [styles.visible]: this.props.visible
           })}
           onClick={this.props.onClickOutside}
         />
