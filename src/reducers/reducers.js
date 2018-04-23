@@ -27,6 +27,7 @@ const filtersInitialState = {
 export function filters(state = filtersInitialState, action) {
   switch (action.type) {
     case TOGGLE_FILTER_BAR:
+      console.log("Reducing the toggle filter bar", performance.now());
       return { ...state, filterBarVisible: !state.filterBarVisible };
       break;
 

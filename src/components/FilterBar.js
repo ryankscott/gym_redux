@@ -57,62 +57,66 @@ const selectStyles = {
 
 class FilterBar extends Component {
   render() {
+    const { visible } = this.props;
+    console.log("Re-rendering filterbar", performance.now());
     return (
-      <div
-        className={classNames({
-          [styles.container]: true,
-          [styles.visible]: this.props.visible
-        })}
-      >
+      <div>
         <div
           className={classNames({
             [styles.cover]: true,
-            [styles.visible]: this.props.visible
+            [styles.visible]: visible
           })}
           onClick={this.props.onClickOutside}
         />
-        <div className={styles.title}>Filters </div>
         <div
           className={classNames({
-            [styles.filterGroup]: true
+            [styles.container]: true,
+            [styles.visible]: visible
           })}
         >
-          <div className={styles.filterTitle}> Gym: </div>
-          <Select
-            name="gym-select"
-            options={gyms}
-            onChange={this.props.onGymFilterChange}
-            value={this.props.gymFilter}
-            isMulti
-            styles={selectStyles}
-          />
-        </div>
+          <div className={styles.title}>Filters </div>
+          <div
+            className={classNames({
+              [styles.filterGroup]: true
+            })}
+          >
+            <div className={styles.filterTitle}> Gym: </div>
+            <Select
+              name="gym-select"
+              options={gyms}
+              onChange={this.props.onGymFilterChange}
+              value={this.props.gymFilter}
+              isMulti
+              styles={selectStyles}
+            />
+          </div>
 
-        <div
-          className={classNames({
-            [styles.filterGroup]: true
-          })}
-        >
-          <div className={styles.filterTitle}> Classes: </div>
-          <Select
-            name="class-select"
-            options={classes}
-            onChange={this.props.onClassFilterChange}
-            value={this.props.classFilter}
-            isMulti
-            styles={selectStyles}
-          />
-        </div>
-        <div
-          className={classNames({
-            [styles.filterGroup]: true
-          })}
-        >
-          <div className={styles.filterTitle}> Dates: </div>
-          <DateButtonGroup
-            options={dateOptions}
-            onChange={this.props.onDateFilterChange}
-          />
+          <div
+            className={classNames({
+              [styles.filterGroup]: true
+            })}
+          >
+            <div className={styles.filterTitle}> Classes: </div>
+            <Select
+              name="class-select"
+              options={classes}
+              onChange={this.props.onClassFilterChange}
+              value={this.props.classFilter}
+              isMulti
+              styles={selectStyles}
+            />
+          </div>
+          <div
+            className={classNames({
+              [styles.filterGroup]: true
+            })}
+          >
+            <div className={styles.filterTitle}> Dates: </div>
+            <DateButtonGroup
+              options={dateOptions}
+              onChange={this.props.onDateFilterChange}
+            />
+          </div>
         </div>
       </div>
     );
@@ -143,6 +147,10 @@ const mapDispatchToProps = dispatch => {
       dispatch(updateDateFilters(beforeDate, afterDate));
     },
     onClickOutside: () => {
+      console.log(
+        "Dispatching toggle filter from outside click",
+        performance.now()
+      );
       dispatch(toggleFilterBar());
     }
   };

@@ -1,12 +1,9 @@
 @import "../variables.css";
 
 .filterBtn {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
   box-sizing: border-box;
   padding: 5px;
-  margin-left: 5px;
+  margin-right: 200px;
   font-family: var(--font-family-sans-serif);
   color: var(--colour-grey-dark-3);
   background-color: var(--colour-white);
@@ -18,7 +15,8 @@
   justify-content: space-around;
   align-items: center;
   border: solid 1px var(--colour-grey-dark-3);
-  z-index: 3;
+  opacity: 1;
+  transition: all 200ms ease-in-out;
 }
 
 .filterIcon {
@@ -27,14 +25,13 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  transition: 0.3s;
 }
 
 .filterBtn:hover {
   background-color: var(--colour-grey-light-8);
 }
 
-.rotated {
-  transition: 0.3s;
-  transform: rotateY(180deg);
+.hidden {
+  opacity: 0;
+  margin-right: 0px;
 }

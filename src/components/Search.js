@@ -14,7 +14,6 @@ class Search extends Component {
     let input = null;
     return (
       <div className={styles.container}>
-        <div />
         <input
           className={styles.input}
           type="text"

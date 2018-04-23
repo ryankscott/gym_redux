@@ -1,10 +1,9 @@
 @import "../variables.css";
 
 .btnGroup {
-  z-index: 0;
   border: none;
   border-radius: 5px;
-  width: 280px;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content:center;
@@ -14,7 +13,6 @@
   border: none;
   border-left: 1px solid black;
   color: black;
-  z-index: 0;
   font-family: var(--font-family-sans-serif);
   color: var(--colour-grey-dark-2);
   background-color: var(--colour-white);
@@ -35,5 +33,4 @@
 .selected {
   background-color: var(--colour-grey-dark-2);
   color: var(--colour-white);
-  z-index: 0;
 }
