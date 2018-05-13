@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getClasses } from "../actions/actions";
 import styles from "./Search.css";
 
-class Search extends Component {
+class Search extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { value: "" };
@@ -17,7 +17,7 @@ class Search extends Component {
         <input
           className={styles.input}
           type="text"
-          placeholder=""
+          placeholder="Search for a class e.g. Grit tomorrow"
           value={this.state.value}
           onChange={e => this.setState({ value: e.target.value })}
           onKeyPress={e => this.props.onKeyPress(e.key, this.state.value)}

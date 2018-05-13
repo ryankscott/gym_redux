@@ -1,6 +1,22 @@
 @import "../variables.css";
 
+.appContainer {
+  display: grid;
+  grid-template-rows: 2fr 8fr;
+  grid-template-columns: 0fr 9fr;
+  grid-template-areas:
+    "filter search"
+    "filter classes"
+}
+.filterBar {
+  grid-area: filter;
+}
+
+.classesContainer {
+  grid-area: classes;
+}
 .searchContainer {
+  grid-area: search;
   display: flex;
   flex-direction: row;
   justify-content: center;

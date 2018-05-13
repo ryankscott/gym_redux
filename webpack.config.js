@@ -1,7 +1,9 @@
+const webpack = require("webpack")
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 
-module.exports = {
-  devtool: "inline-source-map",
+module.exports = (env, argv) => {
+  return {
+  devtool: "cheap-module-source-map",
   module: {
     rules: [
       {
@@ -61,10 +63,24 @@ module.exports = {
       }
     ]
   },
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+        commons: {
+            test: /[\\/]node_modules[\\/]/,
+            name: "vendors",
+            chunks: "all"
+           }
+        }
+      }
+    },
   plugins: [
     new HtmlWebPackPlugin({
       template: "./index.html",
       filename: "./index.html"
+    }),
+    new webpack.DefinePlugin({
+      BACKEND_URL: argv.mode == 'production' ? JSON.stringify("https://www.ryankscott.com/") : JSON.stringify("http://localhost:9000/")
     })
   ],
   devServer: {
@@ -72,4 +88,5 @@ module.exports = {
     compress: true,
     port: 8080
   }
+}
 };

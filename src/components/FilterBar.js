@@ -56,22 +56,23 @@ const selectStyles = {
 };
 
 class FilterBar extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
-    const { visible } = this.props;
-    console.log("Re-rendering filterbar", performance.now());
     return (
       <div>
         <div
           className={classNames({
             [styles.cover]: true,
-            [styles.visible]: visible
+            [styles.visible]: this.props.visible
           })}
           onClick={this.props.onClickOutside}
         />
         <div
           className={classNames({
             [styles.container]: true,
-            [styles.visible]: visible
+            [styles.visible]: this.props.visible
           })}
         >
           <div className={styles.title}>Filters </div>
@@ -125,7 +126,7 @@ class FilterBar extends Component {
 
 const mapStateToProps = state => {
   return {
-    visible: state.filters.filterBarVisible,
+    visible: state.UI.filterBarVisible,
     gymFilter: state.filters.filters.Gym,
     classFilter: state.filters.filters.Class,
     beforeDateFilter: state.filters.filters.Before,
@@ -147,10 +148,6 @@ const mapDispatchToProps = dispatch => {
       dispatch(updateDateFilters(beforeDate, afterDate));
     },
     onClickOutside: () => {
-      console.log(
-        "Dispatching toggle filter from outside click",
-        performance.now()
-      );
       dispatch(toggleFilterBar());
     }
   };

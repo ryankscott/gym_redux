@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Search from "./Search";
 import Spinner from "./Spinner";
-import Filter from "./Filter";
+import FilterButton from "./FilterButton";
 import FilterBar from "./FilterBar";
 import VisibleClassList from "../containers/VisibleClassList.js";
 import styles from "./App.css";
@@ -13,15 +13,15 @@ class App extends Component {
   render() {
     const { fetching, classes, error } = this.props.classes;
     return (
-      <div>
+      <div className={styles.appContainer}>
         <div className={styles.searchContainer}>
-          {classes.length > 0 ? <Filter /> : null}
+          <FilterButton />
           <Search />
         </div>
         <div className={styles.classesContainer}>
           {fetching ? <Spinner /> : null}
           <VisibleClassList />
-          <FilterBar />
+          <FilterBar className={styles.filterBar} />
         </div>
       </div>
     );

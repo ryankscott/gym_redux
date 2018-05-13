@@ -1,7 +1,7 @@
 // @flow
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import styles from "./Filter.css";
+import styles from "./FilterButton.css";
 import { connect } from "react-redux";
 import { get } from "lodash";
 import { toggleFilterBar } from "../actions/actions.js";
@@ -11,7 +11,7 @@ type Props = {
   visible: boolean,
   onClick: () => void
 };
-class Filter extends Component<Props> {
+class FilterButton extends PureComponent<Props> {
   render() {
     const { visible } = this.props;
     return (
@@ -46,17 +46,14 @@ class Filter extends Component<Props> {
 
 const mapStateToProps = state => {
   return {
-    visible: get(state.classes, "classes") ? true : false
+    visible: state.classes.hasClasses
   };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<*>) => {
   return {
-    onClick: () => {
-      console.log("Dispatching toggleFilterBar", performance.now());
-      dispatch(toggleFilterBar());
-    }
+    onClick: () => dispatch(toggleFilterBar())
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+export default connect(mapStateToProps, mapDispatchToProps)(FilterButton);

@@ -48,8 +48,10 @@ class ClassList extends Component {
     if (this.state.sortDirection === SortDirection.DESC) {
       newList = reverse(newList);
     }
-    if (this.props.classes == null || this.props.classes.length == 0) {
+    if (this.props.classes == null) {
       return null;
+    } else if (this.props.classes.length == 0) {
+      return <p> No classes returned </p>;
     }
     return (
       <div className={styles.wrapper}>
@@ -104,7 +106,7 @@ ClassList.propTypes = {
       startdatetime: PropTypes.string.isRequired,
       enddatetime: PropTypes.string.isRequired,
       insertdatetime: PropTypes.string.isRequired
-    }).isRequired
+    })
   )
 };
 

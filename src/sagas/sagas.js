@@ -22,7 +22,7 @@ export const fetchClasses = searchQuery => {
   return axios({
     method: "get",
     crossDomain: true,
-    url: "http://localhost:9000/classsearch/?q=" + searchQuery
+    url: BACKEND_URL + "classsearch/?q=" + searchQuery
   });
 };
 
@@ -36,7 +36,6 @@ function* workerSaga(payload) {
     // dispatch a success action to the store with the new classes
     yield put({ type: "FETCHING_CLASSES_SUCCESS", classes });
 
-    // TODO: need to parse out this business logic here
     yield put({ type: "ALL_FILTERS_UPDATED", filters: query });
   } catch (error) {
     // dispatch a failure action to the store with the error

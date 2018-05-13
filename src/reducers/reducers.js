@@ -15,22 +15,31 @@ import { find, map, filter, capitalize } from "lodash";
 // reducer with initial state
 const classesInitialState = {
   fetching: false,
-  classes: [],
+  classes: null,
+  hasClasses: false,
   error: null
 };
 
 const filtersInitialState = {
-  filterBarVisible: false,
   filters: {}
 };
 
-export function filters(state = filtersInitialState, action) {
+const UIInitialState = {
+  filterBarVisible: false
+};
+
+export function UI(state = UIInitialState, action) {
   switch (action.type) {
     case TOGGLE_FILTER_BAR:
-      console.log("Reducing the toggle filter bar", performance.now());
       return { ...state, filterBarVisible: !state.filterBarVisible };
       break;
+    default:
+      return state;
+  }
+}
 
+export function filters(state = filtersInitialState, action) {
+  switch (action.type) {
     case ALL_FILTERS_UPDATED:
       var newFilters = action.filters;
       newFilters.Gym = map(newFilters.Gym, g => {
@@ -75,7 +84,8 @@ export function classes(state = classesInitialState, action) {
       return {
         ...state,
         fetching: false,
-        classes: action.classes
+        classes: action.classes,
+        hasClasses: true
       };
       break;
     case FETCHING_CLASSES_FAILURE:
@@ -83,7 +93,8 @@ export function classes(state = classesInitialState, action) {
         ...state,
         fetching: false,
         classes: null,
-        error: action.error
+        error: action.error,
+        hasClasses: false
       };
       break;
     default:
@@ -93,7 +104,8 @@ export function classes(state = classesInitialState, action) {
 
 const gymApp = combineReducers({
   filters: filters,
-  classes: classes
+  classes: classes,
+  UI: UI
 });
 
 export default gymApp;

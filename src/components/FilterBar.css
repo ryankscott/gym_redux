@@ -3,7 +3,7 @@
 .container {
   position: absolute;
   top: 0px;
-  left: -100%;
+  left: -325px;
   width: 325px;
   height: 100%;
   box-sizing: border-box;
@@ -14,7 +14,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  transition: left 0.1s ease-in-out 0s;
+  transition: left 0.3s ease-out 0s;
 }
 
 .cover {
@@ -25,9 +25,10 @@
   bottom: 0px;
   left: -100%;
   width: 100%;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.1);
   filter: blur(5px);
-  transition: left 0.1s ease-in-out 0s;
+  transition: left 0.3s ease-out 0s;
+  transition: opacity 0.2s ease-out 0s;
 }
 
 .title {
@@ -54,5 +55,5 @@
 
 .visible {
   left: 0px;
-  transition: left 0.1s ease-in-out 0s;
+  opacity: 1;
 }
