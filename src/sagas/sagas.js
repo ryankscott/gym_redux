@@ -22,7 +22,7 @@ export const fetchClasses = searchQuery => {
   return axios({
     method: "get",
     crossDomain: true,
-    url: BACKEND_URL + "classsearch/?q=" + searchQuery
+    url: __BACKEND_URL__ + "classsearch/?q=" + searchQuery
   });
 };
 

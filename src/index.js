@@ -11,6 +11,7 @@ import "react-virtualized/styles.css";
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware();
 
+
 const store = createStore(
   reducer,
   compose(

@@ -31,8 +31,8 @@ const UIInitialState = {
 export function UI(state = UIInitialState, action) {
   switch (action.type) {
     case TOGGLE_FILTER_BAR:
+      console.log("ToggleFilterBar action in reducer");
       return { ...state, filterBarVisible: !state.filterBarVisible };
-      break;
     default:
       return state;
   }
@@ -49,26 +49,22 @@ export function filters(state = filtersInitialState, action) {
         return find(c, ["value", g]);
       });
       return { ...state, filters: newFilters };
-      break;
 
     case GYM_FILTERS_UPDATED:
       var newFilters = state.filters;
       newFilters.Gym = action.gymFilter;
       return { ...state, filters: newFilters };
-      break;
 
     case CLASS_FILTERS_UPDATED:
       var newFilters = state.filters;
       newFilters.Class = action.classFilter;
       return { ...state, filters: newFilters };
-      break;
 
     case DATE_FILTERS_UPDATED:
       var newFilters = state.filters;
       newFilters.Before = action.beforeDate;
       newFilters.After = action.afterDate;
       return { ...state, filters: newFilters };
-      break;
 
     default:
       return state;
@@ -79,7 +75,6 @@ export function classes(state = classesInitialState, action) {
   switch (action.type) {
     case FETCHING_CLASSES:
       return { ...state, fetching: true, error: null };
-      break;
     case FETCHING_CLASSES_SUCCESS:
       return {
         ...state,
@@ -87,7 +82,6 @@ export function classes(state = classesInitialState, action) {
         classes: action.classes,
         hasClasses: true
       };
-      break;
     case FETCHING_CLASSES_FAILURE:
       return {
         ...state,
@@ -96,16 +90,15 @@ export function classes(state = classesInitialState, action) {
         error: action.error,
         hasClasses: false
       };
-      break;
     default:
       return state;
   }
 }
 
 const gymApp = combineReducers({
+  UI: UI,
   filters: filters,
-  classes: classes,
-  UI: UI
+  classes: classes
 });
 
 export default gymApp;

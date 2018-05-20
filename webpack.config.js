@@ -80,7 +80,8 @@ module.exports = (env, argv) => {
       filename: "./index.html"
     }),
     new webpack.DefinePlugin({
-      BACKEND_URL: argv.mode == 'production' ? JSON.stringify("https://www.ryankscott.com/") : JSON.stringify("http://localhost:9000/")
+      __PRODUCTION__: argv.mode == 'production',
+      __BACKEND_URL__: argv.mode == 'production' ? JSON.stringify("https://www.ryankscott.com/") : JSON.stringify("http://localhost:9000/")
     })
   ],
   devServer: {

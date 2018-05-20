@@ -60,19 +60,21 @@ class FilterBar extends Component {
     super(props);
   }
   render() {
+    console.log("Re-rendering FilterBar");
+    const { visible } = this.props;
     return (
       <div>
         <div
           className={classNames({
             [styles.cover]: true,
-            [styles.visible]: this.props.visible
+            [styles.visible]: visible
           })}
           onClick={this.props.onClickOutside}
         />
         <div
           className={classNames({
             [styles.container]: true,
-            [styles.visible]: this.props.visible
+            [styles.visible]: visible
           })}
         >
           <div className={styles.title}>Filters </div>
@@ -125,6 +127,7 @@ class FilterBar extends Component {
 }
 
 const mapStateToProps = state => {
+  console.log("Received new state in FilterBar");
   return {
     visible: state.UI.filterBarVisible,
     gymFilter: state.filters.filters.Gym,
