@@ -37,10 +37,9 @@ const selectStyles = {
   }),
   control: (styles, { isDisabled, isFocused }) => ({
     ...styles,
-    borderColor: isDisabled ? null : isFocused ? null : null,
-    ":hover": {
-      borderColor: isDisabled ? null : isFocused ? null : null
-    }
+    boxShadow: "none",
+    borderColor: "black",
+    ":hover": { border: "1px solid black" }
   }),
   option: styles => ({
     ...styles,
@@ -77,7 +76,7 @@ class FilterBar extends Component {
             [styles.visible]: visible
           })}
         >
-          <div className={styles.title}>Filters </div>
+          <div className={styles.title}>Filters</div>
           <div
             className={classNames({
               [styles.filterGroup]: true
@@ -114,7 +113,7 @@ class FilterBar extends Component {
               [styles.filterGroup]: true
             })}
           >
-            <div className={styles.filterTitle}> Dates: </div>
+            <div className={styles.filterTitle}> Date: </div>
             <DateButtonGroup
               options={dateOptions}
               onChange={this.props.onDateFilterChange}

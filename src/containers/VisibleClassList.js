@@ -5,7 +5,7 @@ import moment from "moment";
 import { map, filter, flatMap, toLower } from "lodash";
 
 const getVisibleClasses = (classes, filters) => {
-  if (classes.classes == null) {
+        if (classes.classes == null) {
     return null;
   }
   let filteredClasses = classes.classes;

@@ -48,6 +48,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server --mode development",
     "prod": "webpack --mode production",
+    "server": "json-server server/index.js",
     "flow": "flow",
     "types": "flow-typed install --overwrite"
   },

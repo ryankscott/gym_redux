@@ -2,9 +2,14 @@ const gyms = ["britomart", "newmarket", "city", "takapuna"];
 const locations = ["studio 1", "studio 2"];
 const classnames = [
   "RPM",
+  "THE TRIP",
   "GRIT STRENGTH",
   "GRIT CARDIO",
+  "GRIT ATHLETIC",
   "BODYPUMP",
+  "BODYBALANCE",
+  "BODYBALANCE (VIRTUAL)",
+  "RPM (VIRTUAL)",
   "RINGSIDE",
   "CX WORX"
 ];
@@ -43,6 +48,5 @@ module.exports = () => {
     });
   }
   data.query = query;
-  console.log(data);
   return data;
 };

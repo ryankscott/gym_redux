@@ -6,7 +6,7 @@
   grid-template-columns: 0fr 9fr;
   grid-template-areas:
     "filter search"
-    "filter classes"
+    "filter classes";
 }
 .filterBar {
   grid-area: filter;
@@ -16,6 +16,7 @@
   grid-area: classes;
 }
 .searchContainer {
+  min-height: 180px;
   grid-area: search;
   display: flex;
   flex-direction: row;

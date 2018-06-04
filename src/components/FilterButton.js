@@ -38,7 +38,7 @@ class FilterButton extends PureComponent<Props> {
             <path d="M0 0h24v24H0z" fill="none" />
           </svg>
         </div>
-        Filters
+        Filter
       </div>
     );
   }

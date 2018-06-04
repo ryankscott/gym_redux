@@ -15,6 +15,7 @@
   justify-content: space-around;
   align-items: center;
   border: solid 1px var(--colour-grey-dark-3);
+  border-radius: 4px;
   opacity: 1;
   transition: all 200ms ease-in-out;
 }

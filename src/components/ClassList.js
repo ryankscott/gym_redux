@@ -48,13 +48,18 @@ class ClassList extends Component {
     if (this.state.sortDirection === SortDirection.DESC) {
       newList = reverse(newList);
     }
+
+    let tableContent = null;
     if (this.props.classes == null) {
-      return null;
+      tableContent = null;
     } else if (this.props.classes.length == 0) {
-      return <p> No classes returned </p>;
-    }
-    return (
-      <div className={styles.wrapper}>
+      tableContent = (
+        <div className={styles.noClassContainer}>
+          <p className={styles.noClassText}> No classes returned </p>
+        </div>
+      );
+    } else {
+      tableContent = (
         <Table
           width={700}
           height={600}
@@ -62,7 +67,7 @@ class ClassList extends Component {
           rowHeight={30}
           rowCount={newList.length}
           rowGetter={({ index }) => newList[index]}
-          className={styles.Table}
+          className={styles.table}
           headerClassName={styles.headerRow}
           rowClassName={styles.row}
           gridStyle={{ textAlign: "center" }}
@@ -92,8 +97,10 @@ class ClassList extends Component {
             width={150}
           />
         </Table>
-      </div>
-    );
+      );
+    }
+
+    return <div className={styles.wrapper}> {tableContent} </div>;
   }
 }
 ClassList.propTypes = {
