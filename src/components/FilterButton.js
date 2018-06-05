@@ -28,7 +28,6 @@ class FilterButton extends PureComponent<Props> {
           })}
         >
           <svg
-            fill="#000000"
             height="24"
             viewBox="0 0 24 24"
             width="24"

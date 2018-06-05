@@ -3,14 +3,14 @@
 .filterBtn {
   box-sizing: border-box;
   padding: 5px;
-  margin-right: 260px;
+  margin-right: 130px;
   font-family: var(--font-family-sans-serif);
-  color: var(--colour-grey-dark-3);
   background-color: var(--colour-white);
+  color: var(--colour-grey-dark-3);
   font-weight: 100;
   display: flex;
   flex-direction: row;
-  width: 90px;
+  width: 100px;
   height: 35px;
   justify-content: space-around;
   align-items: center;
@@ -18,6 +18,8 @@
   border-radius: 4px;
   opacity: 1;
   transition: all 200ms ease-in-out;
+  fill: #000000;
+  cursor: pointer;
 }
 
 .filterIcon {
@@ -29,7 +31,9 @@
 }
 
 .filterBtn:hover {
-  background-color: var(--colour-grey-light-8);
+  color: var(--colour-white);
+  background-color: var(--colour-grey-dark-3);
+  fill: #ffffff;
 }
 
 .hidden {
