@@ -16,7 +16,6 @@ export const getClasses = query => {
 };
 
 export const toggleFilterBar = () => {
-  console.log("ToggleFilterBar action being returned");
   return {
     type: TOGGLE_FILTER_BAR
   };

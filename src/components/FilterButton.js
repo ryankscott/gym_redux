@@ -52,7 +52,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch: Dispatch<*>) => {
   return {
     onClick: () => {
-      console.log("Dispatching toggleFilterBar in FilterButton");
       dispatch(toggleFilterBar());
     }
   };

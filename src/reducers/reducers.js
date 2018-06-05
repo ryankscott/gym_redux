@@ -31,7 +31,6 @@ const UIInitialState = {
 export function UI(state = UIInitialState, action) {
   switch (action.type) {
     case TOGGLE_FILTER_BAR:
-      console.log("ToggleFilterBar action in reducer");
       return { ...state, filterBarVisible: !state.filterBarVisible };
     default:
       return state;
@@ -61,7 +60,6 @@ export function filters(state = filtersInitialState, action) {
       return { ...state, filters: newFilters };
 
     case DATE_FILTERS_UPDATED:
-      console.log("Updating date filters");
       var newFilters = state.filters;
       newFilters.Before = action.beforeDate;
       newFilters.After = action.afterDate;
