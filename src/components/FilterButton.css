@@ -18,7 +18,7 @@
   border-radius: 4px;
   opacity: 1;
   transition: all 200ms ease-in-out;
-  fill: #000000;
+  fill: var(--colour-grey-dark-3);
   cursor: pointer;
 }
 
@@ -31,9 +31,6 @@
 }
 
 .filterBtn:hover {
-  color: var(--colour-white);
-  background-color: var(--colour-grey-dark-3);
-  fill: #ffffff;
 }
 
 .hidden {

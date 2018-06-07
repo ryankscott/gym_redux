@@ -3,7 +3,7 @@
 .container {
   position: absolute;
   top: 0px;
-  left: -325px;
+  left: -330px;
   width: 325px;
   height: 100%;
   box-sizing: border-box;
@@ -15,6 +15,7 @@
   flex-direction: column;
   justify-content: flex-start;
   transition: left 0.3s ease-out;
+  box-shadow: 5px 0px 2px 0px var(--colour-grey-dark-3);
 }
 
 .cover {
@@ -25,7 +26,7 @@
   bottom: 0px;
   left: -100%;
   width: 100%;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.4);
   filter: blur(5px);
   transition: left 0.3s ease-out;
   transition: opacity 0.2s ease-out;
@@ -36,13 +37,13 @@
   color: var(--colour-white);
   font-weight: 100;
   font-size: 24px;
-  margin: 10px 5px;
+  margin: 20px 5px 30px 5px;
 }
 
 .filterGroup {
   display: flex;
   flex-direction: column;
-  padding: 5px;
+  padding: 10px 5px;
 }
 
 .filterTitle {

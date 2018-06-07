@@ -11,8 +11,7 @@
 
 .btn {
   border: none;
-  border-left: 1px solid black;
-  color: black;
+  border-right: 1px solid var(--colour-grey);
   font-family: var(--font-family-sans-serif);
   color: var(--colour-grey-dark-2);
   background-color: var(--colour-white);
@@ -28,9 +27,10 @@
 
 .btnGroup .btn:last-child {
   border-radius: 0px 5px 5px 0px;
+  border-right: none;
 }
 
 .selected {
-  background-color: var(--colour-grey-dark-2);
+  background-color: var(--colour-blue);
   color: var(--colour-white);
 }

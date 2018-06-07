@@ -44,12 +44,21 @@ const selectStyles = {
   option: styles => ({
     ...styles,
     backgroundColor: "#FFF",
-    ":hover": { backgroundColor: "#DDD" }
+    ":hover": { backgroundColor: "#85cafe", color: "#FFF" }
   }),
   menu: styles => ({ ...styles, marginTop: "2px" }),
   indicatorSeparator: styles => ({ ...styles, display: "none" }),
+  multiValueLabel: styles => ({
+    ...styles,
+    color: "#FFFFFF"
+  }),
+  multiValue: styles => ({
+    ...styles,
+    backgroundColor: "#35a7ff"
+  }),
   multiValueRemove: styles => ({
     ...styles,
+    color: "#FFFFFF",
     ":hover": {}
   })
 };
