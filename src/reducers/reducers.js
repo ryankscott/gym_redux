@@ -1,16 +1,16 @@
-import { combineReducers } from "redux";
 import {
   FETCHING_CLASSES,
   FETCHING_CLASSES_FAILURE,
   FETCHING_CLASSES_SUCCESS,
   TOGGLE_FILTER_BAR,
-  ALL_FILTERS_UPDATED,
   GYM_FILTERS_UPDATED,
   CLASS_FILTERS_UPDATED,
   DATE_FILTERS_UPDATED
 } from "../actions/actions.js";
 import { gyms, classes as c } from "../consts.js";
-import { find, map, filter, capitalize } from "lodash";
+
+import { find, map, filter, capitalize, get, reduce } from "lodash";
+import { combineReducers } from "redux";
 
 // reducer with initial state
 const classesInitialState = {
@@ -39,16 +39,6 @@ export function UI(state = UIInitialState, action) {
 
 export function filters(state = filtersInitialState, action) {
   switch (action.type) {
-    case ALL_FILTERS_UPDATED:
-      var newFilters = action.filters;
-      newFilters.Gym = map(newFilters.Gym, g => {
-        return find(gyms, ["value", g.Name]);
-      });
-      newFilters.Class = map(newFilters.Class, g => {
-        return find(c, ["value", g]);
-      });
-      return { ...state, filters: newFilters };
-
     case GYM_FILTERS_UPDATED:
       var newFilters = state.filters;
       newFilters.Gym = action.gymFilter;

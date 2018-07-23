@@ -1,27 +1,31 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Search from "./Search";
 import Spinner from "./Spinner";
 import FilterButton from "./FilterButton";
 import FilterBar from "./FilterBar";
-import VisibleClassList from "../containers/VisibleClassList.js";
+import ClassList from "./ClassList.js";
 import styles from "./App.css";
-import { toggleFilterBar } from "../actions/actions.js";
+import { toggleFilterBar, getClasses } from "../actions/actions.js";
 
 // TODO: Handle no classes and have some text
 class App extends Component {
+  componentDidMount() {
+    this.props.getAllClasses();
+  }
   render() {
     const { fetching, classes, error } = this.props.classes;
     return (
       <div className={styles.appContainer}>
-        <div className={styles.searchContainer}>
-          <FilterButton />
-          <Search />
+        <div className={styles.title}>
+          <h1>Gym Timetable </h1>
         </div>
+        <div className={styles.spinner}>{fetching ? <Spinner /> : null}</div>
         <div className={styles.classesContainer}>
-          {fetching ? <Spinner /> : null}
-          <VisibleClassList />
-          <FilterBar className={styles.filterBar} />
+          <FilterButton />
+          <ClassList classes={classes} />
+        </div>
+        <div className={styles.filters}>
+          <FilterBar />
         </div>
       </div>
     );
@@ -38,8 +42,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    searchKeyPressed: () => {
-      dispatch(toggleFilterBar());
+    getAllClasses: () => {
+      dispatch(getClasses());
     }
   };
 };

@@ -31,11 +31,14 @@ module.exports = () => {
   const data = { classes: [], query: {} };
   // Create 100 classes
   for (let i = 0; i < 100; i++) {
-    var startHour = Math.random() * 23;
+    var startDay = new Date().getDate() + Math.floor(Math.random() * 3);
+    var startHour = Math.floor(Math.random() * 23);
     var endHour = startHour + 1;
     var startdate = new Date();
+    startdate.setDate(startDay);
     startdate.setHours(startHour, 0, 0, 0);
     var enddate = new Date();
+    enddate.setDate(startDay);
     enddate.setHours(endHour, 0, 0, 0);
 
     data.classes.push({

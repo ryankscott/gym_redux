@@ -1,11 +1,11 @@
 @import "../variables.css";
 
 .wrapper {
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin: 0px 50px;
 }
 
 .noClassContainer {
@@ -25,7 +25,6 @@
 }
 
 .table {
-  margin-top: 50px;
   font-family: var(--font-family-sans-serif);
 }
 .headerRow {
@@ -38,6 +37,7 @@
   align-content: center;
   align-self: center;
   justify-content: center;
+  padding: 5px 0px;
 }
 
 .row {

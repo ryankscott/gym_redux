@@ -11,7 +11,9 @@ import {
   updateGymFilters,
   updateClassFilters,
   updateDateFilters,
-  toggleFilterBar
+  updateAnyFilter,
+  toggleFilterBar,
+  getClasses
 } from "../actions/actions.js";
 
 const dateOptions = [
@@ -68,7 +70,7 @@ class FilterBar extends Component {
     super(props);
   }
   render() {
-    const { visible } = this.props;
+    const { visible, filters, gymFilter, classFilter } = this.props;
     return (
       <div>
         <div
@@ -94,7 +96,7 @@ class FilterBar extends Component {
             <Select
               name="gym-select"
               options={gyms}
-              onChange={this.props.onGymFilterChange}
+              onChange={this.props.onGymFilterChange(filters)}
               value={this.props.gymFilter}
               isMulti
               styles={selectStyles}
@@ -136,6 +138,7 @@ class FilterBar extends Component {
 const mapStateToProps = state => {
   return {
     visible: state.UI.filterBarVisible,
+    filters: state.filters.filters,
     gymFilter: state.filters.filters.Gym,
     classFilter: state.filters.filters.Class,
     beforeDateFilter: state.filters.filters.Before,
@@ -145,16 +148,19 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onGymFilterChange: selection => {
+    onGymFilterChange: (selection, filters) => {
       dispatch(updateGymFilters(selection));
+      dispatch(updateAnyFilter(filters));
     },
     onClassFilterChange: selection => {
-      dispatch(updateClassFilters(selection));
+      dispatch(updateClass(selection));
+      dispatch(updateAnyFilter());
     },
     onDateFilterChange: selection => {
       let beforeDate = moment(selection).endOf("day");
       let afterDate = moment(selection).startOf("day");
-      dispatch(updateDateFilters(beforeDate, afterDate));
+      dispatch(updateDate(beforeDate, afterDate));
+      dispatch(updateAnyFilter());
     },
     onClickOutside: () => {
       dispatch(toggleFilterBar());

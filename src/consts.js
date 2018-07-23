@@ -1,8 +1,8 @@
 const gyms = [
-  { value: "city", label: "City" },
-  { value: "britomart", label: "Britomart" },
-  { value: "newmarket", label: "Newmarket" },
-  { value: "takapuna", label: "Takapuna" }
+  { value: "Auckland City", label: "City" },
+  { value: "Britomart", label: "Britomart" },
+  { value: "Newmarket", label: "Newmarket" },
+  { value: "Takapuna", label: "Takapuna" }
 ];
 
 const classes = [

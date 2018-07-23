@@ -1,9 +1,9 @@
 @import "../variables.css";
 
 .filterBtn {
+  margin-top: 10px;
   box-sizing: border-box;
   padding: 5px;
-  margin-right: 130px;
   font-family: var(--font-family-sans-serif);
   background-color: var(--colour-white);
   color: var(--colour-grey-dark-3);

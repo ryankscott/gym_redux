@@ -77,21 +77,22 @@ class ClassList extends Component {
         >
           <Column
             label="Class"
-            dataKey="name"
+            dataKey="ClassName"
             cellRenderer={stringCellRenderer}
             flexGrow={1}
             width={150}
           />
           <Column
             label="Gym"
-            dataKey="gym"
+            dataKey="Club"
+            cellDataGetter={({ rowData }) => rowData.Club.Name}
             cellRenderer={stringCellRenderer}
             flexGrow={1}
             width={150}
           />
           <Column
             label="Start Time"
-            dataKey="startdatetime"
+            dataKey="StartDateTime"
             cellRenderer={dateCellRenderer}
             flexGrow={1}
             width={150}
@@ -106,13 +107,9 @@ class ClassList extends Component {
 ClassList.propTypes = {
   classes: PropTypes.arrayOf(
     PropTypes.shape({
-      uuid: PropTypes.string.isRequired,
-      gym: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      location: PropTypes.string.isRequired,
-      startdatetime: PropTypes.string.isRequired,
-      enddatetime: PropTypes.string.isRequired,
-      insertdatetime: PropTypes.string.isRequired
+      Club: PropTypes.object.isRequired,
+      ClassName: PropTypes.string.isRequired,
+      StartDateTime: PropTypes.string.isRequired
     })
   )
 };

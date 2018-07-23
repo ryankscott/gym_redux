@@ -84,13 +84,13 @@ module.exports = (env, argv) => {
         __BACKEND_URL__:
           argv.mode == "production"
             ? JSON.stringify("https://www.ryankscott.com/classsearch/?q=")
-            : JSON.stringify("http://localhost:3000/db/")
+            : JSON.stringify("http://localhost:3000/classes/")
       })
     ],
     devServer: {
       contentBase: "./dist",
       compress: true,
-      port: 8080
+      port: 8089
     }
   };
 };

@@ -5,15 +5,13 @@ import {
   FETCHING_CLASSES_FAILURE,
   FETCHING_CLASSES_SUCCESS,
   TOGGLE_FILTER_BAR,
-  ALL_FILTERS_UPDATED,
-  GYM_FILTERS_UPDATED,
-  CLASS_FILTERS_UPDATED,
-  DATE_FILTERS_UPDATED
+  ANY_FILTER_UPDATED
 } from "../actions/actions.js";
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 export function* watcherSaga() {
   yield takeLatest(FETCHING_CLASSES, workerSaga);
+  yield takeLatest(ANY_FILTER_UPDATED, workerSaga);
 }
 
 // TODO: Fix the fetch to catch errors
@@ -28,15 +26,13 @@ export const fetchClasses = searchQuery => {
 
 // worker saga: makes the api call when watcher saga sees the action
 function* workerSaga(payload) {
+  console.log(payload);
   try {
-    const response = yield call(fetchClasses, payload.query);
-    const classes = response.data.classes;
-    const query = response.data.query;
+    const response = yield call(fetchClasses);
+    const classes = response.data;
 
     // dispatch a success action to the store with the new classes
     yield put({ type: "FETCHING_CLASSES_SUCCESS", classes });
-
-    yield put({ type: "ALL_FILTERS_UPDATED", filters: query });
   } catch (error) {
     // dispatch a failure action to the store with the error
     yield put({ type: "FETCHING_CLASSES_FAILURE", error });
