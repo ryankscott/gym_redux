@@ -3,25 +3,48 @@ import styles from "./FilterBar.css";
 import { connect } from "react-redux";
 import classNames from "classnames";
 import Select from "react-select";
-import moment from "moment";
 import DateButtonGroup from "./DateButtonGroup.js";
+import { format, addDays, parse, startOfDay, endOfDay } from "date-fns";
 
 import { gyms, classes } from "../consts.js";
 import {
   updateGymFilters,
   updateClassFilters,
   updateDateFilters,
-  updateAnyFilter,
   toggleFilterBar,
   getClasses
 } from "../actions/actions.js";
 
 const dateOptions = [
-  { label: "Today", value: moment() },
-  { label: "Tomorrow", value: moment().add(1, "d") },
-  { label: "Day After", value: moment().add(2, "d") }
+  {
+    label: format(new Date(), "EEEEEE"),
+    value: format(new Date(), "YYYY-MM-dd")
+  },
+  {
+    label: format(addDays(new Date(), 1), "EEEEEE"),
+    value: format(addDays(new Date(), 1), "YYYY-MM-dd")
+  },
+  {
+    label: format(addDays(new Date(), 2), "EEEEEE"),
+    value: format(addDays(new Date(), 2), "YYYY-MM-dd")
+  },
+  {
+    label: format(addDays(new Date(), 3), "EEEEEE"),
+    value: format(addDays(new Date(), 3), "YYYY-MM-dd")
+  },
+  {
+    label: format(addDays(new Date(), 4), "EEEEEE"),
+    value: format(addDays(new Date(), 4), "YYYY-MM-dd")
+  },
+  {
+    label: format(addDays(new Date(), 5), "EEEEEE"),
+    value: format(addDays(new Date(), 5), "YYYY-MM-dd")
+  },
+  {
+    label: format(addDays(new Date(), 6), "EEEEEE"),
+    value: format(addDays(new Date(), 6), "YYYY-MM-dd")
+  }
 ];
-
 const selectStyles = {
   valueContainer: styles => ({
     ...styles,
@@ -70,7 +93,7 @@ class FilterBar extends Component {
     super(props);
   }
   render() {
-    const { visible, filters, gymFilter, classFilter } = this.props;
+    const { visible } = this.props;
     return (
       <div>
         <div
@@ -96,7 +119,7 @@ class FilterBar extends Component {
             <Select
               name="gym-select"
               options={gyms}
-              onChange={this.props.onGymFilterChange(filters)}
+              onChange={this.props.onGymFilterChange}
               value={this.props.gymFilter}
               isMulti
               styles={selectStyles}
@@ -123,7 +146,7 @@ class FilterBar extends Component {
               [styles.filterGroup]: true
             })}
           >
-            <div className={styles.filterTitle}> Date: </div>
+            <div className={styles.filterTitle}> Day: </div>
             <DateButtonGroup
               options={dateOptions}
               onChange={this.props.onDateFilterChange}
@@ -138,11 +161,9 @@ class FilterBar extends Component {
 const mapStateToProps = state => {
   return {
     visible: state.UI.filterBarVisible,
-    filters: state.filters.filters,
     gymFilter: state.filters.filters.Gym,
     classFilter: state.filters.filters.Class,
-    beforeDateFilter: state.filters.filters.Before,
-    afterDateFilter: state.filters.filters.After
+    dateFilter: state.filters.filters.Date
   };
 };
 
@@ -150,17 +171,12 @@ const mapDispatchToProps = dispatch => {
   return {
     onGymFilterChange: (selection, filters) => {
       dispatch(updateGymFilters(selection));
-      dispatch(updateAnyFilter(filters));
     },
     onClassFilterChange: selection => {
-      dispatch(updateClass(selection));
-      dispatch(updateAnyFilter());
+      dispatch(updateClassFilters(selection));
     },
     onDateFilterChange: selection => {
-      let beforeDate = moment(selection).endOf("day");
-      let afterDate = moment(selection).startOf("day");
-      dispatch(updateDate(beforeDate, afterDate));
-      dispatch(updateAnyFilter());
+      dispatch(updateDateFilters(selection));
     },
     onClickOutside: () => {
       dispatch(toggleFilterBar());

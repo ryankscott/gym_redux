@@ -83,8 +83,8 @@ module.exports = (env, argv) => {
         __PRODUCTION__: argv.mode == "production",
         __BACKEND_URL__:
           argv.mode == "production"
-            ? JSON.stringify("https://www.ryankscott.com/classsearch/?q=")
-            : JSON.stringify("http://localhost:3000/classes/")
+            ? JSON.stringify("https://www.ryankscott.com/classes/?")
+            : JSON.stringify("http://localhost:3000/classes/?")
       })
     ],
     devServer: {

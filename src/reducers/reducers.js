@@ -51,8 +51,7 @@ export function filters(state = filtersInitialState, action) {
 
     case DATE_FILTERS_UPDATED:
       var newFilters = state.filters;
-      newFilters.Before = action.beforeDate;
-      newFilters.After = action.afterDate;
+      newFilters.Date = action.dateFilter;
       return { ...state, filters: newFilters };
 
     default:
