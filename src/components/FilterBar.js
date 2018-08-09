@@ -3,7 +3,7 @@ import styles from "./FilterBar.css";
 import { connect } from "react-redux";
 import classNames from "classnames";
 import Select from "react-select";
-import DateButtonGroup from "./DateButtonGroup.js";
+import ButtonGroup from "./ButtonGroup.js";
 import { format, addDays, parse, startOfDay, endOfDay } from "date-fns";
 
 import { gyms, classes } from "../consts.js";
@@ -11,9 +11,29 @@ import {
   updateGymFilters,
   updateClassFilters,
   updateDateFilters,
+  updateTimeFilters,
   toggleFilterBar,
   getClasses
 } from "../actions/actions.js";
+
+const hourOptions = [
+  {
+    label: "Morning",
+    value: "5,6,7,8,9,10"
+  },
+  {
+    label: "Lunch",
+    value: "11,12"
+  },
+  {
+    label: "Afternoon",
+    value: "13,14,15,16"
+  },
+  {
+    label: "Evening",
+    value: "17,18,19,20,21"
+  }
+];
 
 const dateOptions = [
   {
@@ -45,6 +65,7 @@ const dateOptions = [
     value: format(addDays(new Date(), 6), "YYYY-MM-dd")
   }
 ];
+
 const selectStyles = {
   valueContainer: styles => ({
     ...styles,
@@ -147,9 +168,20 @@ class FilterBar extends Component {
             })}
           >
             <div className={styles.filterTitle}> Day: </div>
-            <DateButtonGroup
+            <ButtonGroup
               options={dateOptions}
               onChange={this.props.onDateFilterChange}
+            />
+          </div>
+          <div
+            className={classNames({
+              [styles.filterGroup]: true
+            })}
+          >
+            <div className={styles.filterTitle}> Time: </div>
+            <ButtonGroup
+              options={hourOptions}
+              onChange={this.props.onTimeFilterChange}
             />
           </div>
         </div>
@@ -177,6 +209,9 @@ const mapDispatchToProps = dispatch => {
     },
     onDateFilterChange: selection => {
       dispatch(updateDateFilters(selection));
+    },
+    onTimeFilterChange: selection => {
+      dispatch(updateTimeFilters(selection));
     },
     onClickOutside: () => {
       dispatch(toggleFilterBar());

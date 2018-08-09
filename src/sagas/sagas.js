@@ -7,7 +7,8 @@ import {
   TOGGLE_FILTER_BAR,
   GYM_FILTERS_UPDATED,
   CLASS_FILTERS_UPDATED,
-  DATE_FILTERS_UPDATED
+  DATE_FILTERS_UPDATED,
+  TIME_FILTERS_UPDATED
 } from "../actions/actions.js";
 const queryString = require("query-string");
 
@@ -32,6 +33,9 @@ const createQueryString = filters => {
   const d = _.get(filters, "Date");
   q.date = d ? d : "";
 
+  const t = _.get(filters, "Time");
+  q.hour = t ? t : "";
+
   return queryString.stringify(q);
 };
 
@@ -42,7 +46,8 @@ export function* watcherSaga() {
       FETCHING_CLASSES,
       GYM_FILTERS_UPDATED,
       CLASS_FILTERS_UPDATED,
-      DATE_FILTERS_UPDATED
+      DATE_FILTERS_UPDATED,
+      TIME_FILTERS_UPDATED
     ],
     workerSaga
   );

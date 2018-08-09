@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Column, Table, SortDirection } from "react-virtualized";
 import styles from "./ClassList.css";
 import { toLower, startCase, sortBy, reverse } from "lodash";
-import moment from "moment";
+import { parse, format } from "date-fns";
 import classNames from "classnames";
 
 const normaliseString = string => {
@@ -22,7 +22,7 @@ const dateCellRenderer = cellData => {
   if (cellData == null) {
     return "";
   } else {
-    return moment(cellData.cellData).calendar();
+    return format(cellData.cellData, "eeee h:mm aaaa");
   }
 };
 

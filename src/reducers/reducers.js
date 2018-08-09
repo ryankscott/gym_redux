@@ -5,7 +5,8 @@ import {
   TOGGLE_FILTER_BAR,
   GYM_FILTERS_UPDATED,
   CLASS_FILTERS_UPDATED,
-  DATE_FILTERS_UPDATED
+  DATE_FILTERS_UPDATED,
+  TIME_FILTERS_UPDATED
 } from "../actions/actions.js";
 import { gyms, classes as c } from "../consts.js";
 
@@ -52,6 +53,11 @@ export function filters(state = filtersInitialState, action) {
     case DATE_FILTERS_UPDATED:
       var newFilters = state.filters;
       newFilters.Date = action.dateFilter;
+      return { ...state, filters: newFilters };
+
+    case TIME_FILTERS_UPDATED:
+      var newFilters = state.filters;
+      newFilters.Time = action.timeFilter;
       return { ...state, filters: newFilters };
 
     default:

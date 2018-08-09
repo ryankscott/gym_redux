@@ -1,17 +1,16 @@
 // @flow
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import styles from "./DateButtonGroup.css";
+import styles from "./ButtonGroup.css";
 import { connect } from "react-redux";
 import classNames from "classnames";
-import moment from "moment";
 
 type Props = {
   options: { label: string, value: string }[],
   onChange: value => void
 };
 
-class DateButtonGroup extends Component<Props> {
+class ButtonGroup extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
@@ -65,4 +64,4 @@ const mapDispatchToProps = dispatch => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DateButtonGroup);
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonGroup);
