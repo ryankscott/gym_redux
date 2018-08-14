@@ -8,32 +8,33 @@ import {
   GYM_FILTERS_UPDATED,
   CLASS_FILTERS_UPDATED,
   DATE_FILTERS_UPDATED,
-  TIME_FILTERS_UPDATED
+  TIME_FILTERS_UPDATED,
+  CLEAR_ALL_FILTERS
 } from "../actions/actions.js";
 const queryString = require("query-string");
 
 const filters = state => state.filters.filters;
 
 const createQueryString = filters => {
-  /* name="BodyPump, RPM"&club="Auckland City"&Date="2018-07-18,2018-07-19" */
+  /* name="BodyPump, RPM"&club="Auckland City"&date="2018-07-18,2018-07-19"&hour=11 */
   let q = {};
-  const c = _.get(filters, "Gym");
+  const c = _.get(filters, "gym");
   const clubs = _.map(c, cs => {
     return cs.value;
   });
   q.club = _.join(clubs, ",");
 
-  const n = _.get(filters, "Class");
+  const n = _.get(filters, "class");
   const names = _.map(n, ns => {
     return ns.value;
   });
   q.name = _.join(names, ",");
 
   // TODO: Support multiple dates
-  const d = _.get(filters, "Date");
+  const d = _.get(filters, "date");
   q.date = d ? d : "";
 
-  const t = _.get(filters, "Time");
+  const t = _.get(filters, "time");
   q.hour = t ? t : "";
 
   return queryString.stringify(q);
@@ -47,7 +48,8 @@ export function* watcherSaga() {
       GYM_FILTERS_UPDATED,
       CLASS_FILTERS_UPDATED,
       DATE_FILTERS_UPDATED,
-      TIME_FILTERS_UPDATED
+      TIME_FILTERS_UPDATED,
+      CLEAR_ALL_FILTERS
     ],
     workerSaga
   );
@@ -66,9 +68,7 @@ export const fetchClasses = searchQuery => {
 // worker saga: makes the api call when watcher saga sees the action
 function* workerSaga(payload) {
   const allFilters = yield select(filters);
-  console.log(allFilters);
   const queryString = createQueryString(allFilters);
-  console.log(queryString);
   try {
     const response = yield call(fetchClasses, queryString);
     const classes = response.data;

@@ -6,7 +6,8 @@ import {
   GYM_FILTERS_UPDATED,
   CLASS_FILTERS_UPDATED,
   DATE_FILTERS_UPDATED,
-  TIME_FILTERS_UPDATED
+  TIME_FILTERS_UPDATED,
+  CLEAR_ALL_FILTERS
 } from "../actions/actions.js";
 import { gyms, classes as c } from "../consts.js";
 
@@ -22,7 +23,10 @@ const classesInitialState = {
 };
 
 const filtersInitialState = {
-  filters: {}
+  class: null,
+  gym: null,
+  time: null,
+  date: null
 };
 
 const UIInitialState = {
@@ -40,24 +44,27 @@ export function UI(state = UIInitialState, action) {
 
 export function filters(state = filtersInitialState, action) {
   switch (action.type) {
+    case CLEAR_ALL_FILTERS:
+      return { class: null, gym: null, time: null, date: null };
+
     case GYM_FILTERS_UPDATED:
-      var newFilters = state.filters;
-      newFilters.Gym = action.gymFilter;
+      var newFilters = state;
+      newFilters.gym = action.gymFilter;
       return { ...state, filters: newFilters };
 
     case CLASS_FILTERS_UPDATED:
-      var newFilters = state.filters;
-      newFilters.Class = action.classFilter;
+      var newFilters = state;
+      newFilters.class = action.classFilter;
       return { ...state, filters: newFilters };
 
     case DATE_FILTERS_UPDATED:
-      var newFilters = state.filters;
-      newFilters.Date = action.dateFilter;
+      var newFilters = state;
+      newFilters.date = action.dateFilter;
       return { ...state, filters: newFilters };
 
     case TIME_FILTERS_UPDATED:
-      var newFilters = state.filters;
-      newFilters.Time = action.timeFilter;
+      var newFilters = state;
+      newFilters.time = action.timeFilter;
       return { ...state, filters: newFilters };
 
     default:
