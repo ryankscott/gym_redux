@@ -8,16 +8,21 @@ import reducer from "./reducers/reducers";
 import { watcherSaga } from "./sagas/sagas";
 import "react-virtualized/styles.css";
 
+import "normalize.css";
+
 // create the saga middleware
 const sagaMiddleware = createSagaMiddleware();
 
+const enhancer = __PRODUCTION__
+  ? compose()
+  : compose(
+      window.__REDUX_DEVTOOLS_EXTENSION__ &&
+        window.__REDUX_DEVTOOLS_EXTENSION__()
+    );
 
 const store = createStore(
   reducer,
-  compose(
-    applyMiddleware(sagaMiddleware),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-  )
+  compose(applyMiddleware(sagaMiddleware), enhancer)
 );
 
 // run the saga
