@@ -7,32 +7,22 @@ import classNames from "classnames";
 
 type Props = {
   options: { label: string, value: string }[],
-  onChange: value => void
+  onChange: value => void,
+  selectedValue: string
 };
 
 class ButtonGroup extends Component<Props> {
   constructor(props) {
     super(props);
-    this.state = {
-      selected: null
-    };
   }
 
   handleClick(value) {
-    if (value === this.state.selected) {
-      this.setState({ selected: null });
-      this.props.onChange(null);
-    } else {
-      this.setState({
-        selected: value
-      });
-      this.props.onChange(value);
-    }
+    const { selectedValue, onChange } = this.props;
+    value === selectedValue ? onChange(null) : onChange(value);
   }
 
   render() {
-    const { options } = this.props;
-    const { selected } = this.state;
+    const { options, selectedValue } = this.props;
     return (
       <div className={styles.btnGroup}>
         {options.map(({ label, value }) => {
@@ -41,7 +31,7 @@ class ButtonGroup extends Component<Props> {
               key={value}
               className={classNames({
                 [styles.btn]: true,
-                [styles.selected]: value === selected
+                [styles.selected]: value === selectedValue
               })}
               onClick={() => {
                 this.handleClick(value);

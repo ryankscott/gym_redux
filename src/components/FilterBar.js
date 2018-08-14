@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import classNames from "classnames";
 import Select from "react-select";
 import ButtonGroup from "./ButtonGroup.js";
+import Button from "./Button.js";
 import { format, addDays, parse, startOfDay, endOfDay } from "date-fns";
 
 import { gyms, classes } from "../consts.js";
@@ -13,6 +14,7 @@ import {
   updateDateFilters,
   updateTimeFilters,
   toggleFilterBar,
+  clearAllFilters,
   getClasses
 } from "../actions/actions.js";
 
@@ -169,6 +171,7 @@ class FilterBar extends Component {
           >
             <div className={styles.filterTitle}> Day: </div>
             <ButtonGroup
+              selectedValue={this.props.dateFilter}
               options={dateOptions}
               onChange={this.props.onDateFilterChange}
             />
@@ -180,9 +183,17 @@ class FilterBar extends Component {
           >
             <div className={styles.filterTitle}> Time: </div>
             <ButtonGroup
+              selectedValue={this.props.timeFilter}
               options={hourOptions}
               onChange={this.props.onTimeFilterChange}
             />
+          </div>
+          <div
+            className={classNames({
+              [styles.filterGroup]: true
+            })}
+          >
+            <Button onClick={this.props.onClearAllFilters} text="Clear all" />
           </div>
         </div>
       </div>
@@ -193,9 +204,10 @@ class FilterBar extends Component {
 const mapStateToProps = state => {
   return {
     visible: state.UI.filterBarVisible,
-    gymFilter: state.filters.filters.Gym,
-    classFilter: state.filters.filters.Class,
-    dateFilter: state.filters.filters.Date
+    gymFilter: state.filters.gym,
+    classFilter: state.filters.class,
+    dateFilter: state.filters.date,
+    timeFilter: state.filters.time
   };
 };
 
@@ -215,6 +227,9 @@ const mapDispatchToProps = dispatch => {
     },
     onClickOutside: () => {
       dispatch(toggleFilterBar());
+    },
+    onClearAllFilters: () => {
+      dispatch(clearAllFilters());
     }
   };
 };
