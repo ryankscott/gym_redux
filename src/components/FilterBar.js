@@ -5,7 +5,7 @@ import classNames from "classnames";
 import Select from "react-select";
 import ButtonGroup from "./ButtonGroup.js";
 import Button from "./Button.js";
-import SavedFilter from "./SavedFilter.js";
+import SavedFilterList from "./SavedFilterList.js";
 import { format, addDays, parse, startOfDay, endOfDay } from "date-fns";
 import styled, { ThemeProvider } from "styled-components";
 import theme from "../theme.js";
@@ -216,7 +216,7 @@ class FilterBar extends Component {
           >
             <FilterTitle>Filters</FilterTitle>
             <FilterSectionTitle> Saved Filters </FilterSectionTitle>
-            <SavedFilter />
+            <SavedFilterList filters={this.props.savedFilters} />
             <FilterSectionTitle> Custom Filters </FilterSectionTitle>
             <FilterGroup>
               <FilterGroupTitle> Gym: </FilterGroupTitle>
@@ -276,7 +276,8 @@ const mapStateToProps = state => {
     gymFilter: state.filters.gym,
     classFilter: state.filters.class,
     dateFilter: state.filters.date,
-    timeFilter: state.filters.time
+    timeFilter: state.filters.time,
+    savedFilters: state.filters.savedFilters
   };
 };
 

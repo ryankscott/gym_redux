@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import classNames from "classnames";
 import styled, { ThemeProvider } from "styled-components";
 import theme from "../theme.js";
-// TODO: Invert button
 
 const StyledSavedFilter = styled.div`
   display: flex;
@@ -29,19 +28,20 @@ const StyledDeleteButton = styled.div`
 `;
 
 type Props = {
+  class: Object,
   onLoadFilter: () => void,
   onDeleteFilter: () => void
 };
 
 class SavedFilter extends PureComponent<Props> {
   render() {
+    console.log(this.props.filter);
+    console.log(typeof this.props.filter);
     return (
       <ThemeProvider theme={theme}>
-        <StyledSavedFilter onClick={this.props.onClick}>
-          Grit Cardio at Auckland City on Thursday
-          <StyledDeleteButton onClick={this.props.onDelete}>
-            X{" "}
-          </StyledDeleteButton>
+        <StyledSavedFilter onClick={this.props.onLoadFilter}>
+          {this.props.filter.gym}
+          <StyledDeleteButton onClick={this.props.onDeleteFilter} />
         </StyledSavedFilter>
       </ThemeProvider>
     );
