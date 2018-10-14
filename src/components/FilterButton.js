@@ -6,6 +6,47 @@ import { connect } from "react-redux";
 import { get } from "lodash";
 import { toggleFilterBar } from "../actions/actions.js";
 import classNames from "classnames";
+import styled, { ThemeProvider } from "styled-components";
+import theme from "../theme.js";
+import { device } from "../devices.js";
+
+const StyledFilterButton = styled.div`
+  box-sizing: border-box;
+  padding: 5px;
+  font-family: ${props => props.theme.font};
+  background-color: ${props => props.theme.backgroundColour};
+  color: ${props => props.theme.borderColour};
+  font-weight: 100;
+  display: ${props => (props.visible ? "flex" : "none")};
+  flex-direction: row;
+  height: 35px;
+  justify-content: space-around;
+  align-items: center;
+  border: solid 1px ${props => props.theme.borderColour};
+  border-radius: 4px;
+  opacity: 1;
+  transition: all 200ms ease-in-out;
+  fill: ${props => props.theme.borderColour};
+  cursor: pointer;
+
+  @media ${device.mobileS} {
+    width: 40px;
+    font-size: 0px;
+  }
+
+  @media ${device.tablet} {
+    width: 100px;
+    font-size: 16px;
+  }
+`;
+
+const StyledFilterIcon = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
 
 type Props = {
   visible: boolean,
@@ -15,18 +56,8 @@ class FilterButton extends PureComponent<Props> {
   render() {
     const { visible } = this.props;
     return (
-      <div
-        className={classNames({
-          [styles.filterBtn]: true,
-          [styles.hidden]: !visible
-        })}
-        onClick={this.props.onClick}
-      >
-        <div
-          className={classNames({
-            [styles.filterIcon]: true
-          })}
-        >
+      <StyledFilterButton onClick={this.props.onClick} visible={visible}>
+        <StyledFilterIcon>
           <svg
             height="24"
             viewBox="0 0 24 24"
@@ -36,9 +67,9 @@ class FilterButton extends PureComponent<Props> {
             <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" />
             <path d="M0 0h24v24H0z" fill="none" />
           </svg>
-        </div>
+        </StyledFilterIcon>
         Filter
-      </div>
+      </StyledFilterButton>
     );
   }
 }

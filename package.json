@@ -8,6 +8,7 @@
     "classnames": "^2.2.5",
     "date-fns": "^2.0.0-alpha.14",
     "json-server": "^0.12.2",
+    "mixpanel-browser": "^2.22.4",
     "normalize.css": "^8.0.0",
     "query-string": "^6.1.0",
     "react": "^16.2.0",
@@ -16,11 +17,13 @@
     "react-select": "^2.0.0-alpha.8",
     "react-virtualized": "^9.18.5",
     "redux": "^3.7.2",
-    "redux-saga": "^0.16.0"
+    "redux-saga": "^0.16.0",
+    "styled-components": "^3.4.9"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
+    "babel-plugin-styled-components": "^1.8.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.26.0",

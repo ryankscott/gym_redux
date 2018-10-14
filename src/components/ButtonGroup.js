@@ -1,14 +1,51 @@
 // @flow
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import styles from "./ButtonGroup.css";
 import { connect } from "react-redux";
-import classNames from "classnames";
+import styled, { ThemeProvider } from "styled-components";
+import theme from "../theme.js";
+
+const StyledButtonGroup = styled.div`
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex: 1 1 0;
+  width: 100%;
+`;
+
+const StyledButton = styled.div`
+  display: flex;
+  align-items: center;
+  border: none;
+  justify-content: center;
+  border-right: 1px solid ${props => props.theme.borderColour};
+  font-family: ${props => props.theme.font};
+  color: ${props =>
+    props.selected ? props.theme.backgroundColour : props.theme.borderColour};
+  background-color: ${props =>
+    props.selected
+      ? props.theme.highlightColour
+      : props.theme.backgroundColour};
+  font-weight: 100;
+  font-size: 14px;
+  height: 35px;
+  width: 100%;
+  &:first-child {
+    border-radius: 5px 0px 0px 5px;
+  }
+  &:last-child {
+    border-radius: 0px 5px 5px 0px;
+    border-right: none;
+  }
+`;
 
 type Props = {
-  options: { label: string, value: string }[],
+  options: { label: string, value: Object }[],
   onChange: value => void,
-  selectedValue: string
+  selectedValue: Object
 };
 
 class ButtonGroup extends Component<Props> {
@@ -24,24 +61,23 @@ class ButtonGroup extends Component<Props> {
   render() {
     const { options, selectedValue } = this.props;
     return (
-      <div className={styles.btnGroup}>
-        {options.map(({ label, value }) => {
-          return (
-            <button
-              key={value}
-              className={classNames({
-                [styles.btn]: true,
-                [styles.selected]: value === selectedValue
-              })}
-              onClick={() => {
-                this.handleClick(value);
-              }}
-            >
-              {label}
-            </button>
-          );
-        })}
-      </div>
+      <ThemeProvider theme={theme}>
+        <StyledButtonGroup>
+          {options.map(({ label, value }, index) => {
+            return (
+              <StyledButton
+                key={index}
+                selected={value == selectedValue}
+                onClick={() => {
+                  this.handleClick(value);
+                }}
+              >
+                {label}
+              </StyledButton>
+            );
+          })}
+        </StyledButtonGroup>
+      </ThemeProvider>
     );
   }
 }

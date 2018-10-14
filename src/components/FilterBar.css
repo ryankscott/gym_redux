@@ -32,30 +32,6 @@
   transition: opacity 0.2s ease-out;
 }
 
-.title {
-  font-family: var(--font-family-sans-serif);
-  color: var(--colour-white);
-  font-weight: 100;
-  font-size: 24px;
-  margin: 20px 5px 30px 5px;
-}
-
-.filterGroup {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 5px;
-  font-size: 14px;
-  height: 55px;
-}
-
-.filterTitle {
-  font-family: var(--font-family-sans-serif);
-  color: var(--colour-white);
-  font-weight: 100;
-  font-size: 16px;
-  margin: 5px 0px;
-}
-
 .visible {
   left: 0px;
   opacity: 1;

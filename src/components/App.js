@@ -6,8 +6,84 @@ import FilterBar from "./FilterBar";
 import ClassList from "./ClassList.js";
 import styles from "./App.css";
 import { toggleFilterBar, getClasses } from "../actions/actions.js";
+import styled, { ThemeProvider } from "styled-components";
+import theme from "../theme.js";
+import { device } from "../devices.js";
 
-// TODO: Handle no classes and have some text
+const AppContainer = styled.div`
+  height: 100%;
+  display: grid;
+  grid-template-rows: 5fr 1fr 30fr;
+  grid-template-areas:
+    "title"
+    "spinner"
+    "classes";
+`;
+
+const Title = styled.div`
+  grid-area: title;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: ${props => props.theme.font};
+  color: ${props => props.theme.fontColour};
+  font-weight: 300;
+  margin: 40px 0px;
+
+  @media ${device.mobileS} {
+    font-size: 28px;
+  }
+
+  @media ${device.laptopL} {
+    font-size: 32px;
+  }
+`;
+
+const SpinnerContainer = styled.div`
+  display: flex;
+  grid-area: spinner;
+  flex-direction: row;
+  justify-content: center;
+  align-self: center;
+`;
+
+const ClassesContainer = styled.div`
+  grid-area: classes;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
+
+const FilterButtonContainer = styled.div`
+  position: absolute;
+  @media ${device.mobileS} {
+    left: 20px;
+  }
+
+  @media ${device.mobileL} {
+    left: 40px;
+  }
+
+  @media ${device.tablet} {
+    left: 80px;
+  }
+
+  @media ${device.laptop} {
+    left: 120px;
+  }
+
+  @media ${device.laptopL} {
+    left: 180px;
+  }
+`;
+
+const FilterContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+`;
+
 class App extends Component {
   componentDidMount() {
     this.props.getAllClasses();
@@ -15,19 +91,24 @@ class App extends Component {
   render() {
     const { fetching, classes, error } = this.props.classes;
     return (
-      <div className={styles.appContainer}>
-        <div className={styles.title}>
-          <h1>Gym Timetable </h1>
-        </div>
-        <div className={styles.spinner}>{fetching ? <Spinner /> : null}</div>
-        <div className={styles.classesContainer}>
-          <FilterButton />
-          <ClassList classes={classes} />
-        </div>
-        <div className={styles.filters}>
-          <FilterBar />
-        </div>
-      </div>
+      <ThemeProvider theme={theme}>
+        <AppContainer>
+          <Title>
+            <FilterButtonContainer>
+              <FilterButton />
+            </FilterButtonContainer>
+            Gym Timetable
+          </Title>
+
+          <SpinnerContainer>{fetching ? <Spinner /> : null}</SpinnerContainer>
+          <ClassesContainer>
+            <ClassList classes={classes} />
+          </ClassesContainer>
+          <FilterContainer>
+            <FilterBar />
+          </FilterContainer>
+        </AppContainer>
+      </ThemeProvider>
     );
   }
 }

@@ -9,6 +9,8 @@ export const CLASS_FILTERS_UPDATED = "CLASS_FILTERS_UPDATED";
 export const DATE_FILTERS_UPDATED = "DATE_FILTERS_UPDATED";
 export const TIME_FILTERS_UPDATED = "TIME_FILTERS_UPDATED";
 export const CLEAR_ALL_FILTERS = "CLEAR_ALL_FILTERS";
+export const SAVE_FILTERS = "SAVE_FILTERS";
+export const DELETE_FILTERS = "DELETE_FILTERS";
 
 // Action creators
 export const getClasses = query => {
@@ -26,6 +28,18 @@ export const toggleFilterBar = () => {
 export const clearAllFilters = () => {
   return {
     type: CLEAR_ALL_FILTERS
+  };
+};
+
+export const saveFilters = () => {
+  return {
+    type: SAVE_FILTERS
+  };
+};
+
+export const deleteFilters = () => {
+  return {
+    type: DELETE_FILTERS
   };
 };
 

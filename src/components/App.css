@@ -1,49 +1,4 @@
 @import "../variables.css";
 
 .appContainer {
-  display: grid;
-  grid-template-rows: 2fr 1fr 16fr;
-  grid-template-columns: 2fr 8fr;
-  grid-template-areas:
-    "title title"
-    "spinner spinner"
-    "filter classes";
-  height: 100%;
-}
-
-.title {
-  grid-area: title;
-  text-align: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-self: center;
-}
-
-h1 {
-  font-family: var(--font-family-sans-serif);
-  color: var(--colour-grey-dark-3);
-  font-weight: 300;
-}
-.spinner {
-  display: flex;
-  grid-area: spinner;
-  flex-direction: row;
-  justify-content: center;
-  align-self: center;
-}
-
-.filters {
-  display: flex;
-  grid-area: filter;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
-.classesContainer {
-  grid-area: classes;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  margin-top: 50px;
 }

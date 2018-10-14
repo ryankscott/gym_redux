@@ -32,10 +32,10 @@ const createQueryString = filters => {
 
   // TODO: Support multiple dates
   const d = _.get(filters, "date");
-  q.date = d ? d : "";
+  q.date = d ? d.date : "";
 
   const t = _.get(filters, "time");
-  q.hour = t ? t : "";
+  q.hour = t ? t.hours : "";
 
   return queryString.stringify(q);
 };
