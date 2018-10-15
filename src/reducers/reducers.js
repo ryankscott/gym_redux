@@ -33,7 +33,7 @@ const filtersInitialState = {
   gym: null,
   time: null,
   date: null,
-  savedFilters: null
+  savedFilters: []
 };
 
 const UIInitialState = {
@@ -57,9 +57,8 @@ export function filters(state = filtersInitialState, action) {
 
     case SAVE_FILTERS:
       var newFilters = state;
-      debugger;
       // TODO: solve duplicates
-      if (newFilters.savedFilters == null) {
+      if (newFilters.savedFilters.length == 0) {
         var uniqueFilters = new Set();
       } else {
         var uniqueFilters = new Set(newFilters.savedFilters);
@@ -71,6 +70,7 @@ export function filters(state = filtersInitialState, action) {
         date: state.date
       });
       newFilters.savedFilters = Array.from(uniqueFilters);
+      console.log(newFilters.savedFilters);
       return { ...newFilters };
 
     case CLEAR_ALL_FILTERS:

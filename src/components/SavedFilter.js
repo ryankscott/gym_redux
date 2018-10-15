@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import classNames from "classnames";
 import styled, { ThemeProvider } from "styled-components";
 import theme from "../theme.js";
+import _ from "lodash";
 
 const StyledSavedFilter = styled.div`
   display: flex;
@@ -28,19 +29,17 @@ const StyledDeleteButton = styled.div`
 `;
 
 type Props = {
-  class: Object,
+  filter: Object,
   onLoadFilter: () => void,
   onDeleteFilter: () => void
 };
 
 class SavedFilter extends PureComponent<Props> {
   render() {
-    console.log(this.props.filter);
-    console.log(typeof this.props.filter);
     return (
       <ThemeProvider theme={theme}>
         <StyledSavedFilter onClick={this.props.onLoadFilter}>
-          {this.props.filter.gym}
+          "cat"
           <StyledDeleteButton onClick={this.props.onDeleteFilter} />
         </StyledSavedFilter>
       </ThemeProvider>
