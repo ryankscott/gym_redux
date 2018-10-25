@@ -12,14 +12,14 @@ const StyledButton = styled.div`
   font-family: ${props => props.theme.font};
   background-color: ${props => props.theme.highlightColour};
   color: ${props => props.theme.backgroundColour};
-  font-weight: 100;
+  font-weight: 300;
   display: flex;
   flex-direction: row;
-  width: 100px;
-  height: 35px;
+  width: ${props => (props.width ? props.width : "90px")};
+  height: ${props => (props.height ? props.height : "35px")};
   justify-content: space-around;
   align-items: center;
-  border: solid 1px ${props => props.theme.borderColour};
+  border: solid 1px ${props => props.theme.highlightColour};
   border-radius: 4px;
   opacity: 1;
   transition: all 200ms ease-in-out;
@@ -35,7 +35,11 @@ class Button extends PureComponent<Props> {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <StyledButton onClick={this.props.onClick}>
+        <StyledButton
+          onClick={this.props.onClick}
+          width={this.props.width}
+          height={this.props.height}
+        >
           {this.props.text}
         </StyledButton>
       </ThemeProvider>

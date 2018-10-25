@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled, { ThemeProvider } from "styled-components";
 import theme from "../theme.js";
+import find from "lodash/find";
 
 const StyledButtonGroup = styled.div`
   border: none;
@@ -29,7 +30,7 @@ const StyledButton = styled.div`
     props.selected
       ? props.theme.highlightColour
       : props.theme.backgroundColour};
-  font-weight: 100;
+  font-weight: 300;
   font-size: 14px;
   height: 35px;
   width: 100%;
@@ -53,11 +54,6 @@ class ButtonGroup extends Component<Props> {
     super(props);
   }
 
-  handleClick(value) {
-    const { selectedValue, onChange } = this.props;
-    value === selectedValue ? onChange(null) : onChange(value);
-  }
-
   render() {
     const { options, selectedValue } = this.props;
     return (
@@ -67,9 +63,9 @@ class ButtonGroup extends Component<Props> {
             return (
               <StyledButton
                 key={index}
-                selected={value == selectedValue}
+                selected={find(selectedValue, value) != undefined}
                 onClick={() => {
-                  this.handleClick(value);
+                  this.props.onChange(value);
                 }}
               >
                 {label}

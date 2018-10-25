@@ -1,30 +1,45 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import classNames from "classnames";
 import styled, { ThemeProvider } from "styled-components";
 import theme from "../theme.js";
-import _ from "lodash";
+import { loadFilters, deleteFilters } from "../actions/actions.js";
 
+const StyledSavedFilterContent = styled.div`
+  font-family: ${props => props.theme.font};
+  color: ${props => props.theme.backgroundColour};
+  font-weight: 300;
+  font-size: 14px;
+  align-self: center;
+  margin: 2px;
+  padding: 5px 0px 5px 10px;
+  width: 100%;
+`;
 const StyledSavedFilter = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  font-family: ${props => props.theme.font};
-  color: ${props => props.theme.backgroundColour};
-  font-weight: 100;
-  font-size: 14px;
-  margin: 5px;
-  padding: 5px 10px;
-  &:hover {
-    background-color: #555555;
-  }
   cursor: pointer;
+  border-radius: 5px;
+  &:hover {
+    background-color: #666666;
+  }
 `;
 
 const StyledDeleteButton = styled.div`
+  width: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-self: center;
+  align-items: center;
+  color: #333333;
+  border-radius: 0px 5px 5px 0px;
+  padding: 0px 5px;
   &:hover {
-    color: ${props => props.theme.highlightColour};
+    color: #ffffff;
+    background-color: ${props => props.theme.highlightColour};
   }
 `;
 
@@ -38,9 +53,17 @@ class SavedFilter extends PureComponent<Props> {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <StyledSavedFilter onClick={this.props.onLoadFilter}>
-          "cat"
-          <StyledDeleteButton onClick={this.props.onDeleteFilter} />
+        <StyledSavedFilter>
+          <StyledSavedFilterContent
+            onClick={() => this.props.onLoadFilter(this.props.filter.name)}
+          >
+            {this.props.filter.name}
+          </StyledSavedFilterContent>
+          <StyledDeleteButton
+            onClick={() => this.props.onDeleteFilter(this.props.filter.name)}
+          >
+            ×
+          </StyledDeleteButton>
         </StyledSavedFilter>
       </ThemeProvider>
     );
@@ -51,8 +74,15 @@ const mapStateToProps = state => {
   return {};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<*>) => {
-  return {};
+const mapDispatchToProps = dispatch => {
+  return {
+    onLoadFilter: id => {
+      dispatch(loadFilters(id));
+    },
+    onDeleteFilter: id => {
+      dispatch(deleteFilters(id));
+    }
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SavedFilter);

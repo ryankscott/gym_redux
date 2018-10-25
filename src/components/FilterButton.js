@@ -1,14 +1,13 @@
 // @flow
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import styles from "./FilterButton.css";
 import { connect } from "react-redux";
-import { get } from "lodash";
 import { toggleFilterBar } from "../actions/actions.js";
-import classNames from "classnames";
 import styled, { ThemeProvider } from "styled-components";
 import theme from "../theme.js";
 import { device } from "../devices.js";
+
+// TODO: Consolidate to Button
 
 const StyledFilterButton = styled.div`
   box-sizing: border-box;
@@ -16,7 +15,7 @@ const StyledFilterButton = styled.div`
   font-family: ${props => props.theme.font};
   background-color: ${props => props.theme.backgroundColour};
   color: ${props => props.theme.borderColour};
-  font-weight: 100;
+  font-weight: 300;
   display: ${props => (props.visible ? "flex" : "none")};
   flex-direction: row;
   height: 35px;
@@ -56,20 +55,22 @@ class FilterButton extends PureComponent<Props> {
   render() {
     const { visible } = this.props;
     return (
-      <StyledFilterButton onClick={this.props.onClick} visible={visible}>
-        <StyledFilterIcon>
-          <svg
-            height="24"
-            viewBox="0 0 24 24"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" />
-            <path d="M0 0h24v24H0z" fill="none" />
-          </svg>
-        </StyledFilterIcon>
-        Filter
-      </StyledFilterButton>
+      <ThemeProvider theme={theme}>
+        <StyledFilterButton onClick={this.props.onClick} visible={visible}>
+          <StyledFilterIcon>
+            <svg
+              height="24"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" />
+              <path d="M0 0h24v24H0z" fill="none" />
+            </svg>
+          </StyledFilterIcon>
+          Filter
+        </StyledFilterButton>
+      </ThemeProvider>
     );
   }
 }

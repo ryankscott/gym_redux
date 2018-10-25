@@ -4,13 +4,13 @@ import Spinner from "./Spinner";
 import FilterButton from "./FilterButton";
 import FilterBar from "./FilterBar";
 import ClassList from "./ClassList.js";
-import styles from "./App.css";
-import { toggleFilterBar, getClasses } from "../actions/actions.js";
+import { getClasses } from "../actions/actions.js";
 import styled, { ThemeProvider } from "styled-components";
 import theme from "../theme.js";
 import { device } from "../devices.js";
 
 const AppContainer = styled.div`
+  font-family: ${props => props.theme.font};
   height: 100%;
   display: grid;
   grid-template-rows: 5fr 1fr 30fr;
@@ -49,6 +49,7 @@ const SpinnerContainer = styled.div`
 `;
 
 const ClassesContainer = styled.div`
+  height: 600px;
   grid-area: classes;
   display: flex;
   flex-direction: row;

@@ -11,11 +11,19 @@ export const TIME_FILTERS_UPDATED = "TIME_FILTERS_UPDATED";
 export const CLEAR_ALL_FILTERS = "CLEAR_ALL_FILTERS";
 export const SAVE_FILTERS = "SAVE_FILTERS";
 export const DELETE_FILTERS = "DELETE_FILTERS";
+export const LOAD_FILTERS = "LOAD_FILTERS";
 
 // Action creators
-export const getClasses = query => {
+export const getClasses = () => {
   return {
     type: FETCHING_CLASSES
+  };
+};
+
+export const loadFilters = name => {
+  return {
+    type: LOAD_FILTERS,
+    name: name
   };
 };
 
@@ -31,15 +39,17 @@ export const clearAllFilters = () => {
   };
 };
 
-export const saveFilters = () => {
+export const saveFilters = name => {
   return {
-    type: SAVE_FILTERS
+    type: SAVE_FILTERS,
+    name: name
   };
 };
 
-export const deleteFilters = () => {
+export const deleteFilters = name => {
   return {
-    type: DELETE_FILTERS
+    type: DELETE_FILTERS,
+    name: name
   };
 };
 

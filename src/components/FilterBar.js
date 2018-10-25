@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import styles from "./FilterBar.css";
 import { connect } from "react-redux";
-import classNames from "classnames";
 import Select from "react-select";
 import ButtonGroup from "./ButtonGroup.js";
 import Button from "./Button.js";
 import SavedFilterList from "./SavedFilterList.js";
-import { format, addDays, parse, startOfDay, endOfDay } from "date-fns";
+import { format, addDays } from "date-fns";
 import styled, { ThemeProvider } from "styled-components";
 import theme from "../theme.js";
 // TODO: move more to styled components
@@ -19,8 +17,7 @@ import {
   updateTimeFilters,
   toggleFilterBar,
   clearAllFilters,
-  saveFilters,
-  getClasses
+  saveFilters
 } from "../actions/actions.js";
 
 const hourOptions = [
@@ -150,7 +147,7 @@ const selectStyles = {
 };
 
 const ActionButtonGroup = styled.div`
-  margin-top: 20px;
+  margin: 5px 0px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -158,6 +155,15 @@ const ActionButtonGroup = styled.div`
   * {
     margin-left: 5px;
   }
+`;
+
+const SaveFilterGroup = styled.div`
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  padding: 5px 5px;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const FilterGroup = styled.div`
@@ -171,7 +177,7 @@ const FilterGroup = styled.div`
 const FilterTitle = styled.h1`
   font-family: ${props => props.theme.font};
   color: ${props => props.theme.backgroundColour};
-  font-weight: 100;
+  font-weight: 300;
   font-size: 24px;
   margin: 20px 5px 30px 5px;
 `;
@@ -179,7 +185,7 @@ const FilterTitle = styled.h1`
 const FilterSectionTitle = styled.h2`
   font-family: ${props => props.theme.font};
   color: ${props => props.theme.backgroundColour};
-  font-weight: 100;
+  font-weight: 300;
   font-size: 18px;
   margin: 10px 0px;
 `;
@@ -187,37 +193,101 @@ const FilterSectionTitle = styled.h2`
 const FilterGroupTitle = styled.h3`
   font-family: ${props => props.theme.font};
   color: ${props => props.theme.backgroundColour};
-  font-weight: 100;
+  font-weight: 300;
   font-size: 16px;
   margin: 5px 0px;
+`;
+
+const FilterNameInput = styled.input`
+  height: 15px;
+  width: 100%;
+  margin: 0px 5px 0px 10px;
+  font-family: ${props => props.theme.font};
+  font-weight: 300;
+  font-size: 14px;
+  padding: 5px;
+  :focus {
+    outline-width: 0;
+  }
+  border-style: solid;
+  border-radius: 5px;
+  border: none;
+`;
+const Container = styled.div`
+  position: fixed;
+  left: ${props => (props.visible ? "0px" : "-330px")};
+  top: 0px;
+  opacity: 1;
+  width: 325px;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  font-family: ${props => props.theme.font};
+  background-color: ${props => props.theme.fontColour};
+  font-weight: 300;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: left 0.3s ease-out;
+  box-shadow: 5px 0px 2px 0px ${props => props.theme.fontColour};
+`;
+
+const Cover = styled.div`
+  position: fixed;
+  overflow: hidden;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: ${props => (props.visible ? "0px" : "-100%")};
+  width: 100%;
+  background: #{props => props.theme.borderColour};
+  filter: blur(5px);
+  transition: left 0.3s ease-out;
+  transition: opacity 0.2s ease-out;
 `;
 
 class FilterBar extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      value: ""
+    };
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.onSaveButtonPress = this.onSaveButtonPress.bind(this);
   }
+  handleNameChange(event) {
+    this.setState({ value: event.target.value });
+  }
+
+  onSaveButtonPress() {
+    this.setState({ value: "" });
+    this.props.onSaveFilters(this.state.value);
+  }
+
   render() {
     const { visible } = this.props;
     return (
       <ThemeProvider theme={theme}>
         <div>
-          <div
-            className={classNames({
-              [styles.cover]: true,
-              [styles.visible]: visible
-            })}
-            onClick={this.props.onClickOutside}
-          />
-          <div
-            className={classNames({
-              [styles.container]: true,
-              [styles.visible]: visible
-            })}
-          >
+          <Cover visible={visible} onClick={this.props.onClickOutside} />
+          <Container visible={visible}>
             <FilterTitle>Filters</FilterTitle>
             <FilterSectionTitle> Saved Filters </FilterSectionTitle>
-            <SavedFilterList filters={this.props.savedFilters} />
+            <SavedFilterList />
             <FilterSectionTitle> Custom Filters </FilterSectionTitle>
+            <SaveFilterGroup>
+              <FilterGroupTitle> Name: </FilterGroupTitle>
+              <FilterNameInput
+                onChange={this.handleNameChange}
+                value={this.state.value}
+              />
+              <Button
+                onClick={this.onSaveButtonPress}
+                width={"55px"}
+                height={"25px"}
+                text="Save"
+              />
+            </SaveFilterGroup>
             <FilterGroup>
               <FilterGroupTitle> Gym: </FilterGroupTitle>
               <Select
@@ -245,6 +315,7 @@ class FilterBar extends Component {
             <FilterGroup>
               <FilterGroupTitle> Day: </FilterGroupTitle>
               <ButtonGroup
+                multi={true}
                 selectedValue={this.props.dateFilter}
                 options={dateOptions}
                 onChange={this.props.onDateFilterChange}
@@ -259,11 +330,11 @@ class FilterBar extends Component {
                 onChange={this.props.onTimeFilterChange}
               />
             </FilterGroup>
+
             <ActionButtonGroup>
-              <Button onClick={this.props.onClearAllFilters} text="Clear all" />
-              <Button onClick={this.props.onSaveFilters} text="Save filters" />
+              <Button onClick={this.props.onClearAllFilters} text="Clear" />
             </ActionButtonGroup>
-          </div>
+          </Container>
         </div>
       </ThemeProvider>
     );
@@ -301,8 +372,8 @@ const mapDispatchToProps = dispatch => {
     onClearAllFilters: () => {
       dispatch(clearAllFilters());
     },
-    onSaveFilters: () => {
-      dispatch(saveFilters());
+    onSaveFilters: name => {
+      dispatch(saveFilters(name));
     }
   };
 };

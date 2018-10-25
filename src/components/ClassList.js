@@ -3,8 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { AutoSizer, Column, Table, SortDirection } from "react-virtualized";
 import { toLower, startCase, sortBy, reverse } from "lodash";
-import { parse, format } from "date-fns";
-import classNames from "classnames";
+import { format } from "date-fns";
 import styled, { ThemeProvider } from "styled-components";
 import theme from "../theme.js";
 import { device } from "../devices.js";
@@ -26,10 +25,6 @@ const Container = styled.div`
   @media ${device.tablet} {
     margin: 0px 60px;
   }
-`;
-
-const HiddenContainer = styled.div`
-  display: none;
 `;
 
 const NoClassContainer = styled.div`
@@ -71,7 +66,7 @@ const RowStyle = index => {
     alignContent: "center",
     alignSelf: "center",
     justifyContent: "center",
-    fontWeight: "100",
+    fontWeight: "300",
     fontSize: width > 450 ? "16px" : "14px",
     backgroundColor: index % 2 == 0 ? "#EEEEEE" : "#FFFFFF"
   };

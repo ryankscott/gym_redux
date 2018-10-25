@@ -9,16 +9,18 @@ import {
   TIME_FILTERS_UPDATED,
   CLEAR_ALL_FILTERS,
   DELETE_FILTERS,
-  SAVE_FILTERS
+  SAVE_FILTERS,
+  LOAD_FILTERS
 } from "../actions/actions.js";
-import { gyms, classes as c } from "../consts.js";
 
-import { find, map, filter, capitalize, get, reduce } from "lodash";
 import { combineReducers } from "redux";
 import mixpanel from "mixpanel-browser";
-// TODO:
-// - Work out what analytics should be sent on gym/class filters
-// -
+import findIndex from "lodash/findIndex";
+import find from "lodash/find";
+import filter from "lodash/filter";
+import without from "lodash/without";
+import uniq from "lodash/uniq";
+import map from "lodash/map";
 
 // reducer with initial state
 const classesInitialState = {
@@ -44,7 +46,10 @@ export function UI(state = UIInitialState, action) {
   switch (action.type) {
     case TOGGLE_FILTER_BAR:
       mixpanel.track("Toggled filter bar");
-      return { ...state, filterBarVisible: !state.filterBarVisible };
+      return {
+        ...state,
+        filterBarVisible: !state.filterBarVisible
+      };
     default:
       return state;
   }
@@ -53,61 +58,162 @@ export function UI(state = UIInitialState, action) {
 export function filters(state = filtersInitialState, action) {
   switch (action.type) {
     case DELETE_FILTERS:
-      return { ...state };
+      const newSavedFilters = filter(state.savedFilters, filter => {
+        return filter.name != action.name;
+      });
+      return {
+        ...state,
+        savedFilters: newSavedFilters
+      };
+
+    case LOAD_FILTERS:
+      const savedFilters = state.savedFilters;
+      const newFilters = find(savedFilters, filter => {
+        return filter.name == action.name;
+      });
+      mixpanel.track("Loading filters", {
+        "Filters Loaded": newFilters
+      });
+      return {
+        ...newFilters.filters,
+        savedFilters: savedFilters
+      };
 
     case SAVE_FILTERS:
-      var newFilters = state;
-      // TODO: solve duplicates
-      if (newFilters.savedFilters.length == 0) {
-        var uniqueFilters = new Set();
-      } else {
-        var uniqueFilters = new Set(newFilters.savedFilters);
+      mixpanel.track("Saving filters");
+      if (state.savedFilters.length == 0) {
+        const newFilter = [
+          {
+            name: action.name,
+            filters: {
+              class: state.class,
+              gym: state.gym,
+              time: state.time,
+              date: state.date
+            }
+          }
+        ];
+        return {
+          ...state,
+          savedFilters: newFilter
+        };
       }
-      uniqueFilters.add({
-        class: state.class,
-        gym: state.gym,
-        time: state.time,
-        date: state.date
-      });
-      newFilters.savedFilters = Array.from(uniqueFilters);
-      console.log(newFilters.savedFilters);
-      return { ...newFilters };
+      const currentFilters = [...state.savedFilters];
+      const currentFilterIndex = findIndex(
+        currentFilters,
+        x => x.name == action.name
+      );
+      if (currentFilterIndex > -1) {
+        const newFilters = map(currentFilters, (filter, index) => {
+          if (index !== currentFilterIndex) {
+            return filter;
+          }
+          return {
+            name: action.name,
+            filters: {
+              class: state.class,
+              gym: state.gym,
+              time: state.time,
+              date: state.date
+            }
+          };
+        });
+
+        return {
+          ...state,
+          savedFilters: newFilters
+        };
+      } else {
+        const newFilters = [
+          ...currentFilters,
+          {
+            name: action.name,
+            filters: {
+              class: state.class,
+              gym: state.gym,
+              time: state.time,
+              date: state.date
+            }
+          }
+        ];
+        return {
+          ...state,
+          savedFilters: newFilters
+        };
+      }
 
     case CLEAR_ALL_FILTERS:
       mixpanel.track("Cleared all filters");
-      return { class: null, gym: null, time: null, date: null };
+      return {
+        class: null,
+        gym: null,
+        time: null,
+        date: null,
+        savedFilters: state.savedFilters
+      };
 
     case GYM_FILTERS_UPDATED:
-      var newFilters = state;
+      var newFilters = {
+        ...state
+      };
       newFilters.gym = action.gymFilter;
       mixpanel.track("Selected Gym Filter", {
         "Gym Selected": newFilters.gym
       });
-      return { ...newFilters };
+      return {
+        ...newFilters
+      };
 
     case CLASS_FILTERS_UPDATED:
-      var newFilters = state;
+      var newFilters = {
+        ...state
+      };
       newFilters.class = action.classFilter;
       mixpanel.track("Selected Class Filter", {
         "Class Selected": newFilters.class
       });
-      return { ...newFilters };
+      return {
+        ...newFilters
+      };
 
     case DATE_FILTERS_UPDATED:
-      var newFilters = state;
-      newFilters.date = action.dateFilter;
       mixpanel.track("Selected Date Filter", {
-        "Day Selected:": newFilters.date.dayOfweek
+        "Day Selected:": action.dateFilter
       });
-      return { ...newFilters };
+      const isAlreadyDateFiltered =
+        find(state.date, action.dateFilter) != undefined;
+      if (isAlreadyDateFiltered) {
+        const newFilters = without(state.date, action.dateFilter);
+        return {
+          ...state,
+          date: newFilters
+        };
+      }
+
+      const newDateFilters = [...(state.date || []), action.dateFilter];
+      const uniqDateFilters = uniq(newDateFilters);
+      return {
+        ...state,
+        date: uniqDateFilters
+      };
 
     case TIME_FILTERS_UPDATED:
-      var newFilters = state;
-      newFilters.time = action.timeFilter;
-      mixpanel.track("Selected Time Filter", {
-        "Time Selected:": newFilters.time.period
-      });
-      return { ...newFilters };
+      const isAlreadyTimeFiltered =
+        find(state.time, action.timeFilter) != undefined;
+      if (isAlreadyTimeFiltered) {
+        const newFilters = without(state.time, action.timeFilter);
+        return {
+          ...state,
+          time: newFilters
+        };
+      }
+
+      const newTimeFilters = [...(state.time || []), action.timeFilter];
+      const uniqTimeFilters = uniq(newTimeFilters);
+      return {
+        ...state,
+        time: uniqTimeFilters
+      };
 
     default:
       return state;
@@ -117,7 +223,11 @@ export function filters(state = filtersInitialState, action) {
 export function classes(state = classesInitialState, action) {
   switch (action.type) {
     case FETCHING_CLASSES:
-      return { ...state, fetching: true, error: null };
+      return {
+        ...state,
+        fetching: true,
+        error: null
+      };
     case FETCHING_CLASSES_SUCCESS:
       return {
         ...state,

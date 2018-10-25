@@ -9,11 +9,11 @@ import { watcherSaga } from "./sagas/sagas";
 import "react-virtualized/styles.css";
 import mixpanel from "mixpanel-browser";
 import { loadState, saveState } from "./localStorage";
+import freezeState from "redux-freeze-state";
 
 // Mixpanel
 mixpanel.init("dc8b3c403625120c86c74674c52c3b80", {
-  api_host: "https://api.mixpanel.com",
-  debug: true
+  api_host: "https://api.mixpanel.com"
 });
 
 // create the saga middleware
@@ -27,7 +27,7 @@ const enhancer = __PRODUCTION__
     );
 const persistedState = loadState();
 const store = createStore(
-  reducer,
+  __PRODUCTION__ ? reducer : freezeState(reducer),
   persistedState,
   compose(applyMiddleware(sagaMiddleware), enhancer)
 );

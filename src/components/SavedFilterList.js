@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classNames from "classnames";
@@ -11,18 +11,15 @@ const StyledSavedFilterList = styled.div`
   flex-direction: column;
 `;
 
-type Props = {
-  filters: Array
-};
-
-class SavedFilterList extends PureComponent<Props> {
+class SavedFilterList extends Component {
   render() {
+    const { filters } = this.props;
     return (
       <ThemeProvider theme={theme}>
         <StyledSavedFilterList>
-          {this.props.filters.map((filter, index) => (
-            <SavedFilter key={index} filter={filter} />
-          ))}
+          {filters.map(filter => {
+            return <SavedFilter key={filter.name} filter={filter} />;
+          })}
         </StyledSavedFilterList>
       </ThemeProvider>
     );
@@ -30,10 +27,12 @@ class SavedFilterList extends PureComponent<Props> {
 }
 
 const mapStateToProps = state => {
-  return {};
+  return {
+    filters: state.filters.savedFilters
+  };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<*>) => {
+const mapDispatchToProps = dispatch => {
   return {};
 };
 

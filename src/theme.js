@@ -1,3 +1,10 @@
+import { injectGlobal } from "styled-components";
+injectGlobal`
+  @font-face {
+    font-family: Lato;
+  }
+`;
+
 const theme = {
   fontColour: "#333333",
   highlightColour: "#35A7FF",
