@@ -1,3 +1,9 @@
+import { combineReducers } from 'redux';
+import mixpanel from 'mixpanel-browser';
+import findIndex from 'lodash/findIndex';
+import find from 'lodash/find';
+import filter from 'lodash/filter';
+import map from 'lodash/map';
 import {
   FETCHING_CLASSES,
   FETCHING_CLASSES_FAILURE,
@@ -10,45 +16,36 @@ import {
   CLEAR_ALL_FILTERS,
   DELETE_FILTERS,
   SAVE_FILTERS,
-  LOAD_FILTERS
-} from "../actions/actions.js";
-
-import { combineReducers } from "redux";
-import mixpanel from "mixpanel-browser";
-import findIndex from "lodash/findIndex";
-import find from "lodash/find";
-import filter from "lodash/filter";
-import without from "lodash/without";
-import uniq from "lodash/uniq";
-import map from "lodash/map";
+  LOAD_FILTERS,
+} from '../actions/actions';
 
 // reducer with initial state
 const classesInitialState = {
   fetching: false,
   classes: null,
   hasClasses: false,
-  error: null
+  error: null,
 };
 
 const filtersInitialState = {
   class: null,
   gym: null,
-  time: null,
-  date: null,
-  savedFilters: []
+  time: {},
+  date: {},
+  savedFilters: [],
 };
 
 const UIInitialState = {
-  filterBarVisible: false
+  filterBarVisible: false,
 };
 
 export function UI(state = UIInitialState, action) {
   switch (action.type) {
     case TOGGLE_FILTER_BAR:
-      mixpanel.track("Toggled filter bar");
+      mixpanel.track('Toggled filter bar');
       return {
         ...state,
-        filterBarVisible: !state.filterBarVisible
+        filterBarVisible: !state.filterBarVisible,
       };
     default:
       return state;
@@ -57,31 +54,27 @@ export function UI(state = UIInitialState, action) {
 
 export function filters(state = filtersInitialState, action) {
   switch (action.type) {
-    case DELETE_FILTERS:
-      const newSavedFilters = filter(state.savedFilters, filter => {
-        return filter.name != action.name;
-      });
+    case DELETE_FILTERS: {
+      const newSavedFilters = filter(state.savedFilters, f => f.name !== action.name);
       return {
         ...state,
-        savedFilters: newSavedFilters
+        savedFilters: newSavedFilters,
       };
+    }
 
-    case LOAD_FILTERS:
-      const savedFilters = state.savedFilters;
-      const newFilters = find(savedFilters, filter => {
-        return filter.name == action.name;
-      });
-      mixpanel.track("Loading filters", {
-        "Filters Loaded": newFilters
+    case LOAD_FILTERS: {
+      const newFilters = find(state.savedFilters, f => f.name === action.name);
+      mixpanel.track('Loading filters', {
+        'Filters Loaded': newFilters,
       });
       return {
         ...newFilters.filters,
-        savedFilters: savedFilters
+        savedFilters: state.savedFilters,
       };
-
-    case SAVE_FILTERS:
-      mixpanel.track("Saving filters");
-      if (state.savedFilters.length == 0) {
+    }
+    case SAVE_FILTERS: {
+      mixpanel.track('Saving filters');
+      if (state.savedFilters.length === 0) {
         const newFilter = [
           {
             name: action.name,
@@ -89,20 +82,17 @@ export function filters(state = filtersInitialState, action) {
               class: state.class,
               gym: state.gym,
               time: state.time,
-              date: state.date
-            }
-          }
+              date: state.date,
+            },
+          },
         ];
         return {
           ...state,
-          savedFilters: newFilter
+          savedFilters: newFilter,
         };
       }
       const currentFilters = [...state.savedFilters];
-      const currentFilterIndex = findIndex(
-        currentFilters,
-        x => x.name == action.name
-      );
+      const currentFilterIndex = findIndex(currentFilters, x => x.name === action.name);
       if (currentFilterIndex > -1) {
         const newFilters = map(currentFilters, (filter, index) => {
           if (index !== currentFilterIndex) {
@@ -114,106 +104,100 @@ export function filters(state = filtersInitialState, action) {
               class: state.class,
               gym: state.gym,
               time: state.time,
-              date: state.date
-            }
+              date: state.date,
+            },
           };
         });
 
         return {
           ...state,
-          savedFilters: newFilters
-        };
-      } else {
-        const newFilters = [
-          ...currentFilters,
-          {
-            name: action.name,
-            filters: {
-              class: state.class,
-              gym: state.gym,
-              time: state.time,
-              date: state.date
-            }
-          }
-        ];
-        return {
-          ...state,
-          savedFilters: newFilters
+          savedFilters: newFilters,
         };
       }
-
+      const newFilterList = [
+        ...currentFilters,
+        {
+          name: action.name,
+          filters: {
+            class: state.class,
+            gym: state.gym,
+            time: state.time,
+            date: state.date,
+          },
+        },
+      ];
+      return {
+        ...state,
+        savedFilters: newFilterList,
+      };
+    }
     case CLEAR_ALL_FILTERS:
-      mixpanel.track("Cleared all filters");
+      mixpanel.track('Cleared all filters');
       return {
         class: null,
         gym: null,
-        time: null,
-        date: null,
-        savedFilters: state.savedFilters
+        time: {},
+        date: {},
+        savedFilters: state.savedFilters,
       };
 
-    case GYM_FILTERS_UPDATED:
-      var newFilters = {
-        ...state
+    case GYM_FILTERS_UPDATED: {
+      const newFilters = {
+        ...state,
       };
       newFilters.gym = action.gymFilter;
-      mixpanel.track("Selected Gym Filter", {
-        "Gym Selected": newFilters.gym
+      mixpanel.track('Selected Gym Filter', {
+        'Gym Selected': newFilters.gym,
       });
       return {
-        ...newFilters
+        ...newFilters,
       };
-
-    case CLASS_FILTERS_UPDATED:
-      var newFilters = {
-        ...state
+    }
+    case CLASS_FILTERS_UPDATED: {
+      const newFilters = {
+        ...state,
       };
       newFilters.class = action.classFilter;
-      mixpanel.track("Selected Class Filter", {
-        "Class Selected": newFilters.class
+      mixpanel.track('Selected Class Filter', {
+        'Class Selected': newFilters.class,
       });
       return {
-        ...newFilters
+        ...newFilters,
       };
-
-    case DATE_FILTERS_UPDATED:
-      mixpanel.track("Selected Date Filter", {
-        "Day Selected:": action.dateFilter
+    }
+    case DATE_FILTERS_UPDATED: {
+      mixpanel.track('Selected Date Filter', {
+        'Day Selected:': action.dateFilter,
       });
-      const isAlreadyDateFiltered =
-        find(state.date, action.dateFilter) != undefined;
-      if (isAlreadyDateFiltered) {
-        const newFilters = without(state.date, action.dateFilter);
-        return {
-          ...state,
-          date: newFilters
-        };
-      }
+      const newFilter = action.dateFilter;
+      const [k, v] = Object.entries(newFilter)[0]; // TODO: this feels wrong
 
-      const newDateFilters = [...(state.date || []), action.dateFilter];
-      const uniqDateFilters = uniq(newDateFilters);
+      const dateFilters = { ...state.date };
+      if (k in dateFilters) {
+        delete dateFilters[k];
+      } else {
+        dateFilters[k] = v;
+      }
       return {
         ...state,
-        date: uniqDateFilters
+        date: dateFilters,
       };
+    }
 
-    case TIME_FILTERS_UPDATED:
-      const isAlreadyTimeFiltered =
-        find(state.time, action.timeFilter) != undefined;
-      if (isAlreadyTimeFiltered) {
-        const newFilters = without(state.time, action.timeFilter);
-        return {
-          ...state,
-          time: newFilters
-        };
+    case TIME_FILTERS_UPDATED: {
+      const newFilter = action.timeFilter;
+      const [k, v] = Object.entries(newFilter)[0]; // TODO: this feels wrong
+      const timeFilters = { ...state.time };
+      if (k in timeFilters) {
+        delete timeFilters[k];
+      } else {
+        timeFilters[k] = v;
       }
-
-      const newTimeFilters = [...(state.time || []), action.timeFilter];
-      const uniqTimeFilters = uniq(newTimeFilters);
       return {
         ...state,
-        time: uniqTimeFilters
+        time: timeFilters,
       };
+    }
 
     default:
       return state;
@@ -226,14 +210,14 @@ export function classes(state = classesInitialState, action) {
       return {
         ...state,
         fetching: true,
-        error: null
+        error: null,
       };
     case FETCHING_CLASSES_SUCCESS:
       return {
         ...state,
         fetching: false,
         classes: action.classes,
-        hasClasses: true
+        hasClasses: true,
       };
     case FETCHING_CLASSES_FAILURE:
       return {
@@ -241,7 +225,7 @@ export function classes(state = classesInitialState, action) {
         fetching: false,
         classes: null,
         error: action.error,
-        hasClasses: false
+        hasClasses: false,
       };
     default:
       return state;
@@ -249,9 +233,9 @@ export function classes(state = classesInitialState, action) {
 }
 
 const gymApp = combineReducers({
-  UI: UI,
-  filters: filters,
-  classes: classes
+  UI,
+  filters,
+  classes,
 });
 
 export default gymApp;

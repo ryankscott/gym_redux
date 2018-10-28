@@ -1,10 +1,10 @@
 // @flow
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import styled, { ThemeProvider } from "styled-components";
-import theme from "../theme.js";
-import find from "lodash/find";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import styled, { ThemeProvider } from 'styled-components';
+import theme from '../theme.js';
+import find from 'lodash/find';
 
 const StyledButtonGroup = styled.div`
   border: none;
@@ -24,12 +24,9 @@ const StyledButton = styled.div`
   justify-content: center;
   border-right: 1px solid ${props => props.theme.borderColour};
   font-family: ${props => props.theme.font};
-  color: ${props =>
-    props.selected ? props.theme.backgroundColour : props.theme.borderColour};
+  color: ${props => (props.selected ? props.theme.backgroundColour : props.theme.borderColour)};
   background-color: ${props =>
-    props.selected
-      ? props.theme.highlightColour
-      : props.theme.backgroundColour};
+    props.selected ? props.theme.highlightColour : props.theme.backgroundColour};
   font-weight: 300;
   font-size: 14px;
   height: 35px;
@@ -44,9 +41,9 @@ const StyledButton = styled.div`
 `;
 
 type Props = {
-  options: { label: string, value: Object }[],
+  options: Object,
   onChange: value => void,
-  selectedValue: Object
+  selectedValue: Object,
 };
 
 class ButtonGroup extends Component<Props> {
@@ -59,16 +56,14 @@ class ButtonGroup extends Component<Props> {
     return (
       <ThemeProvider theme={theme}>
         <StyledButtonGroup>
-          {options.map(({ label, value }, index) => {
+          {Object.entries(options).map(([k, v], index) => {
             return (
               <StyledButton
                 key={index}
-                selected={find(selectedValue, value) != undefined}
-                onClick={() => {
-                  this.props.onChange(value);
-                }}
+                selected={selectedValue && k in selectedValue}
+                onClick={() => this.props.onChange({ [k]: v })}
               >
-                {label}
+                {k}
               </StyledButton>
             );
           })}

@@ -1,9 +1,9 @@
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import classNames from "classnames";
-import styled, { ThemeProvider } from "styled-components";
-import theme from "../theme.js";
+//@flow
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import styled, { ThemeProvider } from 'styled-components';
+import theme from '../theme.js';
 // TODO: Invert button
 
 const StyledButton = styled.div`
@@ -15,8 +15,8 @@ const StyledButton = styled.div`
   font-weight: 300;
   display: flex;
   flex-direction: row;
-  width: ${props => (props.width ? props.width : "90px")};
-  height: ${props => (props.height ? props.height : "35px")};
+  width: ${props => (props.width ? props.width : '90px')};
+  height: ${props => (props.height ? props.height : '35px')};
   justify-content: space-around;
   align-items: center;
   border: solid 1px ${props => props.theme.highlightColour};
@@ -29,7 +29,7 @@ const StyledButton = styled.div`
 
 type Props = {
   onClick: () => void,
-  text: string
+  text: string,
 };
 class Button extends PureComponent<Props> {
   render() {
@@ -51,7 +51,7 @@ const mapStateToProps = state => {
   return {};
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<*>) => {
+const mapDispatchToProps = dispatch => {
   return {};
 };
 

@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import Select from "react-select";
-import ButtonGroup from "./ButtonGroup.js";
-import Button from "./Button.js";
-import SavedFilterList from "./SavedFilterList.js";
-import { format, addDays } from "date-fns";
-import styled, { ThemeProvider } from "styled-components";
-import theme from "../theme.js";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Select from 'react-select';
+import ButtonGroup from './ButtonGroup.js';
+import Button from './Button.js';
+import SavedFilterList from './SavedFilterList.js';
+import { format, addDays } from 'date-fns';
+import styled, { ThemeProvider } from 'styled-components';
+import theme from '../theme.js';
 // TODO: move more to styled components
 
-import { gyms, classes } from "../consts.js";
+import { gyms, classes } from '../consts.js';
 import {
   updateGymFilters,
   updateClassFilters,
@@ -17,133 +17,68 @@ import {
   updateTimeFilters,
   toggleFilterBar,
   clearAllFilters,
-  saveFilters
-} from "../actions/actions.js";
+  saveFilters,
+} from '../actions/actions.js';
 
-const hourOptions = [
-  {
-    label: "Morning",
-    value: {
-      hours: "5,6,7,8,9,10",
-      period: "morning"
-    }
-  },
-  {
-    label: "Lunch",
-    value: {
-      hours: "11,12",
-      period: "lunch"
-    }
-  },
-  {
-    label: "Afternoon",
-    value: {
-      hours: "13,14,15,16",
-      period: "afternoon"
-    }
-  },
-  {
-    label: "Evening",
-    value: {
-      hours: "17,18,19,20,21",
-      period: "evening"
-    }
-  }
-];
+const hourOptions = {
+  Morning: '5,6,7,8,9,10',
+  Lunch: '11,12',
+  Afternoon: '13,14,15,16',
+  Evening: '7,18,19,20,21',
+};
 
-const dateOptions = [
-  {
-    label: format(new Date(), "EEEEEE"),
-    value: {
-      dayOfweek: format(new Date(), "i"),
-      date: format(new Date(), "YYYY-MM-dd")
-    }
-  },
-  {
-    label: format(addDays(new Date(), 1), "EEEEEE"),
-    value: {
-      dayOfweek: format(addDays(new Date(), 1), "i"),
-      date: format(addDays(new Date(), 1), "YYYY-MM-dd")
-    }
-  },
-  {
-    label: format(addDays(new Date(), 2), "EEEEEE"),
-    value: {
-      dayOfweek: format(addDays(new Date(), 2), "i"),
-      date: format(addDays(new Date(), 2), "YYYY-MM-dd")
-    }
-  },
-  {
-    label: format(addDays(new Date(), 3), "EEEEEE"),
-    value: {
-      dayOfweek: format(addDays(new Date(), 3), "i"),
-      date: format(addDays(new Date(), 3), "YYYY-MM-dd")
-    }
-  },
-  {
-    label: format(addDays(new Date(), 4), "EEEEEE"),
-    value: {
-      dayOfweek: format(addDays(new Date(), 4), "i"),
-      date: format(addDays(new Date(), 4), "YYYY-MM-dd")
-    }
-  },
-  {
-    label: format(addDays(new Date(), 5), "EEEEEE"),
-    value: {
-      dayOfweek: format(addDays(new Date(), 5), "i"),
-      date: format(addDays(new Date(), 5), "YYYY-MM-dd")
-    }
-  },
-  {
-    label: format(addDays(new Date(), 6), "EEEEEE"),
-    value: {
-      dayOfweek: format(addDays(new Date(), 6), "i"),
-      date: format(addDays(new Date(), 6), "YYYY-MM-dd")
-    }
+const generateDateOptions = () => {
+  let dateOptions = {};
+  for (let index = 0; index < 7; index++) {
+    const currentDate = addDays(new Date(), index);
+    dateOptions[format(currentDate, 'EEEEEE')] = format(currentDate, 'i');
   }
-];
+  return dateOptions;
+};
+
+const dateOptions = generateDateOptions();
 
 const selectStyles = {
   valueContainer: styles => ({
     ...styles,
-    padding: "2px 8px",
-    ":hover": {},
-    ":selected": {}
+    padding: '2px 8px',
+    ':hover': {},
+    ':selected': {},
   }),
   clearIndicator: styles => ({
     ...styles,
-    padding: "2px"
+    padding: '2px',
   }),
   dropdownIndicator: styles => ({
     ...styles,
-    padding: "2px 8px 2px 2px"
+    padding: '2px 8px 2px 2px',
   }),
   control: (styles, { isDisabled, isFocused }) => ({
     ...styles,
-    boxShadow: "none",
-    borderColor: "black",
-    ":hover": { border: "1px solid black" }
+    boxShadow: 'none',
+    borderColor: 'black',
+    ':hover': { border: '1px solid black' },
   }),
   option: styles => ({
     ...styles,
-    backgroundColor: "#FFF",
-    ":hover": { backgroundColor: "#85cafe", color: "#FFF" }
+    backgroundColor: '#FFF',
+    ':hover': { backgroundColor: '#85cafe', color: '#FFF' },
   }),
-  menu: styles => ({ ...styles, marginTop: "2px" }),
-  indicatorSeparator: styles => ({ ...styles, display: "none" }),
+  menu: styles => ({ ...styles, marginTop: '2px' }),
+  indicatorSeparator: styles => ({ ...styles, display: 'none' }),
   multiValueLabel: styles => ({
     ...styles,
-    color: "#FFFFFF"
+    color: '#FFFFFF',
   }),
   multiValue: styles => ({
     ...styles,
-    backgroundColor: "#35a7ff"
+    backgroundColor: '#35a7ff',
   }),
   multiValueRemove: styles => ({
     ...styles,
-    color: "#FFFFFF",
-    ":hover": {}
-  })
+    color: '#FFFFFF',
+    ':hover': {},
+  }),
 };
 
 const ActionButtonGroup = styled.div`
@@ -215,7 +150,7 @@ const FilterNameInput = styled.input`
 `;
 const Container = styled.div`
   position: fixed;
-  left: ${props => (props.visible ? "0px" : "-330px")};
+  left: ${props => (props.visible ? '0px' : '-330px')};
   top: 0px;
   opacity: 1;
   width: 325px;
@@ -238,7 +173,7 @@ const Cover = styled.div`
   top: 0px;
   right: 0px;
   bottom: 0px;
-  left: ${props => (props.visible ? "0px" : "-100%")};
+  left: ${props => (props.visible ? '0px' : '-100%')};
   width: 100%;
   background: #{props => props.theme.borderColour};
   filter: blur(5px);
@@ -250,7 +185,7 @@ class FilterBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: ""
+      value: '',
     };
     this.handleNameChange = this.handleNameChange.bind(this);
     this.onSaveButtonPress = this.onSaveButtonPress.bind(this);
@@ -260,7 +195,7 @@ class FilterBar extends Component {
   }
 
   onSaveButtonPress() {
-    this.setState({ value: "" });
+    this.setState({ value: '' });
     this.props.onSaveFilters(this.state.value);
   }
 
@@ -277,16 +212,8 @@ class FilterBar extends Component {
             <FilterSectionTitle> Custom Filters </FilterSectionTitle>
             <SaveFilterGroup>
               <FilterGroupTitle> Name: </FilterGroupTitle>
-              <FilterNameInput
-                onChange={this.handleNameChange}
-                value={this.state.value}
-              />
-              <Button
-                onClick={this.onSaveButtonPress}
-                width={"55px"}
-                height={"25px"}
-                text="Save"
-              />
+              <FilterNameInput onChange={this.handleNameChange} value={this.state.value} />
+              <Button onClick={this.onSaveButtonPress} width={'55px'} height={'25px'} text="Save" />
             </SaveFilterGroup>
             <FilterGroup>
               <FilterGroupTitle> Gym: </FilterGroupTitle>
@@ -315,7 +242,6 @@ class FilterBar extends Component {
             <FilterGroup>
               <FilterGroupTitle> Day: </FilterGroupTitle>
               <ButtonGroup
-                multi={true}
                 selectedValue={this.props.dateFilter}
                 options={dateOptions}
                 onChange={this.props.onDateFilterChange}
@@ -348,7 +274,7 @@ const mapStateToProps = state => {
     classFilter: state.filters.class,
     dateFilter: state.filters.date,
     timeFilter: state.filters.time,
-    savedFilters: state.filters.savedFilters
+    savedFilters: state.filters.savedFilters,
   };
 };
 
@@ -374,7 +300,7 @@ const mapDispatchToProps = dispatch => {
     },
     onSaveFilters: name => {
       dispatch(saveFilters(name));
-    }
+    },
   };
 };
 

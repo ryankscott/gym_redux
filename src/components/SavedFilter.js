@@ -1,9 +1,9 @@
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import styled, { ThemeProvider } from "styled-components";
-import theme from "../theme.js";
-import { loadFilters, deleteFilters } from "../actions/actions.js";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import styled, { ThemeProvider } from 'styled-components';
+import theme from '../theme.js';
+import { loadFilters, deleteFilters } from '../actions/actions.js';
 
 const StyledSavedFilterContent = styled.div`
   font-family: ${props => props.theme.font};
@@ -46,7 +46,7 @@ const StyledDeleteButton = styled.div`
 type Props = {
   filter: Object,
   onLoadFilter: () => void,
-  onDeleteFilter: () => void
+  onDeleteFilter: () => void,
 };
 
 class SavedFilter extends PureComponent<Props> {
@@ -54,14 +54,10 @@ class SavedFilter extends PureComponent<Props> {
     return (
       <ThemeProvider theme={theme}>
         <StyledSavedFilter>
-          <StyledSavedFilterContent
-            onClick={() => this.props.onLoadFilter(this.props.filter.name)}
-          >
+          <StyledSavedFilterContent onClick={() => this.props.onLoadFilter(this.props.filter.name)}>
             {this.props.filter.name}
           </StyledSavedFilterContent>
-          <StyledDeleteButton
-            onClick={() => this.props.onDeleteFilter(this.props.filter.name)}
-          >
+          <StyledDeleteButton onClick={() => this.props.onDeleteFilter(this.props.filter.name)}>
             ×
           </StyledDeleteButton>
         </StyledSavedFilter>
@@ -81,7 +77,7 @@ const mapDispatchToProps = dispatch => {
     },
     onDeleteFilter: id => {
       dispatch(deleteFilters(id));
-    }
+    },
   };
 };
 
