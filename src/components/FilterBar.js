@@ -30,7 +30,7 @@ const hourOptions = {
 const generateDateOptions = () => {
   let dateOptions = {};
   for (let index = 0; index < 7; index++) {
-    const currentDate = addDays(new Date(), index);
+    const currentDate = addDays(new Date(), index); // TODO: This isn't really required I just need {Su: 0} etc.
     dateOptions[format(currentDate, 'EEEEEE')] = format(currentDate, 'i');
   }
   return dateOptions;

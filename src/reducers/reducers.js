@@ -51,7 +51,7 @@ export function UI(state = UIInitialState, action) {
       return state;
   }
 }
-
+// TODO: Add tests
 export function filters(state = filtersInitialState, action) {
   switch (action.type) {
     case DELETE_FILTERS: {
@@ -171,7 +171,6 @@ export function filters(state = filtersInitialState, action) {
       });
       const newFilter = action.dateFilter;
       const [k, v] = Object.entries(newFilter)[0]; // TODO: this feels wrong
-
       const dateFilters = { ...state.date };
       if (k in dateFilters) {
         delete dateFilters[k];

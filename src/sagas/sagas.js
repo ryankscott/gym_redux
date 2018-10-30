@@ -22,23 +22,23 @@ const queryString = require('query-string');
 
 const filters = state => state.filters;
 
-const createQueryString = (filters) => {
+const createQueryString = (state) => {
   /* name="BodyPump, RPM"&club="Auckland City"&date="2018-07-18,2018-07-19"&hour=11 */
   const q = {};
-  const c = get(filters, 'gym');
+  const c = get(state, 'gym');
   const clubs = map(c, cs => cs.value);
   q.club = join(clubs, ',');
 
-  const n = get(filters, 'class');
+  const n = get(state, 'class');
   const names = map(n, ns => ns.value);
   q.name = join(names, ',');
 
-  const d = get(filters, 'date');
+  const d = get(state, 'date');
   const dates = Object.values(d);
   const x = dates.map(ds => format(setDay(new Date(), ds), 'YYYY-MM-dd'));
   q.date = join(x, ',');
 
-  const t = get(filters, 'time');
+  const t = get(state, 'time');
   const times = Object.values(t);
   q.hour = join(times, ',');
   return queryString.stringify(q);
@@ -54,9 +54,9 @@ export const fetchClasses = searchQuery => axios({
 // worker saga: makes the api call when watcher saga sees the action
 function* workerSaga() {
   const allFilters = yield select(filters);
-  const queryString = createQueryString(allFilters);
+  const qs = createQueryString(allFilters);
   try {
-    const response = yield call(fetchClasses, queryString);
+    const response = yield call(fetchClasses, qs);
     const classes = response.data;
 
     // dispatch a success action to the store with the new classes
