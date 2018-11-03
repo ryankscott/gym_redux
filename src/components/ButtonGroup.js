@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { ThemeProvider } from 'styled-components';
 import theme from '../theme.js';
-import find from 'lodash/find';
 
 const StyledButtonGroup = styled.div`
   border: none;

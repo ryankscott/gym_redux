@@ -24,7 +24,7 @@ const hourOptions = {
   Morning: '5,6,7,8,9,10',
   Lunch: '11,12',
   Afternoon: '13,14,15,16',
-  Evening: '7,18,19,20,21',
+  Evening: '17,18,19,20,21',
 };
 
 const generateDateOptions = () => {
@@ -104,9 +104,8 @@ const SaveFilterGroup = styled.div`
 const FilterGroup = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 10px 5px;
+  padding: 5px;
   font-size: 14px;
-  height: 55px;
 `;
 
 const FilterTitle = styled.h1`
@@ -175,7 +174,8 @@ const Cover = styled.div`
   bottom: 0px;
   left: ${props => (props.visible ? '0px' : '-100%')};
   width: 100%;
-  background: #{props => props.theme.borderColour};
+  background: ${props => props.theme.borderColour};
+  opacity: 0.2;
   filter: blur(5px);
   transition: left 0.3s ease-out;
   transition: opacity 0.2s ease-out;
