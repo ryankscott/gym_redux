@@ -154,6 +154,7 @@ const Container = styled.div`
   opacity: 1;
   width: 325px;
   height: 100%;
+  overflow-y: scroll;
   box-sizing: border-box;
   padding: 10px;
   font-family: ${props => props.theme.font};
