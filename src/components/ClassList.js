@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { AutoSizer, Column, Table, SortDirection } from "react-virtualized";
-import { toLower, startCase, sortBy, reverse } from "lodash";
-import { format } from "date-fns";
-import styled, { ThemeProvider } from "styled-components";
-import theme from "../theme.js";
-import { device } from "../devices.js";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { AutoSizer, Column, Table, SortDirection } from 'react-virtualized';
+import { toLower, startCase, sortBy, reverse } from 'lodash';
+import { format } from 'date-fns';
+import styled, { ThemeProvider } from 'styled-components';
+import theme from '../theme.js';
+import { device } from '../devices.js';
 
 const Container = styled.div`
   display: flex;
@@ -48,27 +48,27 @@ const StyledTable = styled(Table)`
 
 const HeaderStyle = {
   fontFamily: 'Lato, "Helvetica Neue", Arial, sans-serif',
-  fontWeight: "300",
-  display: "flex",
-  flexDirection: "row",
-  alignContent: "center",
-  alignSelf: "center",
-  justifyContent: "center",
-  padding: "5px 0px",
-  fontSize: "18px"
+  fontWeight: '300',
+  display: 'flex',
+  flexDirection: 'row',
+  alignContent: 'center',
+  alignSelf: 'center',
+  justifyContent: 'center',
+  padding: '5px 0px',
+  fontSize: '18px',
 };
 
 const RowStyle = index => {
   const width = window.innerWidth;
   return {
     fontFamily: 'Lato, "Helvetica Neue", Arial, sans-serif',
-    flexDirection: "row",
-    alignContent: "center",
-    alignSelf: "center",
-    justifyContent: "center",
-    fontWeight: "300",
-    fontSize: width > 450 ? "16px" : "14px",
-    backgroundColor: index % 2 == 0 ? "#EEEEEE" : "#FFFFFF"
+    flexDirection: 'row',
+    alignContent: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    fontWeight: '300',
+    fontSize: width > 450 ? '16px' : '14px',
+    backgroundColor: index % 2 == 0 ? '#EEEEEE' : '#FFFFFF',
   };
 };
 
@@ -78,7 +78,7 @@ const normaliseString = string => {
 
 const stringCellRenderer = cellData => {
   if (cellData == null) {
-    return "";
+    return '';
   } else {
     return normaliseString(String(cellData.cellData));
   }
@@ -87,11 +87,11 @@ const stringCellRenderer = cellData => {
 const dateCellRenderer = cellData => {
   const width = window.innerWidth;
   if (cellData == null) {
-    return "";
+    return '';
   } else {
     return width > 450
-      ? format(cellData.cellData, "eeee h:mm aaaa")
-      : format(cellData.cellData, "EEE h:mm aaaa");
+      ? format(cellData.cellData, 'eeee h:mm aaaa')
+      : format(cellData.cellData, 'EEE h:mm aaaa');
   }
 };
 
@@ -99,8 +99,8 @@ class ClassList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sortBy: "startdatetime",
-      sortDirection: SortDirection.ASC
+      sortBy: 'startdatetime',
+      sortDirection: SortDirection.ASC,
     };
     this.sortData = this.sortData.bind(this);
   }
@@ -108,7 +108,7 @@ class ClassList extends Component {
   sortData(s) {
     this.setState({
       sortBy: s.sortBy,
-      sortDirection: s.sortDirection
+      sortDirection: s.sortDirection,
     });
   }
 
@@ -146,27 +146,30 @@ class ClassList extends Component {
                   rowGetter={({ index }) => newList[index]}
                   headerStyle={HeaderStyle}
                   rowStyle={({ index }) => RowStyle(index)}
-                  gridStyle={{ textAlign: "center" }}
+                  gridStyle={{ textAlign: 'center' }}
                   sort={this.sortData}
                   sortBy={this.state.sortBy}
                   sortDirection={this.state.sortDirection}
                 >
                   <Column
                     label="Class"
-                    dataKey="ClassName"
+                    dataKey="class"
+                    cellDataGetter={({ rowData }) => rowData.class.name}
                     cellRenderer={stringCellRenderer}
                     width={colWidth}
                   />
                   <Column
                     label="Gym"
-                    dataKey="Club"
-                    cellDataGetter={({ rowData }) => rowData.Club.Name}
+                    dataKey="gym"
+                    cellDataGetter={({ rowData }) => {
+                      return rowData.gym.name;
+                    }}
                     cellRenderer={stringCellRenderer}
                     width={colWidth}
                   />
                   <Column
                     label="Start Time"
-                    dataKey="StartDateTime"
+                    dataKey="startDateTime"
                     cellRenderer={dateCellRenderer}
                     width={colWidth}
                   />
@@ -186,7 +189,7 @@ const mapDispatchToProps = () => {
 };
 const mapStateToProps = state => {
   return {
-    classes: state.classes.classes
+    classes: state.classes.classes,
   };
 };
 
