@@ -1,5 +1,6 @@
 [ignore]
 .*/node_modules/npm/*
+.*/node_modules/polished/.*
 
 [include]
 

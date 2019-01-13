@@ -5,6 +5,13 @@ const gyms = [
   { label: 'Takapuna', value: '06' },
 ];
 
+const hourOptions = {
+  Morning: '5,6,7,8,9,10',
+  Lunch: '11,12',
+  Afternoon: '13,14,15,16',
+  Evening: '17,18,19,20,21',
+};
+
 const classes = [
   {
     value: '17',
@@ -264,4 +271,4 @@ const classes = [
   },
 ];
 
-export { gyms, classes };
+export { gyms, classes, hourOptions };

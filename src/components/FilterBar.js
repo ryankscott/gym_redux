@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Select from 'react-select';
 import ButtonGroup from './ButtonGroup.js';
 import Button from './Button.js';
 import SavedFilterList from './SavedFilterList.js';
 import { format, addDays } from 'date-fns';
 import styled, { ThemeProvider } from 'styled-components';
-import theme from '../theme.js';
-// TODO: move more to styled components
+import { theme, selectStyles } from '../theme.js';
+import { device } from '../devices.js';
+import Select from 'react-select';
 
-import { gyms, classes } from '../consts.js';
+import { gyms, classes, hourOptions } from '../consts.js';
 import {
   updateGymFilters,
   updateClassFilters,
@@ -19,13 +19,6 @@ import {
   clearAllFilters,
   saveFilters,
 } from '../actions/actions.js';
-
-const hourOptions = {
-  Morning: '5,6,7,8,9,10',
-  Lunch: '11,12',
-  Afternoon: '13,14,15,16',
-  Evening: '17,18,19,20,21',
-};
 
 const generateDateOptions = () => {
   let dateOptions = {};
@@ -37,49 +30,6 @@ const generateDateOptions = () => {
 };
 
 const dateOptions = generateDateOptions();
-
-const selectStyles = {
-  valueContainer: styles => ({
-    ...styles,
-    padding: '2px 8px',
-    ':hover': {},
-    ':selected': {},
-  }),
-  clearIndicator: styles => ({
-    ...styles,
-    padding: '2px',
-  }),
-  dropdownIndicator: styles => ({
-    ...styles,
-    padding: '2px 8px 2px 2px',
-  }),
-  control: (styles, { isDisabled, isFocused }) => ({
-    ...styles,
-    boxShadow: 'none',
-    borderColor: 'black',
-    ':hover': { border: '1px solid black' },
-  }),
-  option: styles => ({
-    ...styles,
-    backgroundColor: '#FFF',
-    ':hover': { backgroundColor: '#85cafe', color: '#FFF' },
-  }),
-  menu: styles => ({ ...styles, marginTop: '2px' }),
-  indicatorSeparator: styles => ({ ...styles, display: 'none' }),
-  multiValueLabel: styles => ({
-    ...styles,
-    color: '#FFFFFF',
-  }),
-  multiValue: styles => ({
-    ...styles,
-    backgroundColor: '#35a7ff',
-  }),
-  multiValueRemove: styles => ({
-    ...styles,
-    color: '#FFFFFF',
-    ':hover': {},
-  }),
-};
 
 const ActionButtonGroup = styled.div`
   margin: 5px 0px;
@@ -104,8 +54,18 @@ const SaveFilterGroup = styled.div`
 const FilterGroup = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 5px;
   font-size: 14px;
+  @media ${device.mobileS} {
+    padding: 0px;
+  }
+
+  @media ${device.mobileL} {
+    padding: 2px;
+  }
+
+  @media ${device.tablet} {
+    padding: 5px;
+  }
 `;
 
 const FilterTitle = styled.h1`
@@ -113,23 +73,57 @@ const FilterTitle = styled.h1`
   color: ${props => props.theme.backgroundColour};
   font-weight: 300;
   font-size: 24px;
-  margin: 20px 5px 30px 5px;
+  @media ${device.mobileS} {
+    font-size: 18px;
+    margin: 10px 5px;
+  }
+
+  @media ${device.mobileL} {
+    font-size: 24px;
+    margin: 10px 5px;
+  }
+
+  @media ${device.tablet} {
+    margin: 20px 5px;
+  }
 `;
 
 const FilterSectionTitle = styled.h2`
   font-family: ${props => props.theme.font};
   color: ${props => props.theme.backgroundColour};
   font-weight: 300;
-  font-size: 18px;
-  margin: 10px 0px;
+  @media ${device.mobileS} {
+    margin: 5px;
+    font-size: 16px;
+  }
+
+  @media ${device.mobileL} {
+    margin: 5px;
+    font-size: 16px;
+  }
+
+  @media ${device.tablet} {
+    margin: 10px;
+    font-size: 18px;
+  }
 `;
 
 const FilterGroupTitle = styled.h3`
   font-family: ${props => props.theme.font};
   color: ${props => props.theme.backgroundColour};
   font-weight: 300;
-  font-size: 16px;
   margin: 5px 0px;
+  @media ${device.mobileS} {
+    font-size: 14px;
+  }
+
+  @media ${device.mobileL} {
+    font-size: 14px;
+  }
+
+  @media ${device.tablet} {
+    font-size: 18px;
+  }
 `;
 
 const FilterNameInput = styled.input`
@@ -165,6 +159,12 @@ const Container = styled.div`
   justify-content: flex-start;
   transition: left 0.3s ease-out;
   box-shadow: 5px 0px 2px 0px ${props => props.theme.fontColour};
+`;
+
+const SaveButton = styled(Button)`
+  height: 25px;
+  width: 55px;
+  font-size: 14px;
 `;
 
 const Cover = styled.div`
@@ -208,13 +208,13 @@ class FilterBar extends Component {
           <Cover visible={visible} onClick={this.props.onClickOutside} />
           <Container visible={visible}>
             <FilterTitle>Filters</FilterTitle>
-            <FilterSectionTitle> Saved Filters </FilterSectionTitle>
+            {this.state.saveFilters && <FilterSectionTitle> Saved Filters </FilterSectionTitle>}
             <SavedFilterList />
             <FilterSectionTitle> Custom Filters </FilterSectionTitle>
             <SaveFilterGroup>
               <FilterGroupTitle> Name: </FilterGroupTitle>
               <FilterNameInput onChange={this.handleNameChange} value={this.state.value} />
-              <Button onClick={this.onSaveButtonPress} width={'55px'} height={'25px'} text="Save" />
+              <SaveButton onClick={this.onSaveButtonPress} text="Save" />
             </SaveFilterGroup>
             <FilterGroup>
               <FilterGroupTitle> Gym: </FilterGroupTitle>

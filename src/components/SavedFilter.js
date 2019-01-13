@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { ThemeProvider } from 'styled-components';
-import theme from '../theme.js';
+import { theme } from '../theme.js';
 import { loadFilters, deleteFilters } from '../actions/actions.js';
 
 const StyledSavedFilterContent = styled.div`
@@ -39,7 +39,7 @@ const StyledDeleteButton = styled.div`
   padding: 0px 5px;
   &:hover {
     color: #ffffff;
-    background-color: ${props => props.theme.highlightColour};
+    background-color: ${props => props.theme.primaryColour};
   }
 `;
 
@@ -81,4 +81,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SavedFilter);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SavedFilter);

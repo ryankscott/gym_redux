@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled, { ThemeProvider } from 'styled-components';
-import theme from '../theme.js';
+import { theme } from '../theme.js';
+import { device } from '../devices.js';
 
 const StyledButtonGroup = styled.div`
   border: none;
@@ -14,9 +15,10 @@ const StyledButtonGroup = styled.div`
   justify-content: center;
   flex: 1 1 0;
   width: 100%;
+  padding: 2px;
 `;
 
-const StyledButton = styled.div`
+const StyledButton = styled.button`
   display: flex;
   align-items: center;
   border: none;
@@ -25,17 +27,33 @@ const StyledButton = styled.div`
   font-family: ${props => props.theme.font};
   color: ${props => (props.selected ? props.theme.backgroundColour : props.theme.borderColour)};
   background-color: ${props =>
-    props.selected ? props.theme.highlightColour : props.theme.backgroundColour};
+    props.selected ? props.theme.primaryColour : props.theme.backgroundColour};
   font-weight: 300;
   font-size: 14px;
-  height: 35px;
   width: 100%;
+  cursor: pointer;
+  tabindex: 0;
+  :hover {
+    background-color: ${props =>
+      props.selected ? props.theme.accentColour : props.theme.lightAccentColour};
+  }
   &:first-child {
     border-radius: 5px 0px 0px 5px;
   }
   &:last-child {
     border-radius: 0px 5px 5px 0px;
     border-right: none;
+  }
+  @media ${device.mobileS} {
+    height: 30px;
+  }
+
+  @media ${device.mobileL} {
+    height: 30px;
+  }
+
+  @media ${device.tablet} {
+    height: 35px;
   }
 `;
 

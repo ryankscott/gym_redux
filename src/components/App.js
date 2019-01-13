@@ -1,13 +1,14 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import Spinner from "./Spinner";
-import FilterButton from "./FilterButton";
-import FilterBar from "./FilterBar";
-import ClassList from "./ClassList.js";
-import { getClasses } from "../actions/actions.js";
-import styled, { ThemeProvider } from "styled-components";
-import theme from "../theme.js";
-import { device } from "../devices.js";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import FilterButton from './FilterButton';
+import FilterBar from './FilterBar';
+import ClassList from './ClassList.js';
+import { getClasses } from '../actions/actions.js';
+import styled, { ThemeProvider } from 'styled-components';
+import { theme } from '../theme.js';
+import { device } from '../devices.js';
+
+import Spinner from '@atlaskit/spinner';
 
 const AppContainer = styled.div`
   font-family: ${props => props.theme.font};
@@ -15,9 +16,9 @@ const AppContainer = styled.div`
   display: grid;
   grid-template-rows: 5fr 1fr 30fr;
   grid-template-areas:
-    "title"
-    "spinner"
-    "classes";
+    'title'
+    'spinner'
+    'classes';
 `;
 
 const Title = styled.div`
@@ -101,7 +102,7 @@ class App extends Component {
             Gym Timetable
           </Title>
 
-          <SpinnerContainer>{fetching ? <Spinner /> : null}</SpinnerContainer>
+          <SpinnerContainer>{fetching ? <Spinner size="large" /> : null}</SpinnerContainer>
           <ClassesContainer>
             <ClassList classes={classes} />
           </ClassesContainer>
@@ -118,7 +119,7 @@ const mapStateToProps = state => {
   return {
     fetching: state.fetching,
     classes: state.classes,
-    error: state.error
+    error: state.error,
   };
 };
 
@@ -126,8 +127,11 @@ const mapDispatchToProps = dispatch => {
   return {
     getAllClasses: () => {
       dispatch(getClasses());
-    }
+    },
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);

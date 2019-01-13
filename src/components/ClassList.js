@@ -5,7 +5,7 @@ import { AutoSizer, Column, Table, SortDirection } from 'react-virtualized';
 import { toLower, startCase, sortBy, reverse } from 'lodash';
 import { format } from 'date-fns';
 import styled, { ThemeProvider } from 'styled-components';
-import theme from '../theme.js';
+import { theme } from '../theme.js';
 import { device } from '../devices.js';
 
 const Container = styled.div`
@@ -154,7 +154,10 @@ class ClassList extends Component {
                   <Column
                     label="Class"
                     dataKey="class"
-                    cellDataGetter={({ rowData }) => rowData.class.name}
+                    cellDataGetter={({ rowData }) => {
+                      console.log(rowData);
+                      return rowData.class.name;
+                    }}
                     cellRenderer={stringCellRenderer}
                     width={colWidth}
                   />
@@ -193,4 +196,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClassList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ClassList);

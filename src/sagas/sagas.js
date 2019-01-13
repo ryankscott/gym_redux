@@ -34,13 +34,14 @@ const createQueryString = (state) => {
   q.name = join(names, ',');
 
   const d = get(state, 'date');
-  const dates = Object.values(d);
-  const x = dates.map(ds => format(setDay(new Date(), ds), 'YYYY-MM-dd'));
+  const dates = d ? Object.values(d) : [];
+  const x = dates.map(ds => format(setDay(new Date(), ds), 'yyyy-MM-dd'));
   q.date = join(x, ',');
 
   const t = get(state, 'time');
-  const times = Object.values(t);
+  const times = t ? Object.values(t) : [];
   q.hour = join(times, ',');
+
   return queryString.stringify(q);
 };
 
@@ -55,6 +56,7 @@ export const fetchClasses = searchQuery => axios({
 function* workerSaga() {
   const allFilters = yield select(filters);
   const qs = createQueryString(allFilters);
+
   try {
     const response = yield call(fetchClasses, qs);
     const classes = response.data;
