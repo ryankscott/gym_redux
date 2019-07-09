@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { format, addDays } from 'date-fns';
+import styled, { ThemeProvider } from 'styled-components';
+import Select from 'react-select';
+
 import ButtonGroup from './ButtonGroup.js';
 import Button from './Button.js';
 import SavedFilterList from './SavedFilterList.js';
-import { format, addDays } from 'date-fns';
-import styled, { ThemeProvider } from 'styled-components';
 import { theme, selectStyles } from '../theme.js';
 import { device } from '../devices.js';
-import Select from 'react-select';
 
 import { gyms, classes, hourOptions } from '../consts.js';
 import {
@@ -55,6 +56,7 @@ const FilterGroup = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 14px;
+  min-height: 70px;
   @media ${device.mobileS} {
     padding: 0px;
   }
@@ -148,7 +150,7 @@ const Container = styled.div`
   opacity: 1;
   width: 325px;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   box-sizing: border-box;
   padding: 10px;
   font-family: ${props => props.theme.font};
@@ -208,12 +210,17 @@ class FilterBar extends Component {
           <Cover visible={visible} onClick={this.props.onClickOutside} />
           <Container visible={visible}>
             <FilterTitle>Filters</FilterTitle>
-            {this.state.saveFilters && <FilterSectionTitle> Saved Filters </FilterSectionTitle>}
+            {this.state.saveFilters && (
+              <FilterSectionTitle> Saved Filters </FilterSectionTitle>
+            )}
             <SavedFilterList />
             <FilterSectionTitle> Custom Filters </FilterSectionTitle>
             <SaveFilterGroup>
               <FilterGroupTitle> Name: </FilterGroupTitle>
-              <FilterNameInput onChange={this.handleNameChange} value={this.state.value} />
+              <FilterNameInput
+                onChange={this.handleNameChange}
+                value={this.state.value}
+              />
               <SaveButton onClick={this.onSaveButtonPress} text="Save" />
             </SaveFilterGroup>
             <FilterGroup>
@@ -224,6 +231,7 @@ class FilterBar extends Component {
                 onChange={this.props.onGymFilterChange}
                 value={this.props.gymFilter}
                 isMulti
+                closeMenuOnSelect={false}
                 styles={selectStyles}
               />
             </FilterGroup>
@@ -232,10 +240,11 @@ class FilterBar extends Component {
               <FilterGroupTitle> Classes: </FilterGroupTitle>
               <Select
                 name="class-select"
-                options={classes}
+                options={this.props.classtypes || []}
                 onChange={this.props.onClassFilterChange}
                 value={this.props.classFilter}
                 isMulti
+                closeMenuOnSelect={false}
                 styles={selectStyles}
               />
             </FilterGroup>
@@ -276,6 +285,7 @@ const mapStateToProps = state => {
     dateFilter: state.filters.date,
     timeFilter: state.filters.time,
     savedFilters: state.filters.savedFilters,
+    classtypes: state.classtypes.classtypes,
   };
 };
 
@@ -305,4 +315,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterBar);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(FilterBar);

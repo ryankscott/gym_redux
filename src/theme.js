@@ -3,7 +3,12 @@ import { darken } from 'polished';
 
 injectGlobal`
   @font-face {
+    font-display: auto;
     font-family: Lato;
+  }
+  body {
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
   }
 `;
 
@@ -16,7 +21,6 @@ export const theme = {
   lightAccentColour: darken(0.05, '#FFFFFF'),
   font: 'Lato, "Helvetica Neue", Arial, sans-serif',
 };
-
 export const selectStyles = {
   valueContainer: styles => ({
     ...styles,

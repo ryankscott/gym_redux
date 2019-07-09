@@ -1,6 +1,4 @@
-import {
-  select, takeLatest, call, put,
-} from 'redux-saga/effects';
+import { select, takeLatest, call, put } from 'redux-saga/effects';
 import axios from 'axios';
 import map from 'lodash/map';
 import get from 'lodash/get';
@@ -16,14 +14,22 @@ import {
   TIME_FILTERS_UPDATED,
   CLEAR_ALL_FILTERS,
   LOAD_FILTERS,
+  FETCHING_CLASSTYPES,
+  FETCHING_CLASSTYPES_FAILURE,
+  FETCHING_CLASSTYPES_SUCCESS,
 } from '../actions/actions';
 
 const queryString = require('query-string');
 
 const filters = state => state.filters;
 
-const createQueryString = (state) => {
+const createQueryString = state => {
   /* name="BodyPump, RPM"&club="Auckland City"&date="2018-07-18,2018-07-19"&hour=11 */
+
+  const d = get(state, 'date');
+  const dates = d ? Object.values(d) : [];
+  const x = dates.map(ds => format(setDay(new Date(), ds), 'yyyy-MM-dd'));
+
   const q = {};
   const c = get(state, 'gym');
   const clubs = map(c, cs => cs.value);
@@ -33,27 +39,52 @@ const createQueryString = (state) => {
   const names = map(n, ns => ns.value);
   q.name = join(names, ',');
 
-  const d = get(state, 'date');
-  const dates = d ? Object.values(d) : [];
-  const x = dates.map(ds => format(setDay(new Date(), ds), 'yyyy-MM-dd'));
   q.date = join(x, ',');
 
   const t = get(state, 'time');
-  const times = t ? Object.values(t) : [];
+  let ts = t ? Object.values(t) : [];
+  let times = ts.map(t => t.split(','));
+  times = times.flat();
+
   q.hour = join(times, ',');
 
-  return queryString.stringify(q);
+  return queryString.stringify(q, { encode: false });
 };
 
 // function that makes the api request and returns a Promise for response
-export const fetchClasses = searchQuery => axios({
-  method: 'get',
-  crossDomain: true,
-  url: __BACKEND_URL__ + searchQuery,
-});
+export const fetchClasses = searchQuery =>
+  axios({
+    method: 'get',
+    crossDomain: true,
+    url: `${__BACKEND_URL__}classes?${searchQuery}`,
+  });
 
-// worker saga: makes the api call when watcher saga sees the action
-function* workerSaga() {
+export const fetchClasstypes = () =>
+  axios({
+    method: 'get',
+    crossDomain: true,
+    url: `${__BACKEND_URL__}classtypes`,
+  });
+
+function* classtypeSaga() {
+  try {
+    const response = yield call(fetchClasstypes);
+    const ct = response.data;
+    const classtypes = ct.map(c => ({ value: c.Key, label: c.Value }));
+
+    yield put({
+      type: 'FETCHING_CLASSTYPES_SUCCESS',
+      classtypes,
+    });
+  } catch (error) {
+    yield put({
+      type: 'FETCHING_CLASSTYPES_FAILURE',
+      error,
+    });
+  }
+}
+
+function* classSaga() {
   const allFilters = yield select(filters);
   const qs = createQueryString(allFilters);
 
@@ -61,13 +92,11 @@ function* workerSaga() {
     const response = yield call(fetchClasses, qs);
     const classes = response.data;
 
-    // dispatch a success action to the store with the new classes
     yield put({
       type: 'FETCHING_CLASSES_SUCCESS',
       classes,
     });
   } catch (error) {
-    // dispatch a failure action to the store with the error
     yield put({
       type: 'FETCHING_CLASSES_FAILURE',
       error,
@@ -75,7 +104,6 @@ function* workerSaga() {
   }
 }
 
-// watcher saga: watches for actions dispatched to the store, starts worker saga
 export function* watcherSaga() {
   yield takeLatest(
     [
@@ -87,6 +115,8 @@ export function* watcherSaga() {
       CLEAR_ALL_FILTERS,
       LOAD_FILTERS,
     ],
-    workerSaga,
+    classSaga,
   );
+
+  yield takeLatest([FETCHING_CLASSTYPES], classtypeSaga);
 }

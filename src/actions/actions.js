@@ -1,5 +1,4 @@
 // Action types
-
 export const FETCHING_CLASSES = 'FETCHING_CLASSES';
 export const FETCHING_CLASSES_SUCCESS = 'FETCHING_CLASSES_SUCCESS';
 export const FETCHING_CLASSES_FAILURE = 'FETCHING_CLASSES_FAILURE';
@@ -12,10 +11,29 @@ export const CLEAR_ALL_FILTERS = 'CLEAR_ALL_FILTERS';
 export const SAVE_FILTERS = 'SAVE_FILTERS';
 export const DELETE_FILTERS = 'DELETE_FILTERS';
 export const LOAD_FILTERS = 'LOAD_FILTERS';
+export const FETCHING_CLASSTYPES = 'FETCHING_CLASSTYPES';
+export const FETCHING_CLASSTYPES_SUCCESS = 'FETCHING_CLASSTYPES_SUCCESS';
+export const FETCHING_CLASSTYPES_FAILURE = 'FETCHING_CLASSTYPES_FAILURE';
 
 // Action creators
 export const getClasses = () => ({
   type: FETCHING_CLASSES,
+});
+
+export const getClasstypes = () => ({
+  type: FETCHING_CLASSTYPES,
+});
+
+export const getClasstypesFailure = error => ({
+  type: FETCHING_CLASSTYPES_FAILURE,
+  error,
+  receivedAt: Date.now(),
+});
+
+export const getClasstypesSuccess = classtypes => ({
+  type: FETCHING_CLASSTYPES_SUCCESS,
+  classtypes,
+  receivedAt: Date.now(),
 });
 
 export const loadFilters = name => ({

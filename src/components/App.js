@@ -1,14 +1,14 @@
+/* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import styled, { ThemeProvider } from 'styled-components';
+import Spinner from '@atlaskit/spinner';
 import FilterButton from './FilterButton';
 import FilterBar from './FilterBar';
 import ClassList from './ClassList.js';
-import { getClasses } from '../actions/actions.js';
-import styled, { ThemeProvider } from 'styled-components';
+import { getClasses, getClasstypes } from '../actions/actions.js';
 import { theme } from '../theme.js';
 import { device } from '../devices.js';
-
-import Spinner from '@atlaskit/spinner';
 
 const AppContainer = styled.div`
   font-family: ${props => props.theme.font};
@@ -89,7 +89,9 @@ const FilterContainer = styled.div`
 class App extends Component {
   componentDidMount() {
     this.props.getAllClasses();
+    this.props.getAllClassTypes();
   }
+
   render() {
     const { fetching, classes, error } = this.props.classes;
     return (
@@ -102,7 +104,9 @@ class App extends Component {
             Gym Timetable
           </Title>
 
-          <SpinnerContainer>{fetching ? <Spinner size="large" /> : null}</SpinnerContainer>
+          <SpinnerContainer>
+            {fetching && !classes ? <Spinner size="large" /> : null}
+          </SpinnerContainer>
           <ClassesContainer>
             <ClassList classes={classes} />
           </ClassesContainer>
@@ -115,21 +119,20 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    fetching: state.fetching,
-    classes: state.classes,
-    error: state.error,
-  };
-};
+const mapStateToProps = state => ({
+  fetching: state.fetching,
+  classes: state.classes,
+  error: state.error,
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getAllClasses: () => {
-      dispatch(getClasses());
-    },
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  getAllClasses: () => {
+    dispatch(getClasses());
+  },
+  getAllClassTypes: () => {
+    dispatch(getClasstypes());
+  },
+});
 
 export default connect(
   mapStateToProps,

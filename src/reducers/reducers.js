@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { trackEvent } from '../analytics';
 import mixpanel from 'mixpanel-browser';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
@@ -17,14 +18,20 @@ import {
   DELETE_FILTERS,
   SAVE_FILTERS,
   LOAD_FILTERS,
+  FETCHING_CLASSTYPES,
+  FETCHING_CLASSTYPES_FAILURE,
+  FETCHING_CLASSTYPES_SUCCESS,
 } from '../actions/actions';
 
-// reducer with initial state
 const classesInitialState = {
   fetching: false,
   classes: null,
   hasClasses: false,
   error: null,
+};
+
+const classtypesInitialState = {
+  classtypes: null,
 };
 
 const filtersInitialState = {
@@ -42,7 +49,7 @@ const UIInitialState = {
 export function UI(state = UIInitialState, action) {
   switch (action.type) {
     case TOGGLE_FILTER_BAR:
-      mixpanel.track('Toggled filter bar');
+      trackEvent('Toggled filter bar');
       return {
         ...state,
         filterBarVisible: !state.filterBarVisible,
@@ -55,7 +62,10 @@ export function UI(state = UIInitialState, action) {
 export function filters(state = filtersInitialState, action) {
   switch (action.type) {
     case DELETE_FILTERS: {
-      const newSavedFilters = filter(state.savedFilters, f => f.name !== action.name);
+      const newSavedFilters = filter(
+        state.savedFilters,
+        f => f.name !== action.name,
+      );
       return {
         ...state,
         savedFilters: newSavedFilters,
@@ -64,7 +74,7 @@ export function filters(state = filtersInitialState, action) {
 
     case LOAD_FILTERS: {
       const newFilters = find(state.savedFilters, f => f.name === action.name);
-      mixpanel.track('Loading filters', {
+      trackEvent('Loading filters', {
         'Filters Loaded': newFilters,
       });
       return {
@@ -73,7 +83,7 @@ export function filters(state = filtersInitialState, action) {
       };
     }
     case SAVE_FILTERS: {
-      mixpanel.track('Saving filters');
+      trackEvent('Saving filters');
       if (state.savedFilters.length === 0) {
         const newFilter = [
           {
@@ -92,7 +102,10 @@ export function filters(state = filtersInitialState, action) {
         };
       }
       const currentFilters = [...state.savedFilters];
-      const currentFilterIndex = findIndex(currentFilters, x => x.name === action.name);
+      const currentFilterIndex = findIndex(
+        currentFilters,
+        x => x.name === action.name,
+      );
       if (currentFilterIndex > -1) {
         const newFilters = map(currentFilters, (filter, index) => {
           if (index !== currentFilterIndex) {
@@ -132,7 +145,7 @@ export function filters(state = filtersInitialState, action) {
       };
     }
     case CLEAR_ALL_FILTERS:
-      mixpanel.track('Cleared all filters');
+      trackEvent('Cleared all filters');
       return {
         class: null,
         gym: null,
@@ -146,7 +159,7 @@ export function filters(state = filtersInitialState, action) {
         ...state,
       };
       newFilters.gym = action.gymFilter;
-      mixpanel.track('Selected Gym Filter', {
+      trackEvent('Selected Gym Filter', {
         'Gym Selected': newFilters.gym,
       });
       return {
@@ -158,7 +171,7 @@ export function filters(state = filtersInitialState, action) {
         ...state,
       };
       newFilters.class = action.classFilter;
-      mixpanel.track('Selected Class Filter', {
+      trackEvent('Selected Class Filter', {
         'Class Selected': newFilters.class,
       });
       return {
@@ -166,7 +179,7 @@ export function filters(state = filtersInitialState, action) {
       };
     }
     case DATE_FILTERS_UPDATED: {
-      mixpanel.track('Selected Date Filter', {
+      trackEvent('Selected Date Filter', {
         'Day Selected:': action.dateFilter,
       });
       const newFilter = action.dateFilter;
@@ -198,6 +211,28 @@ export function filters(state = filtersInitialState, action) {
       };
     }
 
+    default:
+      return state;
+  }
+}
+
+export function classtypes(state = classtypesInitialState, action) {
+  switch (action.type) {
+    case FETCHING_CLASSTYPES:
+      return {
+        ...state,
+      };
+    case FETCHING_CLASSTYPES_SUCCESS:
+      return {
+        ...state,
+        classtypes: action.classtypes,
+      };
+    case FETCHING_CLASSTYPES_FAILURE:
+      return {
+        ...state,
+        classtypes: null,
+        error: action.error,
+      };
     default:
       return state;
   }
@@ -235,6 +270,7 @@ const gymApp = combineReducers({
   UI,
   filters,
   classes,
+  classtypes,
 });
 
 export default gymApp;

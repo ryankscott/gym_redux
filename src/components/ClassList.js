@@ -153,26 +153,25 @@ class ClassList extends Component {
                 >
                   <Column
                     label="Class"
-                    dataKey="class"
+                    dataKey="ClassName"
                     cellDataGetter={({ rowData }) => {
-                      console.log(rowData);
-                      return rowData.class.name;
+                      return rowData.ClassName;
                     }}
                     cellRenderer={stringCellRenderer}
                     width={colWidth}
                   />
                   <Column
                     label="Gym"
-                    dataKey="gym"
+                    dataKey="Club.Name"
                     cellDataGetter={({ rowData }) => {
-                      return rowData.gym.name;
+                      return rowData.Club.Name;
                     }}
                     cellRenderer={stringCellRenderer}
                     width={colWidth}
                   />
                   <Column
                     label="Start Time"
-                    dataKey="startDateTime"
+                    dataKey="StartDateTime"
                     cellRenderer={dateCellRenderer}
                     width={colWidth}
                   />
