@@ -1,0 +1,15 @@
+{
+  "short_name": "Gym Timetable",
+  "name": "Gym Timetable",
+  "icons": [
+    {
+      "src": "/assets/icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#FFFFFF",
+  "theme_color": "#35A7FF",
+  "display": "standalone"
+}
