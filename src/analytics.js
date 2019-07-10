@@ -23,7 +23,7 @@ export const identifySession = () => {
 };
 
 export const trackEvent = (eventName, data) => {
-  return fetch(`${__BACKEND_URL__}analytics`, {
+  return fetch(`${__BACKEND_URL__}analytics/`, {
     method: 'POST',
     mode: 'no-cors',
     headers: {

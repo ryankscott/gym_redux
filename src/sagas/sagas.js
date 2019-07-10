@@ -56,14 +56,14 @@ export const fetchClasses = searchQuery =>
   axios({
     method: 'get',
     crossDomain: true,
-    url: `${__BACKEND_URL__}classes?${searchQuery}`,
+    url: `${__BACKEND_URL__}classes/?${searchQuery}`,
   });
 
 export const fetchClasstypes = () =>
   axios({
     method: 'get',
     crossDomain: true,
-    url: `${__BACKEND_URL__}classtypes`,
+    url: `${__BACKEND_URL__}classtypes/`,
   });
 
 function* classtypeSaga() {
