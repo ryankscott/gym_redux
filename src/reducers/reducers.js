@@ -49,7 +49,7 @@ const UIInitialState = {
 export function UI(state = UIInitialState, action) {
   switch (action.type) {
     case TOGGLE_FILTER_BAR:
-      trackEvent('Toggled filter bar');
+      trackEvent('toggled_filter_bar');
       return {
         ...state,
         filterBarVisible: !state.filterBarVisible,
@@ -74,7 +74,7 @@ export function filters(state = filtersInitialState, action) {
 
     case LOAD_FILTERS: {
       const newFilters = find(state.savedFilters, f => f.name === action.name);
-      trackEvent('Loading filters', {
+      trackEvent('loading_filters', {
         'Filters Loaded': newFilters,
       });
       return {
@@ -83,7 +83,7 @@ export function filters(state = filtersInitialState, action) {
       };
     }
     case SAVE_FILTERS: {
-      trackEvent('Saving filters');
+      trackEvent('saving_filters');
       if (state.savedFilters.length === 0) {
         const newFilter = [
           {
@@ -145,7 +145,7 @@ export function filters(state = filtersInitialState, action) {
       };
     }
     case CLEAR_ALL_FILTERS:
-      trackEvent('Cleared all filters');
+      trackEvent('cleared_all_filters');
       return {
         class: null,
         gym: null,
@@ -159,8 +159,8 @@ export function filters(state = filtersInitialState, action) {
         ...state,
       };
       newFilters.gym = action.gymFilter;
-      trackEvent('Selected Gym Filter', {
-        'Gym Selected': newFilters.gym,
+      trackEvent('selected_gym_filter', {
+        Gym: newFilters.gym,
       });
       return {
         ...newFilters,
@@ -171,16 +171,16 @@ export function filters(state = filtersInitialState, action) {
         ...state,
       };
       newFilters.class = action.classFilter;
-      trackEvent('Selected Class Filter', {
-        'Class Selected': newFilters.class,
+      trackEvent('selected_class_filter', {
+        Class: newFilters.class,
       });
       return {
         ...newFilters,
       };
     }
     case DATE_FILTERS_UPDATED: {
-      trackEvent('Selected Date Filter', {
-        'Day Selected:': action.dateFilter,
+      trackEvent('selected_date_filter', {
+        'Day:': action.dateFilter,
       });
       const newFilter = action.dateFilter;
       const [k, v] = Object.entries(newFilter)[0]; // TODO: this feels wrong
