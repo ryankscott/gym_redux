@@ -1,10 +1,9 @@
 import { combineReducers } from 'redux';
-import { trackEvent } from '../analytics';
-import mixpanel from 'mixpanel-browser';
 import findIndex from 'lodash/findIndex';
 import find from 'lodash/find';
 import filter from 'lodash/filter';
 import map from 'lodash/map';
+import { trackEvent } from '../analytics';
 import {
   FETCHING_CLASSES,
   FETCHING_CLASSES_FAILURE,
@@ -180,7 +179,7 @@ export function filters(state = filtersInitialState, action) {
     }
     case DATE_FILTERS_UPDATED: {
       trackEvent('selected_date_filter', {
-        'Day:': action.dateFilter,
+        'Date:': action.dateFilter,
       });
       const newFilter = action.dateFilter;
       const [k, v] = Object.entries(newFilter)[0]; // TODO: this feels wrong
@@ -197,6 +196,9 @@ export function filters(state = filtersInitialState, action) {
     }
 
     case TIME_FILTERS_UPDATED: {
+      trackEvent('selected_time_filter', {
+        'Time:': action.timeFilter,
+      });
       const newFilter = action.timeFilter;
       const [k, v] = Object.entries(newFilter)[0]; // TODO: this feels wrong
       const timeFilters = { ...state.time };
