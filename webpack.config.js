@@ -95,7 +95,7 @@ module.exports = (env, argv) => ({
       __BACKEND_URL__:
         argv.mode == 'production'
           ? JSON.stringify('https://www.ryankscott.com/')
-          : JSON.stringify('http://localhost:3000/'),
+          : JSON.stringify('http://localhost:9000/'),
     }),
     new FaviconsWebpackPlugin({
       logo: './gym_timetable.png',
