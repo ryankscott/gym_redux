@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime';
 import { select, takeLatest, call, put } from 'redux-saga/effects';
 import axios from 'axios';
 import map from 'lodash/map';
@@ -7,16 +8,15 @@ import setDay from 'date-fns/setDay';
 import format from 'date-fns/format';
 
 import {
-  FETCHING_CLASSES,
+  FETCHING_ALL_CLASSES,
   GYM_FILTERS_UPDATED,
   CLASS_FILTERS_UPDATED,
   DATE_FILTERS_UPDATED,
   TIME_FILTERS_UPDATED,
+  VIRTUAL_CLASSES_FILTERS_UPDATED,
   CLEAR_ALL_FILTERS,
   LOAD_FILTERS,
   FETCHING_CLASSTYPES,
-  FETCHING_CLASSTYPES_FAILURE,
-  FETCHING_CLASSTYPES_SUCCESS,
 } from '../actions/actions';
 
 const queryString = require('query-string');
@@ -28,7 +28,9 @@ const createQueryString = state => {
 
   const d = get(state, 'date');
   const dates = d ? Object.values(d) : [];
-  const x = dates.map(ds => format(setDay(new Date(), ds), 'yyyy-MM-dd'));
+  const x = dates.map(ds =>
+    format(setDay(new Date(), parseInt(ds, 10)), 'yyyy-MM-dd'),
+  );
 
   const q = {};
   const c = get(state, 'gym');
@@ -47,6 +49,9 @@ const createQueryString = state => {
   times = times.flat();
 
   q.hour = join(times, ',');
+
+  const v = get(state, 'virtualClasses');
+  q.virtual = v;
 
   return queryString.stringify(q, { encode: false });
 };
@@ -74,6 +79,7 @@ function* classtypeSaga() {
 
     yield put({
       type: 'FETCHING_CLASSTYPES_SUCCESS',
+      fetching: false,
       classtypes,
     });
   } catch (error) {
@@ -85,6 +91,11 @@ function* classtypeSaga() {
 }
 
 function* classSaga() {
+  yield put({
+    type: 'FETCHING_CLASSES',
+    fetching: true,
+    error: null,
+  });
   const allFilters = yield select(filters);
   const qs = createQueryString(allFilters);
 
@@ -107,11 +118,12 @@ function* classSaga() {
 export function* watcherSaga() {
   yield takeLatest(
     [
-      FETCHING_CLASSES,
+      FETCHING_ALL_CLASSES,
       GYM_FILTERS_UPDATED,
       CLASS_FILTERS_UPDATED,
       DATE_FILTERS_UPDATED,
       TIME_FILTERS_UPDATED,
+      VIRTUAL_CLASSES_FILTERS_UPDATED,
       CLEAR_ALL_FILTERS,
       LOAD_FILTERS,
     ],

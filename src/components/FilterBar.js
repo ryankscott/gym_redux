@@ -16,6 +16,7 @@ import {
   updateClassFilters,
   updateDateFilters,
   updateTimeFilters,
+  updateVirtualClassesFilters,
   toggleFilterBar,
   clearAllFilters,
   saveFilters,
@@ -179,9 +180,40 @@ const Cover = styled.div`
   width: 100%;
   background: ${props => props.theme.borderColour};
   opacity: 0.2;
-  filter: blur(5px);
+  animation: blur 0.5s ease-in-out 0.3s;
   transition: left 0.3s ease-out;
   transition: opacity 0.2s ease-out;
+`;
+
+const VirtualClassGroup = styled.div`
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  min-height: 20px;
+  align-items: center;
+  @media ${device.mobileS} {
+    padding: 0px;
+  }
+
+  @media ${device.mobileL} {
+    padding: 2px;
+  }
+
+  @media ${device.tablet} {
+    padding: 5px;
+  }
+`;
+
+const VirtualClassCheckBox = styled.input`
+  font-family: ${props => props.theme.font};
+  color: ${props => props.theme.backgroundColour};
+  margin: 0px 5px;
+`;
+
+const Label = styled.p`
+  margin: 0px;
+  font-family: ${props => props.theme.font};
+  color: ${props => props.theme.backgroundColour};
 `;
 
 class FilterBar extends Component {
@@ -249,6 +281,16 @@ class FilterBar extends Component {
               />
             </FilterGroup>
 
+            <VirtualClassGroup>
+              <Label>Show Virtual Classes?</Label>
+              <VirtualClassCheckBox
+                type="checkbox"
+                name="show_virtual_classes"
+                checked={this.props.virtualClassesFilter}
+                onChange={this.props.onVirtualClassFilterChange}
+              />
+            </VirtualClassGroup>
+
             <FilterGroup>
               <FilterGroupTitle> Day: </FilterGroupTitle>
               <ButtonGroup
@@ -284,6 +326,7 @@ const mapStateToProps = state => {
     classFilter: state.filters.class,
     dateFilter: state.filters.date,
     timeFilter: state.filters.time,
+    virtualClassesFilter: state.filters.virtualClasses,
     savedFilters: state.filters.savedFilters,
     classtypes: state.classtypes.classtypes,
   };
@@ -303,6 +346,10 @@ const mapDispatchToProps = dispatch => {
     onTimeFilterChange: selection => {
       dispatch(updateTimeFilters(selection));
     },
+    onVirtualClassFilterChange: selection => {
+      dispatch(updateVirtualClassesFilters(selection));
+    },
+
     onClickOutside: () => {
       dispatch(toggleFilterBar());
     },

@@ -1,5 +1,6 @@
 // Action types
 export const FETCHING_CLASSES = 'FETCHING_CLASSES';
+export const FETCHING_ALL_CLASSES = 'FETCHING_ALL_CLASSES';
 export const FETCHING_CLASSES_SUCCESS = 'FETCHING_CLASSES_SUCCESS';
 export const FETCHING_CLASSES_FAILURE = 'FETCHING_CLASSES_FAILURE';
 export const TOGGLE_FILTER_BAR = 'TOGGLE_FILTER_BAR';
@@ -7,6 +8,8 @@ export const GYM_FILTERS_UPDATED = 'GYM_FILTERS_UPDATED';
 export const CLASS_FILTERS_UPDATED = 'CLASS_FILTERS_UPDATED';
 export const DATE_FILTERS_UPDATED = 'DATE_FILTERS_UPDATED';
 export const TIME_FILTERS_UPDATED = 'TIME_FILTERS_UPDATED';
+export const VIRTUAL_CLASSES_FILTERS_UPDATED =
+  'VIRTUAL_CLASSES_FILTERS_UPDATED';
 export const CLEAR_ALL_FILTERS = 'CLEAR_ALL_FILTERS';
 export const SAVE_FILTERS = 'SAVE_FILTERS';
 export const DELETE_FILTERS = 'DELETE_FILTERS';
@@ -16,6 +19,10 @@ export const FETCHING_CLASSTYPES_SUCCESS = 'FETCHING_CLASSTYPES_SUCCESS';
 export const FETCHING_CLASSTYPES_FAILURE = 'FETCHING_CLASSTYPES_FAILURE';
 
 // Action creators
+export const getAllClasses = () => ({
+  type: FETCHING_ALL_CLASSES,
+});
+
 export const getClasses = () => ({
   type: FETCHING_CLASSES,
 });
@@ -83,6 +90,10 @@ export const updateDateFilters = dates => ({
 export const updateTimeFilters = times => ({
   type: TIME_FILTERS_UPDATED,
   timeFilter: times,
+});
+
+export const updateVirtualClassesFilters = () => ({
+  type: VIRTUAL_CLASSES_FILTERS_UPDATED,
 });
 
 export const getClassesSuccess = classes => ({

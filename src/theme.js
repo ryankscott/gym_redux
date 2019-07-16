@@ -21,6 +21,7 @@ export const theme = {
   lightAccentColour: darken(0.05, '#FFFFFF'),
   font: 'Lato, "Helvetica Neue", Arial, sans-serif',
 };
+
 export const selectStyles = {
   valueContainer: styles => ({
     ...styles,

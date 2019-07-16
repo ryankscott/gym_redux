@@ -43,21 +43,19 @@ const StyledDeleteButton = styled.div`
   }
 `;
 
-type Props = {
-  filter: Object,
-  onLoadFilter: () => void,
-  onDeleteFilter: () => void,
-};
-
-class SavedFilter extends PureComponent<Props> {
+class SavedFilter extends PureComponent {
   render() {
     return (
       <ThemeProvider theme={theme}>
         <StyledSavedFilter>
-          <StyledSavedFilterContent onClick={() => this.props.onLoadFilter(this.props.filter.name)}>
+          <StyledSavedFilterContent
+            onClick={() => this.props.onLoadFilter(this.props.filter.name)}
+          >
             {this.props.filter.name}
           </StyledSavedFilterContent>
-          <StyledDeleteButton onClick={() => this.props.onDeleteFilter(this.props.filter.name)}>
+          <StyledDeleteButton
+            onClick={() => this.props.onDeleteFilter(this.props.filter.name)}
+          >
             ×
           </StyledDeleteButton>
         </StyledSavedFilter>

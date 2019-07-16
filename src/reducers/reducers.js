@@ -13,6 +13,7 @@ import {
   CLASS_FILTERS_UPDATED,
   DATE_FILTERS_UPDATED,
   TIME_FILTERS_UPDATED,
+  VIRTUAL_CLASSES_FILTERS_UPDATED,
   CLEAR_ALL_FILTERS,
   DELETE_FILTERS,
   SAVE_FILTERS,
@@ -38,6 +39,7 @@ const filtersInitialState = {
   gym: null,
   time: {},
   date: {},
+  virtualClasses: true,
   savedFilters: [],
 };
 
@@ -150,6 +152,7 @@ export function filters(state = filtersInitialState, action) {
         gym: null,
         time: {},
         date: {},
+        virtualClasses: false,
         savedFilters: state.savedFilters,
       };
 
@@ -210,6 +213,15 @@ export function filters(state = filtersInitialState, action) {
       return {
         ...state,
         time: timeFilters,
+      };
+    }
+
+    case VIRTUAL_CLASSES_FILTERS_UPDATED: {
+      trackEvent('virtual_classes_toggled');
+      return {
+        ...state,
+        fetching: true,
+        virtualClasses: !state.virtualClasses,
       };
     }
 

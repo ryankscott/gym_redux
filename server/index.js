@@ -1,17 +1,22 @@
-const gyms = ["britomart", "newmarket", "city", "takapuna"];
-const locations = ["studio 1", "studio 2"];
+const clubs = [
+  { ClubCode: '01', Name: 'Auckland City' },
+  { ClubCode: '09', Name: 'Britomart' },
+  { ClubCode: '13', Name: 'New Market' },
+];
+
+const locations = ['studio 1', 'studio 2'];
 const classnames = [
-  "RPM",
-  "THE TRIP",
-  "GRIT STRENGTH",
-  "GRIT CARDIO",
-  "GRIT ATHLETIC",
-  "BODYPUMP",
-  "BODYBALANCE",
-  "BODYBALANCE (VIRTUAL)",
-  "RPM (VIRTUAL)",
-  "RINGSIDE",
-  "CX WORX"
+  'RPM',
+  'THE TRIP',
+  'GRIT STRENGTH',
+  'GRIT CARDIO',
+  'GRIT ATHLETIC',
+  'BODYPUMP',
+  'BODYBALANCE',
+  'BODYBALANCE (VIRTUAL)',
+  'RPM (VIRTUAL)',
+  'RINGSIDE',
+  'CX WORX',
 ];
 
 module.exports = () => {
@@ -21,12 +26,6 @@ module.exports = () => {
   const end = new Date();
   end.setHours(23, 59, 59, 999);
 
-  const query = {
-    Gym: [],
-    Class: [],
-    Before: end.toISOString(),
-    After: start.toISOString()
-  };
   const classes = {};
   const data = { classes: [], query: {} };
   // Create 100 classes
@@ -42,14 +41,14 @@ module.exports = () => {
     enddate.setHours(endHour, 0, 0, 0);
 
     data.classes.push({
-      uuid: i,
-      gym: gyms[Math.floor(Math.random() * gyms.length)],
-      name: classnames[Math.floor(Math.random() * classnames.length)],
-      location: locations[Math.floor(Math.random() * locations.length)],
-      startdatetime: startdate.toISOString(),
-      enddatetime: enddate.toISOString()
+      Club: clubs[Math.floor(Math.random() * clubs.length)],
+      Name: classnames[Math.floor(Math.random() * classnames.length)],
+      Location: locations[Math.floor(Math.random() * locations.length)],
+      StartDateTime: startdate.toISOString(),
+      EndDateTime: enddate.toISOString(),
     });
   }
-  data.query = query;
+
+  console.log(data.classes);
   return data;
 };

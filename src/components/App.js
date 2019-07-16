@@ -6,7 +6,7 @@ import Spinner from '@atlaskit/spinner';
 import FilterButton from './FilterButton';
 import FilterBar from './FilterBar';
 import ClassList from './ClassList.js';
-import { getClasses, getClasstypes } from '../actions/actions.js';
+import { getAllClasses, getClasstypes } from '../actions/actions.js';
 import { theme } from '../theme.js';
 import { device } from '../devices.js';
 
@@ -127,7 +127,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getAllClasses: () => {
-    dispatch(getClasses());
+    dispatch(getAllClasses());
   },
   getAllClassTypes: () => {
     dispatch(getClasstypes());

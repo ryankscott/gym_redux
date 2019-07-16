@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { AutoSizer, Column, Table, SortDirection } from 'react-virtualized';
 import { toLower, startCase, sortBy, reverse } from 'lodash';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import styled, { ThemeProvider } from 'styled-components';
 import { theme } from '../theme.js';
 import { device } from '../devices.js';
@@ -25,6 +25,7 @@ const Container = styled.div`
   @media ${device.tablet} {
     margin: 0px 60px;
   }
+  filter: ${props => (props.isFetching ? 'blur(3px)' : null)};
 `;
 
 const NoClassContainer = styled.div`
@@ -89,9 +90,10 @@ const dateCellRenderer = cellData => {
   if (cellData == null) {
     return '';
   } else {
+    const d = parseISO(cellData.cellData);
     return width > 450
-      ? format(cellData.cellData, 'eeee h:mm aaaa')
-      : format(cellData.cellData, 'EEE h:mm aaaa');
+      ? format(d, 'eeee h:mm aaaa')
+      : format(d, 'EEE h:mm aaaa');
   }
 };
 
@@ -113,7 +115,7 @@ class ClassList extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, fetching } = this.props;
     let newList = sortBy(classes, [this.state.sortBy]);
     if (this.state.sortDirection === SortDirection.DESC) {
       newList = reverse(newList);
@@ -183,7 +185,7 @@ class ClassList extends Component {
       );
     }
 
-    return <Container> {tableContent} </Container>;
+    return <Container isFetching={fetching}> {tableContent} </Container>;
   }
 }
 const mapDispatchToProps = () => {
@@ -192,6 +194,7 @@ const mapDispatchToProps = () => {
 const mapStateToProps = state => {
   return {
     classes: state.classes.classes,
+    fetching: state.classes.fetching,
   };
 };
 
