@@ -26,13 +26,13 @@ const filters = state => state.filters;
 const createQueryString = state => {
   /* name="BodyPump, RPM"&club="Auckland City"&date="2018-07-18,2018-07-19"&hour=11 */
 
+  const q = {};
+
   const d = get(state, 'date');
   const dates = d ? Object.values(d) : [];
-  const x = dates.map(ds =>
-    format(setDay(new Date(), parseInt(ds, 10)), 'yyyy-MM-dd'),
-  );
+  const x = dates.map(ds => format(ds, 'yyyy-MM-dd'));
+  q.date = join(x, ',');
 
-  const q = {};
   const c = get(state, 'gym');
   const clubs = map(c, cs => cs.value);
   q.club = join(clubs, ',');
@@ -40,8 +40,6 @@ const createQueryString = state => {
   const n = get(state, 'class');
   const names = map(n, ns => ns.value);
   q.name = join(names, ',');
-
-  q.date = join(x, ',');
 
   const t = get(state, 'time');
   let ts = t ? Object.values(t) : [];
