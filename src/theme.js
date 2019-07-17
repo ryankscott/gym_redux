@@ -1,15 +1,32 @@
 import { injectGlobal } from 'styled-components';
 import { darken } from 'polished';
+import Lato1 from '../fonts/lato-v15-latin-300.woff';
+import Lato2 from '../fonts/lato-v15-latin-300.woff2';
 
 injectGlobal`
-  @font-face {
-    font-display: auto;
-    font-family: Lato;
-  }
   body {
     -webkit-touch-callout: none;
     -webkit-tap-highlight-color: transparent;
   }
+/* lato-300 - latin */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'),
+       url('${Lato2}') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('${Lato1}') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'),
+       url('${Lato2}') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+       url('${Lato1}') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
 `;
 
 export const theme = {
