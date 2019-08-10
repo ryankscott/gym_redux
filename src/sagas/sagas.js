@@ -24,7 +24,9 @@ const queryString = require('query-string');
 const filters = state => state.filters;
 
 const createQueryString = state => {
-  /* name="BodyPump, RPM"&club="Auckland City"&date="2018-07-18,2018-07-19"&hour=11 */
+  /*
+    Requests look like: ?club=01&date=2019-07-17&hour=5,6,7,8,9,10&name=17&virtual=false
+   */
 
   const q = {};
 
@@ -71,6 +73,11 @@ export const fetchClasstypes = () =>
 
 function* classtypeSaga() {
   try {
+    yield put({
+      type: 'FETCHING_CLASS_TYPES',
+      fetching: true,
+      error: null,
+    });
     const response = yield call(fetchClasstypes);
     const ct = response.data;
     const classtypes = ct.map(c => ({ value: c.Key, label: c.Value }));

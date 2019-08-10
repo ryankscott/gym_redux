@@ -7,6 +7,7 @@ import { format, parseISO } from 'date-fns';
 import styled, { ThemeProvider } from 'styled-components';
 import { theme } from '../theme.js';
 import { device } from '../devices.js';
+import { gyms } from '../consts.js';
 
 const Container = styled.div`
   display: flex;
@@ -155,25 +156,29 @@ class ClassList extends Component {
                 >
                   <Column
                     label="Class"
-                    dataKey="ClassName"
+                    dataKey="Name"
                     cellDataGetter={({ rowData }) => {
-                      return rowData.ClassName;
+                      return rowData.Name;
                     }}
                     cellRenderer={stringCellRenderer}
                     width={colWidth}
                   />
                   <Column
                     label="Gym"
-                    dataKey="Club.Name"
+                    dataKey="Club"
                     cellDataGetter={({ rowData }) => {
-                      return rowData.Club.Name;
+                      for (let g of gyms) {
+                        if (g.value == rowData.Club) {
+                          return g.label;
+                        }
+                      }
                     }}
-                    cellRenderer={stringCellRenderer}
                     width={colWidth}
+                    cellRenderer={stringCellRenderer}
                   />
                   <Column
                     label="Start Time"
-                    dataKey="StartDateTime"
+                    dataKey="StartDatetime"
                     cellRenderer={dateCellRenderer}
                     width={colWidth}
                   />
